@@ -1,0 +1,25 @@
+/* kb-fallback.css — hardening cho webview cũ THIẾU container-query (Chrome <105,
+   Safari <16, webview in-app Zalo/Messenger). KHÔNG đụng vendor CSS (verbatim).
+   Đội Đỏ xác nhận 2026-08-25: mất container-type/cqi → grid track phình 639px >
+   viewport, title nowrap đè lên thẻ bên cạnh — Writebook gốc cũng vỡ y hệt trên
+   các browser đó; đây là fallback mình tự thêm, không phải sửa lệch.
+   Nạp SAU toc.css; @supports đảm bảo browser hiện đại không bị ảnh hưởng. */
+@supports not (width: 1cqi) {
+  .toc {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+  }
+  .toc__leaf {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .toc__title {
+    white-space: normal !important;
+  }
+  .toc__thumbnail {
+    font-size: 0.65rem;
+    padding: 8%;
+  }
+  .library {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  }
+}
