@@ -331,3 +331,75 @@
     initCopy(); initQuiz(); initChecklist(); initFlashcard(); initDapan(); initProgress();
   });
 })();
+
+/* ═══ CHAT AI THẬT trong sách (2026-08-25) ═══
+   Backend: Cloudflare Worker kb-chat-proxy (chat-kb.agentdo.agency) — giữ key NVIDIA
+   NIM server-side, CORS chỉ cho kb.agentdo.agency. Model gpt-oss-20b free-tier.
+   Nút chat nổi góc dưới-phải MỌI trang chương; gửi kèm tiêu đề trang làm bối cảnh. */
+(function () {
+  "use strict";
+  var API = "https://chat-kb.agentdo.agency/";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var art = document.querySelector("article[data-kb-leaf-href]");
+    var isBookPage = !!document.querySelector(".toc__container");
+    if (!art && !isBookPage) return;
+
+    var fab = document.createElement("button");
+    fab.className = "kbw-chat-fab";
+    fab.innerHTML = "💬";
+    fab.title = "Hỏi trợ lý AI về nội dung sách";
+    document.body.appendChild(fab);
+
+    var panel = document.createElement("div");
+    panel.className = "kbw-chat";
+    panel.innerHTML =
+      '<div class="kbw-chat-head"><strong>Trợ lý sách AI</strong><button class="kbw-chat-close">✕</button></div>' +
+      '<div class="kbw-chat-log"><p class="kbw-chat-bot">Chào bạn! Hỏi tôi bất cứ điều gì về nội dung sách đang đọc.</p></div>' +
+      '<form class="kbw-chat-form"><input type="text" maxlength="1000" placeholder="Nhập câu hỏi…" autocomplete="off"><button type="submit">Gửi</button></form>';
+    document.body.appendChild(panel);
+
+    var log = panel.querySelector(".kbw-chat-log");
+    var form = panel.querySelector("form");
+    var input = form.querySelector("input");
+    var history = [];
+
+    fab.addEventListener("click", function () { panel.classList.toggle("kbw-chat-open"); input.focus(); });
+    panel.querySelector(".kbw-chat-close").addEventListener("click", function () {
+      panel.classList.remove("kbw-chat-open");
+    });
+
+    function add(cls, text) {
+      var p = document.createElement("p");
+      p.className = cls;
+      p.textContent = text;
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+      return p;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var q = input.value.trim();
+      if (!q) return;
+      input.value = "";
+      add("kbw-chat-user", q);
+      history.push({ role: "user", content: q });
+      var wait = add("kbw-chat-bot", "Đang suy nghĩ…");
+      fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: history.slice(-8),
+          context: document.title,
+        }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          wait.textContent = d.reply || d.error || "(lỗi không rõ)";
+          if (d.reply) history.push({ role: "assistant", content: d.reply });
+        })
+        .catch(function () { wait.textContent = "Mất kết nối — thử lại sau."; });
+    });
+  });
+})();
