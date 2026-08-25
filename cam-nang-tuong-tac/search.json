@@ -1,0 +1,162 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cẩm Nang Sách Tương Tác",
+    "section": "",
+    "text": "1 Cẩm Nang Sách Tương Tác\nHướng dẫn sử dụng mọi tính năng của Tủ sách AI — mỗi tính năng có bản demo sống ngay trong trang, bấm thử là hiểu.\nATP · Học viện AI",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Cẩm Nang Sách Tương Tác</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html",
+    "href": "01-doc-sach.html",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "",
+    "text": "2.1 Kệ sách (trang chủ)\nTrang chủ là kệ sách — mỗi thẻ một cuốn, bấm bìa để mở. Dưới tên sách có thanh cam hiện phần trăm bạn đã đọc (tự tính theo số chương đã mở, lưu ngay trên máy bạn, không cần tài khoản).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#hai-kiểu-xem-mục-lục",
+    "href": "01-doc-sach.html#hai-kiểu-xem-mục-lục",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.2 Hai kiểu xem mục lục",
+    "text": "2.2 Hai kiểu xem mục lục\nTrong mỗi cuốn, cạnh nút PDF có 2 nút chuyển kiểu xem:\n\nLưới (mặc định): mỗi chương là một thẻ có đoạn xem trước — hợp khi duyệt lần đầu.\nDanh sách: gọn một dòng một chương, có số từ — hợp khi cần nhảy nhanh tới chương quen.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#đánh-dấu-đang-đọc-tới-đâu",
+    "href": "01-doc-sach.html#đánh-dấu-đang-đọc-tới-đâu",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.3 Đánh dấu “đang đọc tới đâu”",
+    "text": "2.3 Đánh dấu “đang đọc tới đâu”\nMở một chương bất kỳ rồi quay lại mục lục — chương đó sẽ có dấu sách màu cam ở góc thẻ. Trình duyệt tự nhớ, lần sau vào là biết đọc tiếp từ đâu.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#tìm-kiếm-toàn-văn",
+    "href": "01-doc-sach.html#tìm-kiếm-toàn-văn",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.4 Tìm kiếm toàn văn",
+    "text": "2.4 Tìm kiếm toàn văn\nÔ “Tìm trong sách” ở góc trên mỗi trang: gõ từ 2 ký tự trở lên, kết quả hiện ngay kèm đoạn trích có tô vàng từ khóa. Tìm trong toàn bộ cuốn đang mở, không cần mạng nhanh.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#tải-pdf",
+    "href": "01-doc-sach.html#tải-pdf",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.5 Tải PDF",
+    "text": "2.5 Tải PDF\nNút PDF trên thanh công cụ mục lục tải về bản in đầy đủ của cuốn sách — dùng khi cần in ra giấy hoặc đọc không cần mạng.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#chế-độ-tối",
+    "href": "01-doc-sach.html#chế-độ-tối",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.6 Chế độ tối",
+    "text": "2.6 Chế độ tối\nSách tự đổi theo cài đặt sáng/tối của điện thoại — không có nút riêng, đổi trong Cài đặt máy là sách đổi theo.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "01-doc-sach.html#cài-như-ứng-dụng",
+    "href": "01-doc-sach.html#cài-như-ứng-dụng",
+    "title": "2  Đọc sách: kệ sách, mục lục, đánh dấu",
+    "section": "2.7 Cài như ứng dụng",
+    "text": "2.7 Cài như ứng dụng\nTrình duyệt sẽ gợi ý “Thêm vào màn hình chính” (Install) — cài xong tủ sách có icon riêng, mở như app thật.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Đọc sách: kệ sách, mục lục, đánh dấu</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html",
+    "href": "02-do-choi-tuong-tac.html",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "",
+    "text": "3.1 1. Nút sao chép câu lệnh\nMỗi món dưới đây đều đang chạy thật — bấm thử ngay trên trang này.\nMọi câu lệnh mẫu trong sách đều có nút 📋 Sao chép — bấm một cái là cả đoạn nằm trong bộ nhớ tạm, mở app AI lên dán là chạy. Thử với câu lệnh mẫu này:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#nút-sao-chép-câu-lệnh",
+    "href": "02-do-choi-tuong-tac.html#nút-sao-chép-câu-lệnh",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "",
+    "text": "“Bạn là một chuyên gia cố vấn chiến lược. Cơ sở của tôi là [ĐIỀN TÊN CƠ SỞ], đang gặp khó khăn vì [ĐIỀN KHÓ KHĂN CHÍNH]. Hãy phân tích và đề xuất 3 hướng xử lý cụ thể.”",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#câu-hỏi-tự-chấm-quiz",
+    "href": "02-do-choi-tuong-tac.html#câu-hỏi-tự-chấm-quiz",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.2 2. Câu hỏi tự chấm (quiz)",
+    "text": "3.2 2. Câu hỏi tự chấm (quiz)\nChọn đáp án — đúng sai hiện ngay kèm giải thích, không cần nộp bài:\nQ: Nút \"Sao chép\" trong sách này dùng để làm gì?\n- Tải cả cuốn sách về máy\n-* Chép câu lệnh mẫu vào bộ nhớ tạm để dán vào app AI\n- In trang hiện tại\nE: Bấm nút là cả đoạn câu lệnh nằm trong bộ nhớ tạm — mở ChatGPT/Gemini/Claude lên dán là dùng ngay.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#checklist-nhớ-tiến-độ",
+    "href": "02-do-choi-tuong-tac.html#checklist-nhớ-tiến-độ",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.3 3. Checklist nhớ tiến độ",
+    "text": "3.3 3. Checklist nhớ tiến độ\nTick vào ô — trình duyệt nhớ, tắt máy mở lại vẫn còn:\n# Thử ngay 3 việc\n- Tick vào ô này\n- Tắt trang rồi mở lại — ô trên vẫn được tick\n- Bấm nút Sao chép ở mục 1 phía trên",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#thẻ-ôn-tập-lật-được-flashcard",
+    "href": "02-do-choi-tuong-tac.html#thẻ-ôn-tập-lật-được-flashcard",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.4 4. Thẻ ôn tập lật được (flashcard)",
+    "text": "3.4 4. Thẻ ôn tập lật được (flashcard)\nBấm vào thẻ để lật mặt sau, nút Trước/Sau để chuyển thẻ:\nThẻ ôn dùng khi nào? :: Khi cần nhớ thuật ngữ, định nghĩa, cặp khái niệm — lật qua lật lại tới khi thuộc.\nTiến độ có được lưu không? :: Checklist và dấu-đang-đọc được lưu trên máy bạn. Thẻ ôn thì không cần lưu — ôn là chính.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#đáp-án-gấp-mở",
+    "href": "02-do-choi-tuong-tac.html#đáp-án-gấp-mở",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.5 5. Đáp án gấp-mở",
+    "text": "3.5 5. Đáp án gấp-mở\nDùng cho bài tập: nghĩ trước, bấm mới xem đáp án:\nBấm để xem đáp án mẫu\nĐây là phần nội dung được giấu — chỉ hiện khi người đọc chủ động bấm. Hợp cho đáp án bài tập, gợi ý, hoặc phần \"đọc thêm\" không muốn làm rối trang.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#phóng-to-hình-ảnh",
+    "href": "02-do-choi-tuong-tac.html#phóng-to-hình-ảnh",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.6 6. Phóng to hình ảnh",
+    "text": "3.6 6. Phóng to hình ảnh\nMọi hình trong bài bấm vào là phóng to toàn màn hình, bấm lần nữa để đóng. (Trang này không có hình — thử ở các cuốn sách có sơ đồ.)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  },
+  {
+    "objectID": "02-do-choi-tuong-tac.html#dành-cho-người-soạn-sách",
+    "href": "02-do-choi-tuong-tac.html#dành-cho-người-soạn-sách",
+    "title": "3  Đồ chơi tương tác — demo sống từng món",
+    "section": "3.7 Dành cho người soạn sách",
+    "text": "3.7 Dành cho người soạn sách\nMuốn chèn đồ chơi vào sách của mình? Viết khối lệnh trong file chương với “ngôn ngữ” đặc biệt: quiz, checklist, flashcard, dapan — cú pháp chi tiết ở 03_toolkit/kb-publish/README.md trong kho Central_Command. Bản PDF không bị ảnh hưởng: các khối này tự hạ cấp thành văn bản thường khi in.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Đồ chơi tương tác — demo sống từng món</span>"
+    ]
+  }
+]

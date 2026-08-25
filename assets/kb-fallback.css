@@ -23,3 +23,50 @@
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
   }
 }
+
+/* ═══ WIDGETS TƯƠNG TÁC — style riêng, không đụng vendor ═══ */
+.kbw-copywrap { position: relative; }
+.kbw-copy {
+  background: var(--color-ink); border: 0; border-radius: 1.2em; color: var(--color-bg);
+  cursor: pointer; font-size: 0.85rem; margin: 0.3rem 0 1rem; padding: 0.45em 1em;
+}
+.kbw-quiz fieldset {
+  border: 1px solid var(--color-subtle-dark); border-radius: 0.5em;
+  margin-block: 1rem; padding: 0.8rem 1rem; text-align: start;
+}
+.kbw-quiz legend { font-weight: 700; padding-inline: 0.4em; text-align: start; }
+.kbw-quiz label { border-radius: 0.4em; cursor: pointer; display: block; padding: 0.35em 0.5em; }
+.kbw-quiz label.kbw-right { background: oklch(65.59% 0.234 142.49 / 0.18); font-weight: 700; }
+.kbw-quiz label.kbw-wrong { background: oklch(51% 0.2 31 / 0.15); }
+.kbw-explain { font-size: 0.9em; margin: 0.4em 0 0; min-height: 1.2em; opacity: 0.85; }
+.kbw-checklist {
+  border: 1px solid var(--color-subtle-dark); border-radius: 0.5em;
+  margin-block: 1rem; padding: 0.8rem 1rem; text-align: start;
+}
+.kbw-check-head { font-weight: 800; margin: 0.6em 0 0.2em; }
+.kbw-checklist label { cursor: pointer; display: block; padding: 0.25em 0; }
+.kbw-checklist label.kbw-done { opacity: 0.55; text-decoration: line-through; }
+.kbw-flash { margin-block: 1.2rem; text-align: center; }
+.kbw-flash-card {
+  align-items: center; aspect-ratio: 16/9; border: 1px solid var(--color-subtle-dark);
+  border-radius: 0.6em; cursor: pointer; display: flex; font-size: 1.15rem; font-weight: 700;
+  justify-content: center; margin-inline: auto; max-width: 34ch; padding: 1rem;
+  user-select: none;
+}
+.kbw-flash-card.kbw-flash-back { background: var(--color-subtle-light); font-weight: 400; }
+.kbw-flash-nav { align-items: center; display: flex; gap: 1rem; justify-content: center; margin-top: 0.6rem; }
+.kbw-flash-nav button {
+  background: transparent; border: 1px solid var(--color-subtle-dark); border-radius: 1.2em;
+  color: var(--color-ink); cursor: pointer; padding: 0.3em 1em;
+}
+.kbw-flash-hint { font-size: 0.8rem; opacity: 0.6; }
+.kbw-dapan {
+  border: 1px dashed var(--color-subtle-dark); border-radius: 0.5em;
+  margin-block: 1rem; padding: 0.6rem 1rem; text-align: start;
+}
+.kbw-dapan summary { cursor: pointer; font-weight: 700; }
+.kbw-progress {
+  background: var(--color-subtle); border-radius: 1em; display: block;
+  height: 0.45em; margin-top: 0.4em; overflow: hidden;
+}
+.kbw-progress > span { background: oklch(70% 0.2 44); display: block; height: 100%; }
