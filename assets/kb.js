@@ -13,8 +13,8 @@
     var last;
     try { last = localStorage.getItem(KEY); } catch (e) { return; }
     if (!last) return;
-    document.querySelectorAll(".kb-leaf[data-href]").forEach(function (leaf) {
-      if (leaf.dataset.href === last) leaf.classList.add("kb-leaf--last-read");
+    document.querySelectorAll(".toc__leaf[data-href]").forEach(function (leaf) {
+      if (leaf.dataset.href === last) leaf.classList.add("toc__leaf--last-read");
     });
   }
 
@@ -26,10 +26,10 @@
 
   // ── Lightbox ảnh ──
   function initLightbox() {
-    var box = document.querySelector(".kb-lightbox");
+    var box = document.querySelector("#lightbox");
     if (!box) return;
     var img = box.querySelector("img");
-    document.querySelectorAll(".kb-content img").forEach(function (thumb) {
+    document.querySelectorAll("#main img").forEach(function (thumb) {
       thumb.addEventListener("click", function () {
         img.src = thumb.src;
         box.classList.add("is-open");
@@ -43,8 +43,8 @@
 
   // ── Search toàn văn (client-side, đọc search-index.json) ──
   function initSearch() {
-    var input = document.querySelector(".kb-search input");
-    var results = document.querySelector(".kb-search__results");
+    var input = document.querySelector("[data-kb-search] input");
+    var results = document.querySelector(".search__results");
     if (!input || !results) return;
 
     var index = null;
@@ -87,7 +87,7 @@
         var li = document.createElement("li");
         li.innerHTML =
           '<a href="' + base + doc.href + '"><strong>' + escapeHtml(doc.title) +
-          "</strong>" + (snippet ? '<span class="kb-search__snippet">' + snippet + "</span>" : "") +
+          "</strong>" + (snippet ? '<span class="search__snippet">' + snippet + "</span>" : "") +
           "</a>";
         results.appendChild(li);
       });
@@ -103,7 +103,7 @@
       load().then(function () { render(input.value.trim()); });
     });
     document.addEventListener("click", function (e) {
-      if (!e.target.closest(".kb-search")) results.innerHTML = "";
+      if (!e.target.closest("[data-kb-search]")) results.innerHTML = "";
     });
   }
 

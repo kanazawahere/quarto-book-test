@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tủ sách AI · Học viện AI</title>
-<link rel="stylesheet" href="kb.css">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-<meta property="og:title" content="Tủ sách AI · Học viện AI">
+<link rel="icon" href="assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/_reset.css">
+<link rel="stylesheet" href="assets/css/colors.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/text.css">
+<link rel="stylesheet" href="assets/css/buttons.css">
+<link rel="stylesheet" href="assets/css/utilities.css">
+<link rel="stylesheet" href="assets/css/animation.css">
+<link rel="stylesheet" href="assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="assets/css/inputs.css">
+<link rel="stylesheet" href="assets/css/books.css">
+<link rel="stylesheet" href="assets/css/library.css">
+<link rel="stylesheet" href="assets/css/toc.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<link rel="stylesheet" href="assets/css/search.css">
+<link rel="stylesheet" href="assets/css/lightbox.css">
+<link rel="stylesheet" href="assets/css/panels.css">
+<link rel="stylesheet" href="assets/css/popover.css">
+<link rel="stylesheet" href="assets/css/product.css">
+<link rel="stylesheet" href="assets/css/syntax.css">
+<link rel="stylesheet" href="assets/css/dialog.css">
+<link rel="stylesheet" href="assets/css/sidebar.css">
+<link rel="stylesheet" href="assets/css/arrangement.css">
+<link rel="stylesheet" href="assets/css/translations.css">
 
 </head>
-<body class="">
-<div class="kb-wrap">
-<nav class="kb-nav">
-  <span class="kb-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h3v16H3zm5 0h3v16H8zm7.2.4 2.9-.8 4 15.4-2.9.8z"/></svg></span>
-  <div class="kb-breadcrumb"><strong>Tủ sách AI · Học viện AI</strong></div>
-</nav>
-<ul class="kb-library">
-    <li class="kb-book">
-      <a class="kb-book__cover" href="ai-htx-lang-nghe/index.html"
-         style="">
-        <img src="cover.jpg" alt="Bìa AI Cho Hợp Tác Xã &amp; Làng Nghề">
-      </a>
-      <h2><a href="ai-htx-lang-nghe/index.html">AI Cho Hợp Tác Xã &amp; Làng Nghề</a>
-        <span class="kb-book__author">ATP · Học viện AI</span>
-        <span class="kb-book__author">15 chương</span>
-      </h2>
-    </li>
-    <li class="kb-book">
-      <a class="kb-book__cover" href="ai-cho-giao-vien/index.html"
-         style="background:#1f4e5f">
-        <span class="kb-book__cover-title">AI Cho Giáo Viên</span>
-      </a>
-      <h2><a href="ai-cho-giao-vien/index.html">AI Cho Giáo Viên</a>
-        <span class="kb-book__author">ATP · Học viện AI</span>
-        <span class="kb-book__author">16 chương</span>
-      </h2>
-    </li>
-</ul>
+<body>
+<header id="header"><nav>
+  <span class="btn btn--placeholder" aria-hidden="true"></span>
+  <span class="product__wordmark btn btn--plain txt-large center">
+    <img src="assets/img/writebook-icon.svg" alt="" aria-hidden="true"><span>Tủ sách AI · Học viện AI</span>
+  </span>
+  <span class="btn btn--placeholder" aria-hidden="true"></span>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="books">
+<div class="library">
+    <a href="ai-htx-lang-nghe/index.html" class="library__book-link" style="text-decoration:none;color:inherit">
+      <figure class="library__book">
+        <div class="flex flex-column gap-half">
+          <div class="flex-inline position-relative center">
+            <img src="ai-htx-lang-nghe/cover.jpg" alt="Bìa sách" class="book__cover">
+          </div>
+          <h2 class="margin-none flex flex-column txt-normal txt-tight-lines txt-medium--responsive">
+            <strong>AI Cho Hợp Tác Xã &amp; Làng Nghề</strong>
+            <span class="overflow-line-clamp">ATP · Học viện AI</span>
+            <span class="overflow-line-clamp txt-small--responsive">15 chương</span>
+          </h2>
+        </div>
+      </figure>
+    </a>
+    <a href="ai-cho-giao-vien/index.html" class="library__book-link" style="text-decoration:none;color:inherit">
+      <figure class="library__book theme--blue">
+        <div class="flex flex-column gap-half">
+          <div class="flex-inline position-relative center">
+            <span class="book__cover-wrapper">
+              <img src="assets/img/empty-cover.png" alt="Bìa sách" class="book__cover margin-block-none center">
+              <span class="book__title overflow-line-clamp pad txt-align-start txt-tight-lines" style="--lines: 6" aria-hidden="true">AI Cho Giáo Viên</span>
+            </span>
+          </div>
+          <h2 class="margin-none flex flex-column txt-normal txt-tight-lines txt-medium--responsive">
+            <strong>AI Cho Giáo Viên</strong>
+            <span class="overflow-line-clamp">ATP · Học viện AI</span>
+            <span class="overflow-line-clamp txt-small--responsive">16 chương</span>
+          </h2>
+        </div>
+      </figure>
+    </a>
 </div>
-<div class="kb-lightbox"><img alt=""></div>
-<script src="kb.js"></script>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<div id="lightbox" class="lightbox"><img alt=""></div>
+<script src="assets/kb.js"></script>
 </body>
 </html>

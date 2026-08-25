@@ -1,144 +1,270 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Cho Giáo Viên</title>
-<link rel="stylesheet" href="../kb.css">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
 <link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#000000">
-<meta property="og:title" content="AI Cho Giáo Viên">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
 
 </head>
-<body class="">
-<div class="kb-wrap">
-<nav class="kb-nav">
-  <a class="kb-btn" href="../index.html" title="Tủ sách"><svg viewBox="0 0 24 24"><path d="M15.5 4 7 12l8.5 8 1.4-1.4L9.8 12l7.1-6.6z"/></svg></a>
-  <div class="kb-breadcrumb">
-    <a class="kb-btn" href="../index.html" title="Tủ sách"><svg viewBox="0 0 24 24"><path d="M3 4h3v16H3zm5 0h3v16H8zm7.2.4 2.9-.8 4 15.4-2.9.8z"/></svg></a>
-    <span>▸</span><strong>AI Cho Giáo Viên</strong>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="../index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>AI Cho Giáo Viên</strong>
   </div>
-  <div class="kb-search">
-    <input type="search" placeholder="Tìm trong sách…" data-index-base="">
-    <ul class="kb-search__results"></ul>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
   </div>
-</nav>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="book">
+<aside class="txt-align-center margin-block">
+  <div class="book__sidebar theme--blue">
+    <span class="book__cover-wrapper">
+        <img src="../assets/img/empty-cover.png" alt="Bìa sách" class="book__cover margin-block-none center">
+        <span class="book__title overflow-line-clamp pad txt-align-start txt-tight-lines" style="--lines: 6" aria-hidden="true">AI Cho Giáo Viên</span>
+      </span>
+  </div>
+</aside>
 
-<h1 style="line-height:1.2;margin-block-end:.3rem">AI Cho Giáo Viên</h1>
-<p style="margin-block-start:0;color:var(--color-subtle-dark)">
-  Ứng dụng AI trong dạy học<br>ATP · Học viện AI
-</p>
+<div class="arrangement__container toc__container full-width txt-align-center">
+  <h1 class="flex flex-column txt-tight-lines txt-align-start margin-block-end">
+    <strong class="book__title txt-x-large--responsive">AI Cho Giáo Viên</strong>
+    <span class="txt-large--responsive txt-normal">Ứng dụng AI trong dạy học</span>
+    <span class="txt-large--responsive txt-normal">ATP · Học viện AI</span>
+  </h1>
 
-<div class="kb-toc__container">
-  <div class="kb-toolbar">
-    <label class="kb-btn" title="Danh sách">
-      <input type="radio" name="kb-view" id="kb-view-list"><svg viewBox="0 0 24 24"><path d="M3 5h18v3H3zm0 5.5h18v3H3zM3 16h18v3H3z"/></svg>
+  <div class="book__toolbar fill-white flex gap-half pad-block margin-block-end-half justify-center">
+    <label class="btn txt-medium">
+      <input type="radio" name="view" id="toc-list" value="list">
+      <img src="../assets/img/view-list.svg" alt="" aria-hidden="true"><span class="for-screen-reader">Danh sách</span>
     </label>
-    <label class="kb-btn" title="Lưới">
-      <input type="radio" name="kb-view" id="kb-view-grid" checked><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>
+    <label class="btn txt-medium flex-item-justify-start">
+      <input type="radio" name="view" id="toc-grid" value="grid" checked>
+      <img src="../assets/img/view-grid.svg" alt="" aria-hidden="true"><span class="for-screen-reader">Lưới</span>
     </label>
   </div>
-  <ul class="kb-toc">
-    <li class="kb-leaf" data-href="00-loi-mo-dau.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="00-loi-mo-dau.html">2 Lời mở đầu Chào các đồng nghiệp. Nếu bạn đang đọc những dòng này sau một ngày dạy trên lớp rồi về nhà ngồi vào bàn soạn giáo án cho ngày mai, tôi hiểu cảm giác đó. Dạy học…</a>
-      <a class="kb-leaf__title" href="00-loi-mo-dau.html">Lời mở đầu</a>
-      <small class="kb-wordcount">539 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="01-chuong-1.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="01-chuong-1.html">3 Chương 1: AI là gì, với một giáo viên Chào các đồng nghiệp thân mến, Chúng ta đang sống trong những ngày mà cụm từ “Trí tuệ nhân tạo” (AI) xuất hiện ở khắp mọi nơi, từ bản tin…</a>
-      <a class="kb-leaf__title" href="01-chuong-1.html">Chương 1: AI là gì, với một giáo viên</a>
-      <small class="kb-wordcount">2034 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="02-chuong-2.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="02-chuong-2.html">4 Chương 2: Rủi ro và khung quy định hiện hành Khi bắt đầu áp dụng bất kỳ công nghệ nào vào môi trường học đường, đặc biệt là một công nghệ mới mẻ và đầy quyền năng như AI,…</a>
-      <a class="kb-leaf__title" href="02-chuong-2.html">Chương 2: Rủi ro và khung quy định hiện hành</a>
-      <small class="kb-wordcount">1522 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="03-chuong-3.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="03-chuong-3.html">5 Chương 3: Chọn công cụ AI theo ngân sách thật Trong những buổi tập huấn cốt cán hay những giờ nghỉ giải lao nơi phòng hội đồng, câu chuyện về trí tuệ nhân tạo (AI) thường được bắt đầu…</a>
-      <a class="kb-leaf__title" href="03-chuong-3.html">Chương 3: Chọn công cụ AI theo ngân sách thật</a>
-      <small class="kb-wordcount">2337 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="04-chuong-4.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="04-chuong-4.html">6 Chương 4: Soạn giáo án nhanh hơn với AI Chào các đồng nghiệp, chúng ta đang đứng trước một bước ngoặt lớn của ngành giáo dục. Tôi hiểu rằng, trong tâm thế của một người đứng lớp, áp lực…</a>
-      <a class="kb-leaf__title" href="04-chuong-4.html">Chương 4: Soạn giáo án nhanh hơn với AI</a>
-      <small class="kb-wordcount">4904 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="05-chuong-5.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="05-chuong-5.html">7 Chương 5: Tạo đề kiểm tra và ma trận đề với AI Trong hành trình đổi mới giáo dục, việc kiểm tra và đánh giá không chỉ đơn thuần là đưa ra những con số để xếp loại học…</a>
-      <a class="kb-leaf__title" href="05-chuong-5.html">Chương 5: Tạo đề kiểm tra và ma trận đề với AI</a>
-      <small class="kb-wordcount">3740 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="06-chuong-6.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="06-chuong-6.html">8 Chương 6: AI hỗ trợ chấm bài và viết nhận xét 8.0.1 Áp lực từ công tác chấm bài và đánh giá trong thực tế giảng dạy Trong đời sống sư phạm tại Việt Nam, công đoạn chấm bài…</a>
-      <a class="kb-leaf__title" href="06-chuong-6.html">Chương 6: AI hỗ trợ chấm bài và viết nhận xét</a>
-      <small class="kb-wordcount">3481 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="07-chuong-7.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="07-chuong-7.html">9 Chương 7: Cá nhân hoá học tập với AI 9.0.1 Khái niệm cá nhân hóa trong bối cảnh lớp học đông học sinh Cá nhân hóa học tập là một lý tưởng sư phạm hướng tới việc mỗi học…</a>
-      <a class="kb-leaf__title" href="07-chuong-7.html">Chương 7: Cá nhân hoá học tập với AI</a>
-      <small class="kb-wordcount">2427 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="08-chuong-8.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="08-chuong-8.html">10 Chương 8: Làm slide, sơ đồ tư duy, hình minh hoạ bài giảng bằng AI 10.0.1 Phân tích thực trạng: Gánh nặng hình ảnh hóa bài giảng và vai trò của AI Trong tiến trình đổi mới giáo dục…</a>
-      <a class="kb-leaf__title" href="08-chuong-8.html">Chương 8: Làm slide, sơ đồ tư duy, hình minh hoạ bài giảng bằng AI</a>
-      <small class="kb-wordcount">4592 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="09-chuong-9.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="09-chuong-9.html">11 Chương 9: Hồ sơ, báo cáo, sáng kiến kinh nghiệm (SKKN) với AI 11.0.1 1. Thực trạng áp lực hồ sơ và rào cản diễn đạt trong Sáng kiến kinh nghiệm Trong đời sống giáo nghiệp của mỗi giáo…</a>
-      <a class="kb-leaf__title" href="09-chuong-9.html">Chương 9: Hồ sơ, báo cáo, sáng kiến kinh nghiệm (SKKN) với AI</a>
-      <small class="kb-wordcount">2749 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="10-chuong-10.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="10-chuong-10.html">12 Chương 10: AI cho giáo viên chủ nhiệm 12.0.1 1. Gánh nặng công việc đặc thù của giáo viên chủ nhiệm Làm giáo viên chủ nhiệm ở Việt Nam thường được ví như làm “cha mẹ” của hàng chục…</a>
-      <a class="kb-leaf__title" href="10-chuong-10.html">Chương 10: AI cho giáo viên chủ nhiệm</a>
-      <small class="kb-wordcount">2183 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="11-chuong-11.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="11-chuong-11.html">13 Chương 11: Dạy học sinh dùng AI đúng cách Việc hướng dẫn học sinh sử dụng trí tuệ nhân tạo (AI) ngày nay đã không còn là một lựa chọn mang tính cá nhân của giáo viên, mà đã…</a>
-      <a class="kb-leaf__title" href="11-chuong-11.html">Chương 11: Dạy học sinh dùng AI đúng cách</a>
-      <small class="kb-wordcount">1697 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="12-chuong-12.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="12-chuong-12.html">14 Chương 12: 7 ngày thực hành AI cho giáo viên 14.0.1 Lời ngỏ: Hành trình từ “Biết” đến “Làm” Thân gửi các đồng nghiệp, những người đang miệt mài bên ánh đèn khuya, đối mặt với những xấp bài…</a>
-      <a class="kb-leaf__title" href="12-chuong-12.html">Chương 12: 7 ngày thực hành AI cho giáo viên</a>
-      <small class="kb-wordcount">4542 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="13-phuluc.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="13-phuluc.html">15 Phụ lục Phần này gom lại thành tra cứu nhanh: bộ prompt mẫu theo môn, bảng thuật ngữ, checklist bảo mật, và câu hỏi thường gặp — dùng khi cần chứ không phải đọc tuần tự. 15.0.1 Phụ lục…</a>
-      <a class="kb-leaf__title" href="13-phuluc.html">Phụ lục</a>
-      <small class="kb-wordcount">2584 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="14-phuluc-e.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="14-phuluc-e.html">16 1. Giới thiệu mục đích Phụ lục E Trong bối cảnh chuyển đổi số mạnh mẽ của ngành giáo dục Việt Nam, việc làm chủ các công cụ Trí tuệ nhân tạo (AI) không còn là một lựa chọn…</a>
-      <a class="kb-leaf__title" href="14-phuluc-e.html">1. Giới thiệu mục đích Phụ lục E</a>
-      <small class="kb-wordcount">4209 từ</small>
-    </li>
-    <li class="kb-leaf" data-href="15-phuluc-f.html">
-      <span class="kb-bookmark"><svg viewBox="0 0 64 64"><path d="m17.01 54.01v-42.98c0-1.65685 1.34315-3 3-3h24c1.65685 0 3 1.34315 3 3v42.98c0 1.10457-.895431 2-2 2-.34994 0-.693756-.0918173-.997105-.266281l-11.5039-6.61564c-.308638-.17748-.688362-.17748-.997 0l-11.5046 6.6153c-.957413.550849-2.1801.221264-2.73095-.736149-.174564-.303405-.266442-.647312-.266451-.997351z" fill-rule="evenodd"/></svg></span>
-      <a class="kb-thumbnail" href="15-phuluc-f.html">17 I. PHỤ LỤC F1: MẪU KỊCH BẢN HỌP PHỤ HUYNH ĐẦU NĂM HOÀN CHỈNH Mục tiêu của phụ lục này là cung cấp các tài liệu thực hành có thể sử dụng ngay, giúp giáo viên tiết kiệm thời…</a>
-      <a class="kb-leaf__title" href="15-phuluc-f.html">I. PHỤ LỤC F1: MẪU KỊCH BẢN HỌP PHỤ HUYNH ĐẦU NĂM HOÀN CHỈNH</a>
-      <small class="kb-wordcount">3064 từ</small>
-    </li>
-  </ul>
+
+  <div class="position-relative">
+    <menu class="toc margin-none">
+      <li class="toc__leaf toc__leaf--page" data-href="00-loi-mo-dau.html">
+        <div class="toc__thumbnail">
+          <a href="00-loi-mo-dau.html" class="toc__link"><span class="for-screen-reader">Mở Lời mở đầu</span></a>
+          <p>Lời mở đầu Chào các đồng nghiệp. Nếu bạn đang đọc những dòng này sau một ngày dạy trên lớp rồi về nhà ngồi vào bàn soạn giáo án cho ngày mai, tôi hiểu cảm giác đó. Dạy học ở Việt Nam không chỉ là lên lớp. Sau cánh cửa phòng học còn có hồ sơ hành chính, sổ</p>
+        </div>
+        <a href="00-loi-mo-dau.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Lời mở đầu</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">539 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="01-chuong-1.html">
+        <div class="toc__thumbnail">
+          <a href="01-chuong-1.html" class="toc__link"><span class="for-screen-reader">Mở Chương 1: AI là gì, với một giáo viên</span></a>
+          <p>Chương 1: AI là gì, với một giáo viên Chào các đồng nghiệp thân mến, Chúng ta đang sống trong những ngày mà cụm từ “Trí tuệ nhân tạo” (AI) xuất hiện ở khắp mọi nơi, từ bản tin thời sự, các buổi họp chuyên môn cho đến những cuộc trò chuyện ngoài giờ lên lớp. Có người trong</p>
+        </div>
+        <a href="01-chuong-1.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 1: AI là gì, với một giáo viên</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2034 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="02-chuong-2.html">
+        <div class="toc__thumbnail">
+          <a href="02-chuong-2.html" class="toc__link"><span class="for-screen-reader">Mở Chương 2: Rủi ro và khung quy định hiện hành</span></a>
+          <p>Chương 2: Rủi ro và khung quy định hiện hành Khi bắt đầu áp dụng bất kỳ công nghệ nào vào môi trường học đường, đặc biệt là một công nghệ mới mẻ và đầy quyền năng như AI, việc hiểu rõ “luật chơi” là cách tốt nhất để bảo vệ bản thân chúng ta. Trong chương này, tôi</p>
+        </div>
+        <a href="02-chuong-2.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 2: Rủi ro và khung quy định hiện hành</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">1522 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="03-chuong-3.html">
+        <div class="toc__thumbnail">
+          <a href="03-chuong-3.html" class="toc__link"><span class="for-screen-reader">Mở Chương 3: Chọn công cụ AI theo ngân sách thật</span></a>
+          <p>Chương 3: Chọn công cụ AI theo ngân sách thật Trong những buổi tập huấn cốt cán hay những giờ nghỉ giải lao nơi phòng hội đồng, câu chuyện về trí tuệ nhân tạo (AI) thường được bắt đầu bằng sự tò mò nhưng kết thúc bằng một tiếng thở dài về kinh phí. Chúng ta, những người đứng</p>
+        </div>
+        <a href="03-chuong-3.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 3: Chọn công cụ AI theo ngân sách thật</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2337 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="04-chuong-4.html">
+        <div class="toc__thumbnail">
+          <a href="04-chuong-4.html" class="toc__link"><span class="for-screen-reader">Mở Chương 4: Soạn giáo án nhanh hơn với AI</span></a>
+          <p>Chương 4: Soạn giáo án nhanh hơn với AI Chào các đồng nghiệp, chúng ta đang đứng trước một bước ngoặt lớn của ngành giáo dục. Tôi hiểu rằng, trong tâm thế của một người đứng lớp, áp lực lớn nhất không chỉ nằm ở việc giảng dạy mà còn ở “núi” hồ sơ, sổ sách đè nặng mỗi</p>
+        </div>
+        <a href="04-chuong-4.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 4: Soạn giáo án nhanh hơn với AI</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">4904 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="05-chuong-5.html">
+        <div class="toc__thumbnail">
+          <a href="05-chuong-5.html" class="toc__link"><span class="for-screen-reader">Mở Chương 5: Tạo đề kiểm tra và ma trận đề với AI</span></a>
+          <p>Chương 5: Tạo đề kiểm tra và ma trận đề với AI Trong hành trình đổi mới giáo dục, việc kiểm tra và đánh giá không chỉ đơn thuần là đưa ra những con số để xếp loại học sinh, mà đó là một nghệ thuật đo lường sự tiến bộ và năng lực thực tế. Là những người</p>
+        </div>
+        <a href="05-chuong-5.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 5: Tạo đề kiểm tra và ma trận đề với AI</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">3740 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="06-chuong-6.html">
+        <div class="toc__thumbnail">
+          <a href="06-chuong-6.html" class="toc__link"><span class="for-screen-reader">Mở Chương 6: AI hỗ trợ chấm bài và viết nhận xét</span></a>
+          <p>Chương 6: AI hỗ trợ chấm bài và viết nhận xét 8.0.1 Áp lực từ công tác chấm bài và đánh giá trong thực tế giảng dạy Trong đời sống sư phạm tại Việt Nam, công đoạn chấm bài và đưa ra nhận xét luôn được coi là một trong những gánh nặng tâm lý và thời gian lớn</p>
+        </div>
+        <a href="06-chuong-6.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 6: AI hỗ trợ chấm bài và viết nhận xét</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">3481 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="07-chuong-7.html">
+        <div class="toc__thumbnail">
+          <a href="07-chuong-7.html" class="toc__link"><span class="for-screen-reader">Mở Chương 7: Cá nhân hoá học tập với AI</span></a>
+          <p>Chương 7: Cá nhân hoá học tập với AI 9.0.1 Khái niệm cá nhân hóa trong bối cảnh lớp học đông học sinh Cá nhân hóa học tập là một lý tưởng sư phạm hướng tới việc mỗi học sinh được tiếp cận với một lộ trình giáo dục phù hợp nhất với năng lực, tốc độ và phong</p>
+        </div>
+        <a href="07-chuong-7.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 7: Cá nhân hoá học tập với AI</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2427 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="08-chuong-8.html">
+        <div class="toc__thumbnail">
+          <a href="08-chuong-8.html" class="toc__link"><span class="for-screen-reader">Mở Chương 8: Làm slide, sơ đồ tư duy, hình minh hoạ bài giảng bằng AI</span></a>
+          <p>Chương 8: Làm slide, sơ đồ tư duy, hình minh hoạ bài giảng bằng AI 10.0.1 Phân tích thực trạng: Gánh nặng hình ảnh hóa bài giảng và vai trò của AI Trong tiến trình đổi mới giáo dục hiện nay, việc thiết kế một bài giảng có tính trực quan cao không còn đơn thuần là hình thức</p>
+        </div>
+        <a href="08-chuong-8.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 8: Làm slide, sơ đồ tư duy, hình minh hoạ bài giảng bằng AI</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">4592 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="09-chuong-9.html">
+        <div class="toc__thumbnail">
+          <a href="09-chuong-9.html" class="toc__link"><span class="for-screen-reader">Mở Chương 9: Hồ sơ, báo cáo, sáng kiến kinh nghiệm (SKKN) với AI</span></a>
+          <p>Chương 9: Hồ sơ, báo cáo, sáng kiến kinh nghiệm (SKKN) với AI 11.0.1 1. Thực trạng áp lực hồ sơ và rào cản diễn đạt trong Sáng kiến kinh nghiệm Trong đời sống giáo nghiệp của mỗi giáo viên phổ thông tại Việt Nam, hồ sơ sổ sách và các loại báo cáo định kỳ từ lâu đã</p>
+        </div>
+        <a href="09-chuong-9.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 9: Hồ sơ, báo cáo, sáng kiến kinh nghiệm (SKKN) với AI</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2749 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="10-chuong-10.html">
+        <div class="toc__thumbnail">
+          <a href="10-chuong-10.html" class="toc__link"><span class="for-screen-reader">Mở Chương 10: AI cho giáo viên chủ nhiệm</span></a>
+          <p>Chương 10: AI cho giáo viên chủ nhiệm 12.0.1 1. Gánh nặng công việc đặc thù của giáo viên chủ nhiệm Làm giáo viên chủ nhiệm ở Việt Nam thường được ví như làm “cha mẹ” của hàng chục đứa trẻ với đủ mọi tính cách và hoàn cảnh khác nhau. Ngoài nhiệm vụ chuyên môn, giáo viên chủ</p>
+        </div>
+        <a href="10-chuong-10.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 10: AI cho giáo viên chủ nhiệm</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2183 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="11-chuong-11.html">
+        <div class="toc__thumbnail">
+          <a href="11-chuong-11.html" class="toc__link"><span class="for-screen-reader">Mở Chương 11: Dạy học sinh dùng AI đúng cách</span></a>
+          <p>Chương 11: Dạy học sinh dùng AI đúng cách Việc hướng dẫn học sinh sử dụng trí tuệ nhân tạo (AI) ngày nay đã không còn là một lựa chọn mang tính cá nhân của giáo viên, mà đã trở thành một yêu cầu cấp thiết được cụ thể hóa bằng văn bản. Chúng ta không thể đứng ngoài</p>
+        </div>
+        <a href="11-chuong-11.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 11: Dạy học sinh dùng AI đúng cách</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">1697 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="12-chuong-12.html">
+        <div class="toc__thumbnail">
+          <a href="12-chuong-12.html" class="toc__link"><span class="for-screen-reader">Mở Chương 12: 7 ngày thực hành AI cho giáo viên</span></a>
+          <p>Chương 12: 7 ngày thực hành AI cho giáo viên 14.0.1 Lời ngỏ: Hành trình từ “Biết” đến “Làm” Thân gửi các đồng nghiệp, những người đang miệt mài bên ánh đèn khuya, đối mặt với những xấp bài kiểm tra chưa kịp chấm và những tập hồ sơ sổ sách đang chờ hoàn thiện. Tôi viết những dòng</p>
+        </div>
+        <a href="12-chuong-12.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Chương 12: 7 ngày thực hành AI cho giáo viên</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">4542 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="13-phuluc.html">
+        <div class="toc__thumbnail">
+          <a href="13-phuluc.html" class="toc__link"><span class="for-screen-reader">Mở Phụ lục</span></a>
+          <p>Phụ lục Phần này gom lại thành tra cứu nhanh: bộ prompt mẫu theo môn, bảng thuật ngữ, checklist bảo mật, và câu hỏi thường gặp — dùng khi cần chứ không phải đọc tuần tự. 15.0.1 Phụ lục A: Bộ prompt mẫu theo môn học Một prompt tốt trong giáo dục cần ba phần: vai diễn chuyên gia,</p>
+        </div>
+        <a href="13-phuluc.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Phụ lục</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">2584 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="14-phuluc-e.html">
+        <div class="toc__thumbnail">
+          <a href="14-phuluc-e.html" class="toc__link"><span class="for-screen-reader">Mở 1. Giới thiệu mục đích Phụ lục E</span></a>
+          <p>1. Giới thiệu mục đích Phụ lục E Trong bối cảnh chuyển đổi số mạnh mẽ của ngành giáo dục Việt Nam, việc làm chủ các công cụ Trí tuệ nhân tạo (AI) không còn là một lựa chọn mà đã trở thành một yêu cầu cấp thiết đối với mỗi nhà giáo. Tiếp nối các nội dung về</p>
+        </div>
+        <a href="14-phuluc-e.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">1. Giới thiệu mục đích Phụ lục E</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">4209 từ</small>
+      </li>
+      <li class="toc__leaf toc__leaf--page" data-href="15-phuluc-f.html">
+        <div class="toc__thumbnail">
+          <a href="15-phuluc-f.html" class="toc__link"><span class="for-screen-reader">Mở I. PHỤ LỤC F1: MẪU KỊCH BẢN HỌP PHỤ HUYNH ĐẦU NĂM HOÀN CHỈNH</span></a>
+          <p>I. PHỤ LỤC F1: MẪU KỊCH BẢN HỌP PHỤ HUYNH ĐẦU NĂM HOÀN CHỈNH Mục tiêu của phụ lục này là cung cấp các tài liệu thực hành có thể sử dụng ngay, giúp giáo viên tiết kiệm thời gian trong công tác hành chính và chuyên môn. Mọi nội dung tuân thủ nghiêm ngặt các quy định tại</p>
+        </div>
+        <a href="15-phuluc-f.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">I. PHỤ LỤC F1: MẪU KỊCH BẢN HỌP PHỤ HUYNH ĐẦU NĂM HOÀN CHỈNH</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">3064 từ</small>
+      </li>
+    </menu>
+  </div>
 </div>
-</div>
-<div class="kb-lightbox"><img alt=""></div>
-<script src="../kb.js"></script>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<div id="lightbox" class="lightbox"><img alt=""></div>
+<script src="../assets/kb.js"></script>
 </body>
 </html>
