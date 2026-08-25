@@ -29,16 +29,14 @@
     var box = document.querySelector("#lightbox");
     if (!box) return;
     var img = box.querySelector("img");
+    // box là <dialog> — dùng showModal()/close() native (CSS gốc chỉ style trạng thái [open])
     document.querySelectorAll("#main img").forEach(function (thumb) {
       thumb.addEventListener("click", function () {
         img.src = thumb.src;
-        box.classList.add("is-open");
+        box.showModal();
       });
     });
-    box.addEventListener("click", function () { box.classList.remove("is-open"); });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") box.classList.remove("is-open");
-    });
+    box.addEventListener("click", function () { box.close(); });
   }
 
   // ── Search toàn văn (client-side, đọc search-index.json) ──
