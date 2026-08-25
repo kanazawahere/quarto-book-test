@@ -30,7 +30,10 @@
     if (!box) return;
     var img = box.querySelector("img");
     // box là <dialog> — dùng showModal()/close() native (CSS gốc chỉ style trạng thái [open])
-    document.querySelectorAll("#main img").forEach(function (thumb) {
+    // CHỈ ảnh trong nội dung chương (article) — KHÔNG phải icon nút (PDF/list/grid
+    // cũng là <img> trong #main; selector "#main img" từng làm bấm nút List = mở
+    // lightbox phóng to chính icon đó, Batin bắt 2026-08-25 từ ảnh chụp).
+    document.querySelectorAll("article[data-kb-leaf-href] img").forEach(function (thumb) {
       thumb.addEventListener("click", function () {
         img.src = thumb.src;
         box.showModal();
