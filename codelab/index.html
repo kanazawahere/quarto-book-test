@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="../index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="book">
+<aside class="txt-align-center margin-block">
+  <div class="book__sidebar theme--black">
+    <span class="book__cover-wrapper">
+        <img src="../assets/img/empty-cover.png" alt="Bìa sách" class="book__cover margin-block-none center">
+        <span class="book__title overflow-line-clamp pad txt-align-start txt-tight-lines" style="--lines: 6" aria-hidden="true">Codelab</span>
+      </span>
+  </div>
+</aside>
+
+<div class="arrangement__container toc__container full-width txt-align-center">
+  <h1 class="flex flex-column txt-tight-lines txt-align-start margin-block-end">
+    <strong class="book__title txt-x-large--responsive">Codelab</strong>
+    <span class="txt-large--responsive txt-normal">Codelab thực chiến — mỗi bài làm thật là một chương, mìn chèn đúng chỗ</span>
+    <span class="txt-large--responsive txt-normal">ATP · Học viện AI</span>
+  </h1>
+
+  <div class="book__toolbar fill-white flex gap-half pad-block margin-block-end-half justify-center">
+    
+    <label class="btn txt-medium">
+      <input type="radio" name="view" id="toc-list" value="list">
+      <img src="../assets/img/view-list.svg" alt="" aria-hidden="true"><span class="for-screen-reader">Danh sách</span>
+    </label>
+    <label class="btn txt-medium flex-item-justify-start">
+      <input type="radio" name="view" id="toc-grid" value="grid" checked>
+      <img src="../assets/img/view-grid.svg" alt="" aria-hidden="true"><span class="for-screen-reader">Lưới</span>
+    </label>
+  </div>
+
+  <div class="position-relative">
+    <menu class="toc margin-none">
+      <li class="toc__leaf toc__leaf--page" data-href="01-streamlit-rag-adk-cloud-run.html">
+        <div class="toc__thumbnail">
+          <a href="01-streamlit-rag-adk-cloud-run.html" class="toc__link"><span class="for-screen-reader">Mở Streamlit RAG Agent với Google ADK trên Cloud Run</span></a>
+          <p>Streamlit RAG Agent với Google ADK trên Cloud Run Làm thật 2026-08-07 (Hack2Skill GenAI Academy, Track 1 — deploy coffee-barista ). Bản gốc: codelab của Google . Chương này ghi lại đường đi thật kèm 4 quả mìn IAM mà bản gốc không nhắc — mỗi quả tốn 1 vòng deploy-fail để lộ ra. Mục tiêu: dựng AI barista</p>
+        </div>
+        <a href="01-streamlit-rag-adk-cloud-run.html" class="toc__title min-width">
+          <span class="overflow-ellipsis">Streamlit RAG Agent với Google ADK trên Cloud Run</span>
+        </a>
+        <span class="toc__bookmark"><img src="../assets/img/bookmark.svg" alt="" aria-hidden="true"></span>
+        <small class="toc__wordcount txt-small--responsive">1192 từ</small>
+      </li>
+    </menu>
+  </div>
+</div>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

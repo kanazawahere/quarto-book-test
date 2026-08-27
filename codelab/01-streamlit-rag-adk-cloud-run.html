@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Streamlit RAG Agent với Google ADK trên Cloud Run — Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="01-streamlit-rag-adk-cloud-run.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Streamlit RAG Agent với Google ADK trên Cloud Run</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Làm thật 2026-08-07 (Hack2Skill GenAI Academy, Track 1 — deploy <code>coffee-barista</code>). Bản gốc: <a href="https://codelabs.developers.google.com/codelabs/cloud-run/build-streamlit-rag-agent-google-adk-cloud-run">codelab của Google</a>. Chương này ghi lại đường đi thật kèm 4 quả mìn IAM mà bản gốc không nhắc — mỗi quả tốn 1 vòng deploy-fail để lộ ra.</p>
+<p><strong>Mục tiêu:</strong> dựng AI barista agent (Google ADK + Gemini + Streamlit), RAG trên menu quán cà phê, chạy trên Cloud Run. Chi phí thật: dưới 1 USD.</p>
+<section id="tiến-độ-của-bạn" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="tiến-độ-của-bạn"><span class="header-section-number">2.1</span> Tiến độ của bạn</h2>
+<pre class="checklist"><code># Chuẩn bị
+- Có project GCP đã bật billing
+- Gỡ mìn IAM TRƯỚC khi deploy (mục 🔴 MÌN #0 bên dưới)
+- Bật 3 API (run, aiplatform, cloudbuild)
+# Dựng agent
+- Tạo menu.json + kiểm JSON hợp lệ
+- Tạo requirements.txt, agent.py, app.py
+# Deploy
+- Tạo service account + cấp aiplatform.user
+- gcloud run deploy thành công
+- Test 3 câu RAG (in-menu, out-of-menu, allergen)
+# Dọn dẹp
+- Xoá service + service account khi xong</code></pre>
+</section>
+<section id="mìn-0-cấp-đủ-iam-một-lượt-trước-khi-deploy-quan-trọng-nhất-chương" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="mìn-0-cấp-đủ-iam-một-lượt-trước-khi-deploy-quan-trọng-nhất-chương"><span class="header-section-number">2.2</span> 🔴 MÌN #0 — cấp đủ IAM MỘT LƯỢT trước khi deploy (quan trọng nhất chương)</h2>
+<p>Trên <strong>project GCP mới tạo</strong>, Google không còn tự cấp role Editor rộng cho service account mặc định của Compute Engine (“secure by default”). Hệ quả thật đã nếm: <strong>4 lần deploy fail liên tiếp</strong>, mỗi lần lộ ra đúng 1 role thiếu — lỗi sau chỉ hiện khi lỗi trước được vá, nên đi từng lỗi tốn cả buổi.</p>
+<p>Trình tự mìn thật (đúng thứ tự đã đạp):</p>
+<ol type="1">
+<li><code>Upload sources...failed</code> — thiếu <code>storage.objectViewer</code> (SA không đọc được chính file zip nó vừa upload)</li>
+<li><code>Building Container...failed</code> với <strong>log rỗng hoàn toàn</strong> — thiếu <code>logging.logWriter</code>. Lỗi kép: không ghi được log nên build fail, VÀ vì không có log nên CLI cũng không hiển thị được gì — rất dễ tưởng nhầm là bug của gcloud</li>
+<li>Build fail lần nữa ở bước ANALYZING — thiếu <code>artifactregistry.writer</code> (buildpack cần pull lại image nó vừa push để lấy digest; cấp <code>writer</code> chứ đừng cấp <code>reader</code> — reader sẽ dính lỗi write ở lần deploy update sau)</li>
+<li>Cấp đủ 3 role cùng lúc → deploy pass ngay lần kế</li>
+</ol>
+<p><strong>Gỡ cả bãi mìn bằng 1 lệnh — chạy TRƯỚC lần deploy đầu tiên:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PROJECT_ID</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">PROJECT_NUMBER</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> projects describe <span class="va">$PROJECT_ID</span> <span class="at">--format</span><span class="op">=</span><span class="st">'value(projectNumber)'</span><span class="va">)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">SA</span><span class="op">=</span><span class="st">"</span><span class="va">${PROJECT_NUMBER}</span><span class="st">-compute@developer.gserviceaccount.com"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ROLE <span class="kw">in</span> roles/storage.objectViewer roles/logging.logWriter roles/artifactregistry.writer<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">gcloud</span> projects add-iam-policy-binding <span class="st">"</span><span class="va">$PROJECT_ID</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--member</span><span class="op">=</span><span class="st">"serviceAccount:</span><span class="va">${SA}</span><span class="st">"</span> <span class="at">--role</span><span class="op">=</span><span class="st">"</span><span class="va">$ROLE</span><span class="st">"</span> <span class="at">--condition</span><span class="op">=</span>None</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="dapan"><code>Mẹo nhận diện nhanh: build fail 20 giây nghĩa là gì?
+Build fail vì thiếu IAM luôn chết RẤT NHANH (20-23 giây) — không phải kiểu compile chậm hay timeout. Thấy fail nhanh bất thường = nghi lỗi quyền trước tiên, đừng ngồi dò code.</code></pre>
+</section>
+<section id="bước-1-bật-api-và-chuẩn-bị-thư-mục" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="bước-1-bật-api-và-chuẩn-bị-thư-mục"><span class="header-section-number">2.3</span> Bước 1 — Bật API và chuẩn bị thư mục</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> services enable run.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PROJECT_ID</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">REGION</span><span class="op">=</span>us-central1</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> coffee-barista-agent <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> coffee-barista-agent</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>🔴 <strong>MÌN:</strong> thư mục source <strong>không được nằm trong một git repo khác</strong> — <code>gcloud run deploy --source .</code> sẽ cuốn theo ngữ cảnh repo đó. Lần làm thật đã phải dời <code>coffee-barista-agent/</code> ra khỏi repo chính trước khi deploy.</p>
+</section>
+<section id="bước-2-tạo-4-file-theo-codelab-gốc" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="bước-2-tạo-4-file-theo-codelab-gốc"><span class="header-section-number">2.4</span> Bước 2 — Tạo 4 file theo codelab gốc</h2>
+<p>Tạo <code>menu.json</code> (8 món có name/description/price/tags/allergens), <code>requirements.txt</code> (<code>google-adk</code> + <code>streamlit</code>), <code>agent.py</code> (LlmAgent tên <code>barista_agent</code>, model Gemini Flash, tool <code>get_menu</code>, instruction cấm bịa món ngoài menu) và <code>app.py</code> (Streamlit chat + <code>InMemoryRunner</code>). Nội dung file đầy đủ lấy từ <a href="https://codelabs.developers.google.com/codelabs/cloud-run/build-streamlit-rag-agent-google-adk-cloud-run">codelab gốc</a> — chương này không chép lại code để khỏi lệch version, chỉ giữ phần bản gốc KHÔNG nói.</p>
+<p>Kiểm JSON trước khi đi tiếp:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> menu.json <span class="kw">|</span> <span class="ex">python3</span> <span class="at">-m</span> json.tool <span class="op">&gt;</span> /dev/null <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">"JSON hợp lệ!"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="bước-3-service-account-riêng-cho-agent" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="bước-3-service-account-riêng-cho-agent"><span class="header-section-number">2.5</span> Bước 3 — Service account riêng cho agent</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> iam service-accounts create barista-agent-sa <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--description</span><span class="op">=</span><span class="st">"Service account for Coffee Barista ADK agent on Cloud Run"</span> <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--display-name</span><span class="op">=</span><span class="st">"Barista Agent Service Account"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> projects add-iam-policy-binding <span class="va">$PROJECT_ID</span> <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--member</span><span class="op">=</span><span class="st">"serviceAccount:barista-agent-sa@</span><span class="va">$PROJECT_ID</span><span class="st">.iam.gserviceaccount.com"</span> <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--role</span><span class="op">=</span><span class="st">"roles/aiplatform.user"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Lưu ý: đây là SA <strong>runtime</strong> của service (codelab có dạy). Còn bãi mìn #0 nằm ở SA <strong>build</strong> mặc định — 2 con khác nhau, cấp cho con này không cứu con kia.</p>
+</section>
+<section id="bước-4-deploy" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="bước-4-deploy"><span class="header-section-number">2.6</span> Bước 4 — Deploy</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> run deploy coffee-barista <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source</span> . <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--region</span> <span class="va">$REGION</span> <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--allow-unauthenticated</span> <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--labels</span> dev-tutorial=codelab-streamlit-rag-adk <span class="dt">\</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--command</span> <span class="st">"/cnb/lifecycle/launcher"</span> <span class="dt">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--args</span> <span class="st">"sh,-c,python3 -m streamlit run app.py --server.port=</span><span class="dt">\$</span><span class="st">PORT --server.address=0.0.0.0 --server.enableCORS=false --server.enableXsrfProtection=false"</span> <span class="dt">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--service-account</span> <span class="st">"barista-agent-sa@</span><span class="va">$PROJECT_ID</span><span class="st">.iam.gserviceaccount.com"</span> <span class="dt">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--set-env-vars</span> GOOGLE_GENAI_USE_ENTERPRISE=TRUE,GOOGLE_CLOUD_PROJECT=<span class="va">$PROJECT_ID</span>,GOOGLE_CLOUD_LOCATION=global</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Deploy thật mất 3-5 phút (khi đã gỡ mìn #0 — còn dính mìn thì fail sau ~20 giây).</p>
+</section>
+<section id="mìn-khi-build-fail-mà-log-rỗng-lấy-log-thật-ở-đâu" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="mìn-khi-build-fail-mà-log-rỗng-lấy-log-thật-ở-đâu"><span class="header-section-number">2.7</span> 🔴 MÌN — khi build fail mà log RỖNG, lấy log thật ở đâu</h2>
+<p>Cả hai lệnh chính thống đều có thể trả rỗng khi chính build đó không có quyền ghi log (mìn #2):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> builds log <span class="op">&lt;</span>BUILD_ID<span class="op">&gt;</span> --region=<span class="va">$REGION</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> logging read <span class="st">'resource.type=build AND resource.labels.build_id=&lt;BUILD_ID&gt;'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Đừng tưởng CLI hỏng. Mở thẳng URL Console mà <code>gcloud run deploy</code> in ra lúc fail — Console đọc build metadata ở tầng hạ tầng, luôn hiện được dòng lỗi thật (lần đó là chữ <em>“missing role(s) roles/logging.logWriter”</em> chỉ thấy được trên Console):</p>
+<pre><code>https://console.cloud.google.com/cloud-build/builds;region=&lt;region&gt;/&lt;BUILD_ID&gt;?project=&lt;PROJECT_NUMBER&gt;</code></pre>
+</section>
+<section id="bước-5-test-hành-vi-rag" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="bước-5-test-hành-vi-rag"><span class="header-section-number">2.8</span> Bước 5 — Test hành vi RAG</h2>
+<p>Mở URL service Cloud Run trả về, hỏi 3 câu kiểm:</p>
+<ol type="1">
+<li>“Recommend something strong and warm” → phải gợi ý món CÓ trong menu (Espresso Solo)</li>
+<li>“Do you have matcha frappuccino?” → phải từ chối lịch sự (món không có — RAG không bịa)</li>
+<li>“I’m lactose intolerant” → chỉ gợi ý món dairy-free</li>
+</ol>
+</section>
+<section id="bước-6-dọn-dẹp" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="bước-6-dọn-dẹp"><span class="header-section-number">2.9</span> Bước 6 — Dọn dẹp</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> run services delete coffee-barista <span class="at">--region</span> <span class="va">$REGION</span> <span class="at">--quiet</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> iam service-accounts delete barista-agent-sa@<span class="va">$PROJECT_ID</span>.iam.gserviceaccount.com <span class="at">--quiet</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ôn-nhanh" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="ôn-nhanh"><span class="header-section-number">2.10</span> Ôn nhanh</h2>
+<pre class="quiz"><code>Q: Trên project GCP mới, vì sao deploy --source . fail tới 4 lần dù code đúng?
+- Cloud Run không hỗ trợ Streamlit
+-* Service account build mặc định không còn được tự cấp quyền rộng — thiếu 3 role, mỗi lỗi chỉ lộ sau khi vá lỗi trước
+- Region chọn sai
+E: Google chuyển sang "secure by default" — SA mặc định của Compute Engine không còn role Editor. Phải tự cấp storage.objectViewer + logging.logWriter + artifactregistry.writer.
+
+Q: Build fail sau đúng ~20 giây, log rỗng cả trên CLI. Nghi ngờ đầu tiên nên là gì?
+- Code Python có bug
+- Mạng Cloud Shell chập chờn
+-* Thiếu quyền IAM — fail-nhanh + log-rỗng là chữ ký của lỗi quyền, mở Cloud Build Console để thấy dòng lỗi thật
+E: Thiếu logging.logWriter làm build vừa fail vừa không ghi được log — CLI trả rỗng nhưng Console luôn hiện được.
+
+Q: Vì sao cấp artifactregistry.WRITER chứ không phải READER?
+-* Buildpack cần pull lại image vừa push để lấy digest, và các lần deploy update sau còn cần ghi tiếp — writer bao luôn read
+- Reader đắt tiền hơn
+- Không có role reader trong GCP
+E: Cấp reader thì lần deploy đầu qua nhưng lần update sau dính lỗi write — vá một lần cho đủ.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

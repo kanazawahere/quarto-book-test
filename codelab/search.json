@@ -1,0 +1,122 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Codelab",
+    "section": "",
+    "text": "1 Codelab\nSổ tay codelab thực chiến — mỗi chương là một codelab đã tự tay làm xong, viết lại cho dễ theo trên điện thoại: lệnh nào cũng có nút sao chép, tick checklist tới đâu máy nhớ tới đó, và quan trọng nhất là các quả mìn (🔴 MÌN) đã đạp thật được chèn đúng tại bước bạn sắp đạp — thứ mà bản codelab gốc không bao giờ nói.\nLuật của cuốn sách: chưa làm thật thì chưa viết. Mỗi codelab mới làm xong sẽ thành một chương mới.\nATP · Học viện AI",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Codelab</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html",
+    "href": "01-streamlit-rag-adk-cloud-run.html",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "",
+    "text": "2.1 Tiến độ của bạn\nLàm thật 2026-08-07 (Hack2Skill GenAI Academy, Track 1 — deploy coffee-barista). Bản gốc: codelab của Google. Chương này ghi lại đường đi thật kèm 4 quả mìn IAM mà bản gốc không nhắc — mỗi quả tốn 1 vòng deploy-fail để lộ ra.\nMục tiêu: dựng AI barista agent (Google ADK + Gemini + Streamlit), RAG trên menu quán cà phê, chạy trên Cloud Run. Chi phí thật: dưới 1 USD.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#tiến-độ-của-bạn",
+    "href": "01-streamlit-rag-adk-cloud-run.html#tiến-độ-của-bạn",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "",
+    "text": "# Chuẩn bị\n- Có project GCP đã bật billing\n- Gỡ mìn IAM TRƯỚC khi deploy (mục 🔴 MÌN #0 bên dưới)\n- Bật 3 API (run, aiplatform, cloudbuild)\n# Dựng agent\n- Tạo menu.json + kiểm JSON hợp lệ\n- Tạo requirements.txt, agent.py, app.py\n# Deploy\n- Tạo service account + cấp aiplatform.user\n- gcloud run deploy thành công\n- Test 3 câu RAG (in-menu, out-of-menu, allergen)\n# Dọn dẹp\n- Xoá service + service account khi xong",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#mìn-0-cấp-đủ-iam-một-lượt-trước-khi-deploy-quan-trọng-nhất-chương",
+    "href": "01-streamlit-rag-adk-cloud-run.html#mìn-0-cấp-đủ-iam-một-lượt-trước-khi-deploy-quan-trọng-nhất-chương",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.2 🔴 MÌN #0 — cấp đủ IAM MỘT LƯỢT trước khi deploy (quan trọng nhất chương)",
+    "text": "2.2 🔴 MÌN #0 — cấp đủ IAM MỘT LƯỢT trước khi deploy (quan trọng nhất chương)\nTrên project GCP mới tạo, Google không còn tự cấp role Editor rộng cho service account mặc định của Compute Engine (“secure by default”). Hệ quả thật đã nếm: 4 lần deploy fail liên tiếp, mỗi lần lộ ra đúng 1 role thiếu — lỗi sau chỉ hiện khi lỗi trước được vá, nên đi từng lỗi tốn cả buổi.\nTrình tự mìn thật (đúng thứ tự đã đạp):\n\nUpload sources...failed — thiếu storage.objectViewer (SA không đọc được chính file zip nó vừa upload)\nBuilding Container...failed với log rỗng hoàn toàn — thiếu logging.logWriter. Lỗi kép: không ghi được log nên build fail, VÀ vì không có log nên CLI cũng không hiển thị được gì — rất dễ tưởng nhầm là bug của gcloud\nBuild fail lần nữa ở bước ANALYZING — thiếu artifactregistry.writer (buildpack cần pull lại image nó vừa push để lấy digest; cấp writer chứ đừng cấp reader — reader sẽ dính lỗi write ở lần deploy update sau)\nCấp đủ 3 role cùng lúc → deploy pass ngay lần kế\n\nGỡ cả bãi mìn bằng 1 lệnh — chạy TRƯỚC lần deploy đầu tiên:\nexport PROJECT_ID=$(gcloud config get-value project)\nPROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')\nSA=\"${PROJECT_NUMBER}-compute@developer.gserviceaccount.com\"\nfor ROLE in roles/storage.objectViewer roles/logging.logWriter roles/artifactregistry.writer; do\n  gcloud projects add-iam-policy-binding \"$PROJECT_ID\" \\\n    --member=\"serviceAccount:${SA}\" --role=\"$ROLE\" --condition=None\ndone\nMẹo nhận diện nhanh: build fail 20 giây nghĩa là gì?\nBuild fail vì thiếu IAM luôn chết RẤT NHANH (20-23 giây) — không phải kiểu compile chậm hay timeout. Thấy fail nhanh bất thường = nghi lỗi quyền trước tiên, đừng ngồi dò code.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-1-bật-api-và-chuẩn-bị-thư-mục",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-1-bật-api-và-chuẩn-bị-thư-mục",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.3 Bước 1 — Bật API và chuẩn bị thư mục",
+    "text": "2.3 Bước 1 — Bật API và chuẩn bị thư mục\ngcloud services enable run.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com\nexport PROJECT_ID=$(gcloud config get-value project)\nexport REGION=us-central1\nmkdir coffee-barista-agent && cd coffee-barista-agent\n🔴 MÌN: thư mục source không được nằm trong một git repo khác — gcloud run deploy --source . sẽ cuốn theo ngữ cảnh repo đó. Lần làm thật đã phải dời coffee-barista-agent/ ra khỏi repo chính trước khi deploy.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-2-tạo-4-file-theo-codelab-gốc",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-2-tạo-4-file-theo-codelab-gốc",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.4 Bước 2 — Tạo 4 file theo codelab gốc",
+    "text": "2.4 Bước 2 — Tạo 4 file theo codelab gốc\nTạo menu.json (8 món có name/description/price/tags/allergens), requirements.txt (google-adk + streamlit), agent.py (LlmAgent tên barista_agent, model Gemini Flash, tool get_menu, instruction cấm bịa món ngoài menu) và app.py (Streamlit chat + InMemoryRunner). Nội dung file đầy đủ lấy từ codelab gốc — chương này không chép lại code để khỏi lệch version, chỉ giữ phần bản gốc KHÔNG nói.\nKiểm JSON trước khi đi tiếp:\ncat menu.json | python3 -m json.tool &gt; /dev/null && echo \"JSON hợp lệ!\"",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-3-service-account-riêng-cho-agent",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-3-service-account-riêng-cho-agent",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.5 Bước 3 — Service account riêng cho agent",
+    "text": "2.5 Bước 3 — Service account riêng cho agent\ngcloud iam service-accounts create barista-agent-sa \\\n  --description=\"Service account for Coffee Barista ADK agent on Cloud Run\" \\\n  --display-name=\"Barista Agent Service Account\"\ngcloud projects add-iam-policy-binding $PROJECT_ID \\\n  --member=\"serviceAccount:barista-agent-sa@$PROJECT_ID.iam.gserviceaccount.com\" \\\n  --role=\"roles/aiplatform.user\"\nLưu ý: đây là SA runtime của service (codelab có dạy). Còn bãi mìn #0 nằm ở SA build mặc định — 2 con khác nhau, cấp cho con này không cứu con kia.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-4-deploy",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-4-deploy",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.6 Bước 4 — Deploy",
+    "text": "2.6 Bước 4 — Deploy\ngcloud run deploy coffee-barista \\\n  --source . \\\n  --region $REGION \\\n  --allow-unauthenticated \\\n  --labels dev-tutorial=codelab-streamlit-rag-adk \\\n  --command \"/cnb/lifecycle/launcher\" \\\n  --args \"sh,-c,python3 -m streamlit run app.py --server.port=\\$PORT --server.address=0.0.0.0 --server.enableCORS=false --server.enableXsrfProtection=false\" \\\n  --service-account \"barista-agent-sa@$PROJECT_ID.iam.gserviceaccount.com\" \\\n  --set-env-vars GOOGLE_GENAI_USE_ENTERPRISE=TRUE,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=global\nDeploy thật mất 3-5 phút (khi đã gỡ mìn #0 — còn dính mìn thì fail sau ~20 giây).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#mìn-khi-build-fail-mà-log-rỗng-lấy-log-thật-ở-đâu",
+    "href": "01-streamlit-rag-adk-cloud-run.html#mìn-khi-build-fail-mà-log-rỗng-lấy-log-thật-ở-đâu",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.7 🔴 MÌN — khi build fail mà log RỖNG, lấy log thật ở đâu",
+    "text": "2.7 🔴 MÌN — khi build fail mà log RỖNG, lấy log thật ở đâu\nCả hai lệnh chính thống đều có thể trả rỗng khi chính build đó không có quyền ghi log (mìn #2):\ngcloud builds log &lt;BUILD_ID&gt; --region=$REGION\ngcloud logging read 'resource.type=build AND resource.labels.build_id=&lt;BUILD_ID&gt;'\nĐừng tưởng CLI hỏng. Mở thẳng URL Console mà gcloud run deploy in ra lúc fail — Console đọc build metadata ở tầng hạ tầng, luôn hiện được dòng lỗi thật (lần đó là chữ “missing role(s) roles/logging.logWriter” chỉ thấy được trên Console):\nhttps://console.cloud.google.com/cloud-build/builds;region=&lt;region&gt;/&lt;BUILD_ID&gt;?project=&lt;PROJECT_NUMBER&gt;",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-5-test-hành-vi-rag",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-5-test-hành-vi-rag",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.8 Bước 5 — Test hành vi RAG",
+    "text": "2.8 Bước 5 — Test hành vi RAG\nMở URL service Cloud Run trả về, hỏi 3 câu kiểm:\n\n“Recommend something strong and warm” → phải gợi ý món CÓ trong menu (Espresso Solo)\n“Do you have matcha frappuccino?” → phải từ chối lịch sự (món không có — RAG không bịa)\n“I’m lactose intolerant” → chỉ gợi ý món dairy-free",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-6-dọn-dẹp",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-6-dọn-dẹp",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.9 Bước 6 — Dọn dẹp",
+    "text": "2.9 Bước 6 — Dọn dẹp\ngcloud run services delete coffee-barista --region $REGION --quiet\ngcloud iam service-accounts delete barista-agent-sa@$PROJECT_ID.iam.gserviceaccount.com --quiet",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#ôn-nhanh",
+    "href": "01-streamlit-rag-adk-cloud-run.html#ôn-nhanh",
+    "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
+    "section": "2.10 Ôn nhanh",
+    "text": "2.10 Ôn nhanh\nQ: Trên project GCP mới, vì sao deploy --source . fail tới 4 lần dù code đúng?\n- Cloud Run không hỗ trợ Streamlit\n-* Service account build mặc định không còn được tự cấp quyền rộng — thiếu 3 role, mỗi lỗi chỉ lộ sau khi vá lỗi trước\n- Region chọn sai\nE: Google chuyển sang \"secure by default\" — SA mặc định của Compute Engine không còn role Editor. Phải tự cấp storage.objectViewer + logging.logWriter + artifactregistry.writer.\n\nQ: Build fail sau đúng ~20 giây, log rỗng cả trên CLI. Nghi ngờ đầu tiên nên là gì?\n- Code Python có bug\n- Mạng Cloud Shell chập chờn\n-* Thiếu quyền IAM — fail-nhanh + log-rỗng là chữ ký của lỗi quyền, mở Cloud Build Console để thấy dòng lỗi thật\nE: Thiếu logging.logWriter làm build vừa fail vừa không ghi được log — CLI trả rỗng nhưng Console luôn hiện được.\n\nQ: Vì sao cấp artifactregistry.WRITER chứ không phải READER?\n-* Buildpack cần pull lại image vừa push để lấy digest, và các lần deploy update sau còn cần ghi tiếp — writer bao luôn read\n- Reader đắt tiền hơn\n- Không có role reader trong GCP\nE: Cấp reader thì lần deploy đầu qua nhưng lần update sau dính lỗi write — vá một lần cho đủ.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
+    ]
+  }
+]
