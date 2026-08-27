@@ -408,5 +408,65 @@
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
     ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html",
+    "href": "05-portfolio-ai-studio.html",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "",
+    "text": "6.1 Flow chuẩn của bài (theo bản gốc)\nLàm thật 2026-08-27 (worker agy tự lái browser, 42 screenshot hiện trường). Bản gốc: codelab của Google. Bài này khác cả cuốn: không gõ dòng lệnh nào — mô tả website bằng lời trong AI Studio Build Mode, AI sinh code, bấm Publish là lên Cloud Run. Nghe là bài dễ nhất cuốn sách.\nTrạng thái trung thực: lần làm thật KẸT ở quả mìn billing trước cả khi sinh được dòng code đầu tiên — và vì kẹt nên chương này moi ra được sự thật mà bản gốc không nói: chữ “free” của Build Mode có điều kiện ở tầng tài khoản. Phần Publish sẽ bổ sung khi chạy lại bằng tài khoản sạch.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html#flow-chuẩn-của-bài-theo-bản-gốc",
+    "href": "05-portfolio-ai-studio.html#flow-chuẩn-của-bài-theo-bản-gốc",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "",
+    "text": "Mở aistudio.google.com/apps (Build Mode)\nGõ prompt mô tả portfolio (bio, dự án, kỹ năng, link liên hệ)\nXem preview, chỉnh tiếp bằng chat (“vibe coding”)\nBấm Publish → deploy lên Cloud Run — Starter Tier cho 2 app đầu miễn phí, không cần billing\n\n\n\n\nBuild Mode lúc mở — ô nhập ý tưởng (ảnh chụp thật)\n\n\n\n\n\nPrompt mô tả portfolio đã nhập (ảnh chụp thật)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html#mìn-lớn-nhất-free-nhưng-chết-từ-tầng-tài-khoản",
+    "href": "05-portfolio-ai-studio.html#mìn-lớn-nhất-free-nhưng-chết-từ-tầng-tài-khoản",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "6.2 🔴 MÌN LỚN NHẤT — “free” nhưng chết từ tầng TÀI KHOẢN",
+    "text": "6.2 🔴 MÌN LỚN NHẤT — “free” nhưng chết từ tầng TÀI KHOẢN\nVừa bấm Build, thay vì sinh code, hiện cảnh báo rồi chết ngay:\n\n“A paid Gemini API key was selected because no free tier project or key was found.”\n\n\n\n\nCảnh báo paid-key thay vì free tier (ảnh chụp thật)\n\n\n\n“Gemini 3.7 Flash • Canceled — An internal error occurred.”\n\n\n\n\nSinh code bị Cancel với “internal error” mù mờ (ảnh chụp thật)\n\n\n“Internal error” là thông báo đánh lạc hướng — không phải lỗi hệ thống Google. Truy tới gốc (đối chứng cả Playground, soi trang Billing):\n\n\n\nGốc thật: Billing Prepay số dư $0 — Google chặn mọi lượt gọi Gemini (ảnh chụp thật)\n\n\nGốc: tài khoản từng bật Billing Tier 1 Prepay và đã cạn số dư ($0). Khi đó Google chặn mọi lượt gọi Gemini API của toàn tài khoản — Build Mode, Playground, tất cả — bất kể bài quảng cáo “2 app đầu free không cần billing”.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html#các-cách-né-đã-thử-thật-đừng-tốn-thời-gian-thử-lại",
+    "href": "05-portfolio-ai-studio.html#các-cách-né-đã-thử-thật-đừng-tốn-thời-gian-thử-lại",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "6.3 Các cách né ĐÃ THỬ THẬT (đừng tốn thời gian thử lại)",
+    "text": "6.3 Các cách né ĐÃ THỬ THẬT (đừng tốn thời gian thử lại)\n\n\n\n\n\n\n\nCách thử\nKết quả thật\n\n\n\n\nRetry / đổi model nhẹ hơn (Flash Lite)\nChết y hệt — “unexpected error”\n\n\nTạo project mới từ UI AI Studio\nBị chặn luôn: “Failed to create project, The request is suspicious”\n\n\nTạo project sạch bằng gcloud projects create (né được chặn UI!) → Import projects trong AI Studio → tạo API key mới → Build lại\nImport OK, key tạo OK — nhưng Build vẫn chết: chặn nằm ở tầng tài khoản, không phải tầng project\n\n\n\n\n\n\nBằng chứng vòng retry với project sạch: import xong, Build vẫn Cancel (ảnh chụp thật)\n\n\nVậy cách né THẬT SỰ là gì?\nDùng tài khoản Google CHƯA TỪNG bật Billing Prepay (hoặc nạp lại credit cho account cũ). Đây là điều kiện ẩn của chữ \"free\": Starter Tier chỉ free với account \"sạch billing\". Trước khi dạy bài này cho lớp đông người — dặn học viên dùng account Google cá nhân thường (chưa từng đụng GCP billing) là an toàn nhất, và đó cũng chính là khuyến cáo \"personal account recommended\" trong prerequisites của bản gốc mà ít ai để ý lý do.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html#mìn-phụ-đã-xác-minh",
+    "href": "05-portfolio-ai-studio.html#mìn-phụ-đã-xác-minh",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "6.4 Mìn phụ đã xác minh",
+    "text": "6.4 Mìn phụ đã xác minh\n\nLệnh gcloud projects create né được cái chặn “request is suspicious” của UI — 2 cửa này kiểm khác nhau.\nCảnh báo “paid key was selected” xuất hiện TRƯỚC khi chết = tín hiệu sớm nhất cho biết account bạn không còn free tier. Thấy dòng này → dừng, kiểm trang Billing, đừng bấm Retry vô ích.\nThời gian thực tế của toàn bộ vòng chẩn đoán (kể cả đối chứng Playground + soi billing): ~16 phút. Nếu biết trước mìn này: 0 phút.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
+  },
+  {
+    "objectID": "05-portfolio-ai-studio.html#ôn-nhanh",
+    "href": "05-portfolio-ai-studio.html#ôn-nhanh",
+    "title": "6  Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản",
+    "section": "6.5 Ôn nhanh",
+    "text": "6.5 Ôn nhanh\nQ: Build Mode báo \"An internal error occurred\" ngay khi bấm Build. Phản xạ đúng là gì?\n- Bấm Retry tới khi được — lỗi internal là phía Google\n-* Để ý cảnh báo \"a paid Gemini API key was selected\" phía trên + mở trang Billing kiểm tra — \"internal error\" ở đây thật ra là chặn billing tầng tài khoản\n- Đổi trình duyệt\nE: Lần làm thật: account dính Prepay $0 → Google chặn mọi lượt gọi Gemini toàn tài khoản, thông báo lỗi lại rất mù mờ.\n\nQ: Tạo project GCP sạch không billing rồi Import vào AI Studio có cứu được account dính Prepay $0 không?\n- Có — free tier tính theo project\n-* Không — đã thử thật: chặn nằm ở tầng TÀI KHOẢN, project sạch/key mới đều vô ích\n- Chỉ cứu được nếu project ở region US\nE: Import OK, tạo key OK, Build vẫn Cancel. Cách né thật: dùng account Google chưa từng bật Prepay.\n\nQ: UI AI Studio chặn tạo project mới (\"request is suspicious\"). Còn đường nào tạo project?\n-* gcloud projects create từ CLI — 2 cửa kiểm khác nhau, CLI vẫn tạo được bình thường\n- Hết đường, phải đợi Google mở lại\n- Dùng chế độ ẩn danh\nE: Đã verify thật: CLI tạo ACTIVE ngay trong khi UI từ chối cùng account.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span>"
+    ]
   }
 ]

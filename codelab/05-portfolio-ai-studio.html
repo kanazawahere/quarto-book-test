@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản — Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="05-portfolio-ai-studio.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Portfolio website với AI Studio Build Mode — và quả mìn billing tầng tài khoản</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Làm thật <strong>2026-08-27</strong> (worker agy tự lái browser, 42 screenshot hiện trường). Bản gốc: <a href="https://codelabs.developers.google.com/codelabs/cloud-run/launch-your-portfolio-website-with-ai?hl=en">codelab của Google</a>. Bài này khác cả cuốn: <strong>không gõ dòng lệnh nào</strong> — mô tả website bằng lời trong AI Studio Build Mode, AI sinh code, bấm Publish là lên Cloud Run. Nghe là bài dễ nhất cuốn sách.</p>
+<p><strong>Trạng thái trung thực:</strong> lần làm thật <strong>KẸT ở quả mìn billing</strong> trước cả khi sinh được dòng code đầu tiên — và vì kẹt nên chương này moi ra được sự thật mà bản gốc không nói: chữ “free” của Build Mode <strong>có điều kiện ở tầng tài khoản</strong>. Phần Publish sẽ bổ sung khi chạy lại bằng tài khoản sạch.</p>
+<section id="flow-chuẩn-của-bài-theo-bản-gốc" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="flow-chuẩn-của-bài-theo-bản-gốc"><span class="header-section-number">6.1</span> Flow chuẩn của bài (theo bản gốc)</h2>
+<ol type="1">
+<li>Mở <a href="https://aistudio.google.com/apps">aistudio.google.com/apps</a> (Build Mode)</li>
+<li>Gõ prompt mô tả portfolio (bio, dự án, kỹ năng, link liên hệ)</li>
+<li>Xem preview, chỉnh tiếp bằng chat (“vibe coding”)</li>
+<li>Bấm <strong>Publish</strong> → deploy lên Cloud Run — Starter Tier cho 2 app đầu <strong>miễn phí, không cần billing</strong></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/01-build-mode.png" class="img-fluid figure-img"></p>
+<figcaption>Build Mode lúc mở — ô nhập ý tưởng (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/02-prompt.png" class="img-fluid figure-img"></p>
+<figcaption>Prompt mô tả portfolio đã nhập (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+</section>
+<section id="mìn-lớn-nhất-free-nhưng-chết-từ-tầng-tài-khoản" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="mìn-lớn-nhất-free-nhưng-chết-từ-tầng-tài-khoản"><span class="header-section-number">6.2</span> 🔴 MÌN LỚN NHẤT — “free” nhưng chết từ tầng TÀI KHOẢN</h2>
+<p>Vừa bấm Build, thay vì sinh code, hiện cảnh báo rồi chết ngay:</p>
+<blockquote class="blockquote">
+<p><em>“A paid Gemini API key was selected because no free tier project or key was found.”</em></p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/03-warning-paid-key.png" class="img-fluid figure-img"></p>
+<figcaption>Cảnh báo paid-key thay vì free tier (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p><em>“Gemini 3.7 Flash • Canceled — An internal error occurred.”</em></p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/04-internal-error-canceled.png" class="img-fluid figure-img"></p>
+<figcaption>Sinh code bị Cancel với “internal error” mù mờ (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+<p>“Internal error” là thông báo <strong>đánh lạc hướng</strong> — không phải lỗi hệ thống Google. Truy tới gốc (đối chứng cả Playground, soi trang Billing):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/08-billing-no-credits-warning.png" class="img-fluid figure-img"></p>
+<figcaption>Gốc thật: Billing Prepay số dư $0 — Google chặn mọi lượt gọi Gemini (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+<p><strong>Gốc:</strong> tài khoản từng bật <strong>Billing Tier 1 Prepay</strong> và đã cạn số dư ($0). Khi đó Google chặn mọi lượt gọi Gemini API của <strong>toàn tài khoản</strong> — Build Mode, Playground, tất cả — bất kể bài quảng cáo “2 app đầu free không cần billing”.</p>
+</section>
+<section id="các-cách-né-đã-thử-thật-đừng-tốn-thời-gian-thử-lại" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="các-cách-né-đã-thử-thật-đừng-tốn-thời-gian-thử-lại"><span class="header-section-number">6.3</span> Các cách né ĐÃ THỬ THẬT (đừng tốn thời gian thử lại)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cách thử</th>
+<th>Kết quả thật</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Retry / đổi model nhẹ hơn (Flash Lite)</td>
+<td>Chết y hệt — “unexpected error”</td>
+</tr>
+<tr class="even">
+<td>Tạo project mới từ UI AI Studio</td>
+<td>Bị chặn luôn: <em>“Failed to create project, The request is suspicious”</em></td>
+</tr>
+<tr class="odd">
+<td>Tạo project sạch bằng <code>gcloud projects create</code> (né được chặn UI!) → Import projects trong AI Studio → tạo API key mới → Build lại</td>
+<td>Import OK, key tạo OK — nhưng Build vẫn chết: chặn nằm ở <strong>tầng tài khoản</strong>, không phải tầng project</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images5/18-retry-workspace-result.png" class="img-fluid figure-img"></p>
+<figcaption>Bằng chứng vòng retry với project sạch: import xong, Build vẫn Cancel (ảnh chụp thật)</figcaption>
+</figure>
+</div>
+<pre class="dapan"><code>Vậy cách né THẬT SỰ là gì?
+Dùng tài khoản Google CHƯA TỪNG bật Billing Prepay (hoặc nạp lại credit cho account cũ). Đây là điều kiện ẩn của chữ "free": Starter Tier chỉ free với account "sạch billing". Trước khi dạy bài này cho lớp đông người — dặn học viên dùng account Google cá nhân thường (chưa từng đụng GCP billing) là an toàn nhất, và đó cũng chính là khuyến cáo "personal account recommended" trong prerequisites của bản gốc mà ít ai để ý lý do.</code></pre>
+</section>
+<section id="mìn-phụ-đã-xác-minh" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="mìn-phụ-đã-xác-minh"><span class="header-section-number">6.4</span> Mìn phụ đã xác minh</h2>
+<ul>
+<li>Lệnh <code>gcloud projects create</code> <strong>né được</strong> cái chặn “request is suspicious” của UI — 2 cửa này kiểm khác nhau.</li>
+<li>Cảnh báo “paid key was selected” xuất hiện TRƯỚC khi chết = tín hiệu sớm nhất cho biết account bạn không còn free tier. Thấy dòng này → dừng, kiểm trang Billing, đừng bấm Retry vô ích.</li>
+<li>Thời gian thực tế của toàn bộ vòng chẩn đoán (kể cả đối chứng Playground + soi billing): ~16 phút. Nếu biết trước mìn này: 0 phút.</li>
+</ul>
+</section>
+<section id="ôn-nhanh" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="ôn-nhanh"><span class="header-section-number">6.5</span> Ôn nhanh</h2>
+<pre class="quiz"><code>Q: Build Mode báo "An internal error occurred" ngay khi bấm Build. Phản xạ đúng là gì?
+- Bấm Retry tới khi được — lỗi internal là phía Google
+-* Để ý cảnh báo "a paid Gemini API key was selected" phía trên + mở trang Billing kiểm tra — "internal error" ở đây thật ra là chặn billing tầng tài khoản
+- Đổi trình duyệt
+E: Lần làm thật: account dính Prepay $0 → Google chặn mọi lượt gọi Gemini toàn tài khoản, thông báo lỗi lại rất mù mờ.
+
+Q: Tạo project GCP sạch không billing rồi Import vào AI Studio có cứu được account dính Prepay $0 không?
+- Có — free tier tính theo project
+-* Không — đã thử thật: chặn nằm ở tầng TÀI KHOẢN, project sạch/key mới đều vô ích
+- Chỉ cứu được nếu project ở region US
+E: Import OK, tạo key OK, Build vẫn Cancel. Cách né thật: dùng account Google chưa từng bật Prepay.
+
+Q: UI AI Studio chặn tạo project mới ("request is suspicious"). Còn đường nào tạo project?
+-* gcloud projects create từ CLI — 2 cửa kiểm khác nhau, CLI vẫn tạo được bình thường
+- Hết đường, phải đợi Google mở lại
+- Dùng chế độ ẩn danh
+E: Đã verify thật: CLI tạo ACTIVE ngay trong khi UI từ chối cùng account.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>
