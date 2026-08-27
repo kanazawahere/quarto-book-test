@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>AI Agent với Gemini và BigQuery MCP server trên Cloud Run — Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="02-adk-gemini-bigquery-mcp.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Làm thật 2 hồi (Hack2Skill GenAI Academy, Track 2): <strong>2026-08-07</strong> thử nhánh Gemma GPU — kẹt quota ngay cửa (mìn đắt giá nhất chương, kể ở cuối); <strong>2026-08-14</strong> hoàn thành trọn bản <a href="https://codelabs.developers.google.com/codelabs/cloud-run/cloud-run-adk-gemini-bq-mcp">Gemini + BigQuery MCP</a> — deploy pass ngay lần đầu nhờ bài IAM của chương 1, chỉ dính 1 quả mìn 403 runtime.</p>
+<p><strong>Mục tiêu:</strong> dựng data agent (ADK + Gemini) tự truy vấn BigQuery qua MCP server có sẵn của Google — hỏi bằng tiếng người, agent tự chuỗi tool <code>list_table_ids → get_table_info → execute_sql_readonly</code> trên dataset public <code>new_york_citibike</code> (~58,9 triệu chuyến xe đạp).</p>
+<section id="tiến-độ-của-bạn" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="tiến-độ-của-bạn"><span class="header-section-number">3.1</span> Tiến độ của bạn</h2>
+<pre class="checklist"><code># Chuẩn bị
+- Bật 5 API (run, cloudbuild, artifactregistry, bigquery, aiplatform)
+- Đã cấp 3 role IAM build từ chương 1 (nếu project mới)
+# Dựng agent
+- Viết agent.py (LlmAgent + McpToolset trỏ MCP managed của BigQuery)
+- adk deploy cloud_run thành công
+# Gỡ mìn runtime
+- Cấp 3 role runtime cho SA compute (aiplatform.user + bigquery.jobUser + dataViewer)
+- Chờ IAM propagate 60-120 giây rồi mới test lại
+- Agent trả lời được câu hỏi về dữ liệu citibike</code></pre>
+</section>
+<section id="bước-1-bật-api" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="bước-1-bật-api"><span class="header-section-number">3.2</span> Bước 1 — Bật API</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> services enable run.googleapis.com cloudbuild.googleapis.com <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  artifactregistry.googleapis.com bigquery.googleapis.com aiplatform.googleapis.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Nếu là project mới: cấp luôn 3 role IAM build như <strong>MÌN #0 của chương 1</strong> — lần làm thật Track 2 đã cấp trước và <strong>không dính lại lỗi build nào</strong>, chứng minh bài học “cấp đủ 1 lượt” đúng.</p>
+</section>
+<section id="bước-2-viết-agent" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="bước-2-viết-agent"><span class="header-section-number">3.3</span> Bước 2 — Viết agent</h2>
+<p>Điểm ăn tiền của bài này: <strong>không phải dựng MCP server nào cả</strong> — BigQuery có MCP endpoint managed sẵn của Google. Trong <code>agent.py</code>, <code>McpToolset</code> chỉ cần trỏ:</p>
+<pre><code>url = "https://bigquery.googleapis.com/mcp"
+tool_filter = ['get_dataset_info', 'list_table_ids', 'get_table_info', 'execute_sql_readonly']</code></pre>
+<p>Auth bằng ADC token qua header (<code>Authorization: Bearer …</code> + <code>x-goog-user-project</code>). Giữ <code>execute_sql_readonly</code> trong tool_filter (không cấp quyền write) — đó là chốt an toàn của bài. Code đầy đủ lấy từ <a href="https://codelabs.developers.google.com/codelabs/cloud-run/cloud-run-adk-gemini-bq-mcp">codelab gốc</a>; nhớ thêm <code>__init__.py</code> chứa <code>from . import agent</code>.</p>
+</section>
+<section id="bước-3-deploy-bằng-adk-cli" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="bước-3-deploy-bằng-adk-cli"><span class="header-section-number">3.4</span> Bước 3 — Deploy bằng adk CLI</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOOGLE_CLOUD_PROJECT</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOOGLE_CLOUD_REGION</span><span class="op">=</span>us-central1</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOOGLE_GENAI_USE_ENTERPRISE</span><span class="op">=</span><span class="st">"True"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOOGLE_CLOUD_LOCATION</span><span class="op">=</span><span class="st">"global"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool run <span class="at">--from</span> google-adk adk deploy cloud_run <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--with_ui</span> <span class="at">--project</span> <span class="va">$GOOGLE_CLOUD_PROJECT</span> <span class="at">--region</span> <span class="va">$GOOGLE_CLOUD_REGION</span> <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--service_name</span> bq-data-agent <span class="at">--app_name</span> data_agent data_agent <span class="at">--</span> <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--allow-unauthenticated</span> <span class="at">--max-instances</span> 1 <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--labels</span> dev-tutorial=codelab-cloud-run-adk-gemini-bq-mcp <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--set-env-vars</span> GOOGLE_GENAI_USE_ENTERPRISE=True,GOOGLE_CLOUD_PROJECT=<span class="va">${GOOGLE_CLOUD_PROJECT}</span>,GOOGLE_CLOUD_LOCATION=<span class="va">${GOOGLE_CLOUD_LOCATION}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> run services describe bq-data-agent <span class="at">--region</span> us-central1 <span class="at">--format</span> <span class="st">'value(status.url)'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="mìn-deploy-xanh-vẫn-500-lỗi-runtime-không-hiện-lúc-deploy" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="mìn-deploy-xanh-vẫn-500-lỗi-runtime-không-hiện-lúc-deploy"><span class="header-section-number">3.5</span> 🔴 MÌN — deploy XANH vẫn 500: lỗi runtime không hiện lúc deploy</h2>
+<p>Lần làm thật: deploy pass ngay, container healthy, mở URL sống — nhưng hỏi agent câu đầu tiên là <strong>HTTP 500</strong>. Moi log mới ra lỗi thật:</p>
+<pre><code>403 PERMISSION_DENIED. Permission 'aiplatform.endpoints.predict' denied</code></pre>
+<p>Gốc: service account <strong>runtime</strong> của Cloud Run (SA compute mặc định) không có quyền gọi Vertex AI — service deploy được nhưng chết đúng lúc agent gọi model. Lệnh moi log khi gặp 500:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> logging read <span class="st">'resource.type="cloud_run_revision" AND resource.labels.service_name="bq-data-agent" AND severity=ERROR'</span> <span class="at">--limit</span> 5 <span class="at">--format</span> json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix — cấp 3 role runtime 1 lượt</strong> (cho SA compute, không phải account người):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">PN</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> projects describe <span class="va">$GOOGLE_CLOUD_PROJECT</span> <span class="at">--format</span><span class="op">=</span><span class="st">'value(projectNumber)'</span><span class="va">)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> R <span class="kw">in</span> roles/aiplatform.user roles/bigquery.jobUser roles/bigquery.dataViewer<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">gcloud</span> projects add-iam-policy-binding <span class="va">$GOOGLE_CLOUD_PROJECT</span> <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--member</span><span class="op">=</span><span class="st">"serviceAccount:</span><span class="va">${PN}</span><span class="st">-compute@developer.gserviceaccount.com"</span> <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--role</span><span class="op">=</span><span class="st">"</span><span class="va">$R</span><span class="st">"</span> <span class="at">--condition</span><span class="op">=</span>None</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>🔴 <strong>MÌN TRONG MÌN — IAM propagate KHÔNG tức thời:</strong> retry sau ~40 giây vẫn 500; lần làm thật phải chờ tổng cỡ <strong>60-120 giây</strong> (poll mỗi 20 giây) mới HTTP 200. Đừng vội kết luận “fix sai” khi mới thử lại 1 lần.</p>
+</section>
+<section id="bước-4-test-agent-bằng-curl-không-cần-mở-ui" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="bước-4-test-agent-bằng-curl-không-cần-mở-ui"><span class="header-section-number">3.6</span> Bước 4 — Test agent bằng curl (không cần mở UI)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">SVC</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> run services describe bq-data-agent <span class="at">--region</span> us-central1 <span class="at">--format</span> <span class="st">'value(status.url)'</span><span class="va">)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">"</span><span class="va">$SVC</span><span class="st">/list-apps"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-X</span> POST <span class="st">"</span><span class="va">$SVC</span><span class="st">/apps/data_agent/users/u1/sessions/s1"</span> <span class="at">-H</span> <span class="st">"Content-Type: application/json"</span> <span class="at">-d</span> <span class="st">'{}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-X</span> POST <span class="st">"</span><span class="va">$SVC</span><span class="st">/run"</span> <span class="at">-H</span> <span class="st">"Content-Type: application/json"</span> <span class="at">-d</span> <span class="st">'{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="st">  "app_name":"data_agent","user_id":"u1","session_id":"s1",</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">  "new_message":{"role":"user","parts":[{"text":"What data do you have?"}]}}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="dapan"><code>Vì sao /run trả về cả một mảng dài mà không thấy câu trả lời đâu?
+Response là MẢNG EVENT (từng bước tool-call của agent) — câu trả lời thật là text của event role=model CUỐI CÙNG. Và phải tạo session (lệnh POST sessions ở trên) TRƯỚC khi gọi /run, không thì lỗi.</code></pre>
+<p>Kết quả thật lần làm 2026-08-14: agent tự chuỗi <code>list_table_ids → get_table_info → execute_sql_readonly</code> và trả lời đúng — <code>citibike_stations</code> 2.509 dòng, <code>citibike_trips</code> ~58,9 triệu dòng.</p>
+</section>
+<section id="mìn-lớn-nhất-track-2-nhánh-gemma-gpu-quota-chặn-trước-tiền" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="mìn-lớn-nhất-track-2-nhánh-gemma-gpu-quota-chặn-trước-tiền"><span class="header-section-number">3.7</span> 🔴 MÌN LỚN NHẤT TRACK 2 — nhánh Gemma GPU: quota chặn TRƯỚC tiền</h2>
+<p>Bài Gemma (self-host Gemma 4 31B + vLLM trên Cloud Run GPU) đã setup trọn — project mới, 9 API, VPC + subnet riêng, service account, cấu hình vLLM fp8 — rồi chết ngay tại lệnh deploy:</p>
+<pre><code>Quota violated: MemAllocPerProjectRegion requested: 85899345920 allowed: 42949672960</code></pre>
+<ul>
+<li><strong>Project GCP mới mặc định chỉ được 40GiB RAM/region cho Cloud Run</strong> — codelab Gemma-31B đòi 80GiB. Fail ngay lúc validate, GPU chưa từng chạy → <strong>0 đồng</strong> (Cloud Run chỉ tính tiền khi instance thật chạy).</li>
+<li>Muốn làm bài GPU trên project mới: <strong>xin tăng quota <code>MemAllocPerProjectRegion</code> TRƯỚC vài ngày</strong> — form chờ Google duyệt, không tức thời. Đến buổi lab mới xin là trễ.</li>
+<li>Hạ memory xuống ≤40GiB cho model 31B = rủi ro OOM cao, không đáng thử.</li>
+</ul>
+</section>
+<section id="ôn-nhanh" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="ôn-nhanh"><span class="header-section-number">3.8</span> Ôn nhanh</h2>
+<pre class="quiz"><code>Q: Deploy Cloud Run xanh, container healthy, nhưng hỏi agent là HTTP 500. Nghi gì trước?
+- Code agent.py sai cú pháp
+-* Service account RUNTIME thiếu quyền gọi Vertex AI/BigQuery — lỗi chỉ nổ khi agent thật sự gọi model, không nổ lúc deploy
+- MCP server của Google sập
+E: Deploy chỉ kiểm container chạy được; quyền gọi aiplatform/bigquery của SA compute mặc định là chuyện lúc runtime. Moi log bằng gcloud logging read severity=ERROR.
+
+Q: Vừa cấp role IAM xong, thử lại sau 40 giây vẫn 500. Kết luận đúng là gì?
+- Fix sai role rồi, đổi role khác
+-* IAM propagate mất 60-120 giây — poll thêm vài lần nữa rồi mới kết luận
+- Phải redeploy service thì role mới ăn
+E: Lần làm thật retry 40s vẫn fail, chờ tổng 60-120s (poll mỗi 20s) thì HTTP 200 — không cần redeploy.
+
+Q: BigQuery MCP server trong bài này dựng ở đâu?
+- Tự dựng container MCP server riêng trên Cloud Run
+- Chạy local trong Cloud Shell
+-* Không dựng gì cả — dùng endpoint MANAGED sẵn của Google: https://bigquery.googleapis.com/mcp
+E: McpToolset trỏ thẳng endpoint managed, auth bằng ADC token; chỉ lọc tool readonly làm chốt an toàn.
+
+Q: Vì sao bài Gemma GPU fail mà không tốn đồng nào?
+-* Quota memory chặn ngay lúc validate — GPU chưa từng khởi động, Cloud Run chỉ tính tiền khi instance thật chạy
+- Google miễn phí GPU cho codelab
+- Đã kịp bấm huỷ trước khi bị tính tiền
+E: "Quota đi trước tiền" — project mới mặc định 40GiB/region, bài đòi 80GiB, deploy chết từ cửa kiểm tra.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

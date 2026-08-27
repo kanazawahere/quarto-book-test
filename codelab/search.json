@@ -118,5 +118,95 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
     ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html",
+    "href": "02-adk-gemini-bigquery-mcp.html",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "",
+    "text": "3.1 Tiến độ của bạn\nLàm thật 2 hồi (Hack2Skill GenAI Academy, Track 2): 2026-08-07 thử nhánh Gemma GPU — kẹt quota ngay cửa (mìn đắt giá nhất chương, kể ở cuối); 2026-08-14 hoàn thành trọn bản Gemini + BigQuery MCP — deploy pass ngay lần đầu nhờ bài IAM của chương 1, chỉ dính 1 quả mìn 403 runtime.\nMục tiêu: dựng data agent (ADK + Gemini) tự truy vấn BigQuery qua MCP server có sẵn của Google — hỏi bằng tiếng người, agent tự chuỗi tool list_table_ids → get_table_info → execute_sql_readonly trên dataset public new_york_citibike (~58,9 triệu chuyến xe đạp).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#tiến-độ-của-bạn",
+    "href": "02-adk-gemini-bigquery-mcp.html#tiến-độ-của-bạn",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "",
+    "text": "# Chuẩn bị\n- Bật 5 API (run, cloudbuild, artifactregistry, bigquery, aiplatform)\n- Đã cấp 3 role IAM build từ chương 1 (nếu project mới)\n# Dựng agent\n- Viết agent.py (LlmAgent + McpToolset trỏ MCP managed của BigQuery)\n- adk deploy cloud_run thành công\n# Gỡ mìn runtime\n- Cấp 3 role runtime cho SA compute (aiplatform.user + bigquery.jobUser + dataViewer)\n- Chờ IAM propagate 60-120 giây rồi mới test lại\n- Agent trả lời được câu hỏi về dữ liệu citibike",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#bước-1-bật-api",
+    "href": "02-adk-gemini-bigquery-mcp.html#bước-1-bật-api",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.2 Bước 1 — Bật API",
+    "text": "3.2 Bước 1 — Bật API\ngcloud services enable run.googleapis.com cloudbuild.googleapis.com \\\n  artifactregistry.googleapis.com bigquery.googleapis.com aiplatform.googleapis.com\nNếu là project mới: cấp luôn 3 role IAM build như MÌN #0 của chương 1 — lần làm thật Track 2 đã cấp trước và không dính lại lỗi build nào, chứng minh bài học “cấp đủ 1 lượt” đúng.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#bước-2-viết-agent",
+    "href": "02-adk-gemini-bigquery-mcp.html#bước-2-viết-agent",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.3 Bước 2 — Viết agent",
+    "text": "3.3 Bước 2 — Viết agent\nĐiểm ăn tiền của bài này: không phải dựng MCP server nào cả — BigQuery có MCP endpoint managed sẵn của Google. Trong agent.py, McpToolset chỉ cần trỏ:\nurl = \"https://bigquery.googleapis.com/mcp\"\ntool_filter = ['get_dataset_info', 'list_table_ids', 'get_table_info', 'execute_sql_readonly']\nAuth bằng ADC token qua header (Authorization: Bearer … + x-goog-user-project). Giữ execute_sql_readonly trong tool_filter (không cấp quyền write) — đó là chốt an toàn của bài. Code đầy đủ lấy từ codelab gốc; nhớ thêm __init__.py chứa from . import agent.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#bước-3-deploy-bằng-adk-cli",
+    "href": "02-adk-gemini-bigquery-mcp.html#bước-3-deploy-bằng-adk-cli",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.4 Bước 3 — Deploy bằng adk CLI",
+    "text": "3.4 Bước 3 — Deploy bằng adk CLI\nexport GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)\nexport GOOGLE_CLOUD_REGION=us-central1\nexport GOOGLE_GENAI_USE_ENTERPRISE=\"True\"\nexport GOOGLE_CLOUD_LOCATION=\"global\"\nuv tool run --from google-adk adk deploy cloud_run \\\n    --with_ui --project $GOOGLE_CLOUD_PROJECT --region $GOOGLE_CLOUD_REGION \\\n    --service_name bq-data-agent --app_name data_agent data_agent -- \\\n    --allow-unauthenticated --max-instances 1 \\\n    --labels dev-tutorial=codelab-cloud-run-adk-gemini-bq-mcp \\\n    --set-env-vars GOOGLE_GENAI_USE_ENTERPRISE=True,GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT},GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION}\ngcloud run services describe bq-data-agent --region us-central1 --format 'value(status.url)'",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#mìn-deploy-xanh-vẫn-500-lỗi-runtime-không-hiện-lúc-deploy",
+    "href": "02-adk-gemini-bigquery-mcp.html#mìn-deploy-xanh-vẫn-500-lỗi-runtime-không-hiện-lúc-deploy",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.5 🔴 MÌN — deploy XANH vẫn 500: lỗi runtime không hiện lúc deploy",
+    "text": "3.5 🔴 MÌN — deploy XANH vẫn 500: lỗi runtime không hiện lúc deploy\nLần làm thật: deploy pass ngay, container healthy, mở URL sống — nhưng hỏi agent câu đầu tiên là HTTP 500. Moi log mới ra lỗi thật:\n403 PERMISSION_DENIED. Permission 'aiplatform.endpoints.predict' denied\nGốc: service account runtime của Cloud Run (SA compute mặc định) không có quyền gọi Vertex AI — service deploy được nhưng chết đúng lúc agent gọi model. Lệnh moi log khi gặp 500:\ngcloud logging read 'resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"bq-data-agent\" AND severity=ERROR' --limit 5 --format json\nFix — cấp 3 role runtime 1 lượt (cho SA compute, không phải account người):\nPN=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format='value(projectNumber)')\nfor R in roles/aiplatform.user roles/bigquery.jobUser roles/bigquery.dataViewer; do\n  gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\\n    --member=\"serviceAccount:${PN}-compute@developer.gserviceaccount.com\" \\\n    --role=\"$R\" --condition=None\ndone\n🔴 MÌN TRONG MÌN — IAM propagate KHÔNG tức thời: retry sau ~40 giây vẫn 500; lần làm thật phải chờ tổng cỡ 60-120 giây (poll mỗi 20 giây) mới HTTP 200. Đừng vội kết luận “fix sai” khi mới thử lại 1 lần.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#bước-4-test-agent-bằng-curl-không-cần-mở-ui",
+    "href": "02-adk-gemini-bigquery-mcp.html#bước-4-test-agent-bằng-curl-không-cần-mở-ui",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.6 Bước 4 — Test agent bằng curl (không cần mở UI)",
+    "text": "3.6 Bước 4 — Test agent bằng curl (không cần mở UI)\nSVC=$(gcloud run services describe bq-data-agent --region us-central1 --format 'value(status.url)')\ncurl -s \"$SVC/list-apps\"\ncurl -s -X POST \"$SVC/apps/data_agent/users/u1/sessions/s1\" -H \"Content-Type: application/json\" -d '{}'\ncurl -s -X POST \"$SVC/run\" -H \"Content-Type: application/json\" -d '{\n  \"app_name\":\"data_agent\",\"user_id\":\"u1\",\"session_id\":\"s1\",\n  \"new_message\":{\"role\":\"user\",\"parts\":[{\"text\":\"What data do you have?\"}]}}'\nVì sao /run trả về cả một mảng dài mà không thấy câu trả lời đâu?\nResponse là MẢNG EVENT (từng bước tool-call của agent) — câu trả lời thật là text của event role=model CUỐI CÙNG. Và phải tạo session (lệnh POST sessions ở trên) TRƯỚC khi gọi /run, không thì lỗi.\nKết quả thật lần làm 2026-08-14: agent tự chuỗi list_table_ids → get_table_info → execute_sql_readonly và trả lời đúng — citibike_stations 2.509 dòng, citibike_trips ~58,9 triệu dòng.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#mìn-lớn-nhất-track-2-nhánh-gemma-gpu-quota-chặn-trước-tiền",
+    "href": "02-adk-gemini-bigquery-mcp.html#mìn-lớn-nhất-track-2-nhánh-gemma-gpu-quota-chặn-trước-tiền",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.7 🔴 MÌN LỚN NHẤT TRACK 2 — nhánh Gemma GPU: quota chặn TRƯỚC tiền",
+    "text": "3.7 🔴 MÌN LỚN NHẤT TRACK 2 — nhánh Gemma GPU: quota chặn TRƯỚC tiền\nBài Gemma (self-host Gemma 4 31B + vLLM trên Cloud Run GPU) đã setup trọn — project mới, 9 API, VPC + subnet riêng, service account, cấu hình vLLM fp8 — rồi chết ngay tại lệnh deploy:\nQuota violated: MemAllocPerProjectRegion requested: 85899345920 allowed: 42949672960\n\nProject GCP mới mặc định chỉ được 40GiB RAM/region cho Cloud Run — codelab Gemma-31B đòi 80GiB. Fail ngay lúc validate, GPU chưa từng chạy → 0 đồng (Cloud Run chỉ tính tiền khi instance thật chạy).\nMuốn làm bài GPU trên project mới: xin tăng quota MemAllocPerProjectRegion TRƯỚC vài ngày — form chờ Google duyệt, không tức thời. Đến buổi lab mới xin là trễ.\nHạ memory xuống ≤40GiB cho model 31B = rủi ro OOM cao, không đáng thử.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
+  },
+  {
+    "objectID": "02-adk-gemini-bigquery-mcp.html#ôn-nhanh",
+    "href": "02-adk-gemini-bigquery-mcp.html#ôn-nhanh",
+    "title": "3  AI Agent với Gemini và BigQuery MCP server trên Cloud Run",
+    "section": "3.8 Ôn nhanh",
+    "text": "3.8 Ôn nhanh\nQ: Deploy Cloud Run xanh, container healthy, nhưng hỏi agent là HTTP 500. Nghi gì trước?\n- Code agent.py sai cú pháp\n-* Service account RUNTIME thiếu quyền gọi Vertex AI/BigQuery — lỗi chỉ nổ khi agent thật sự gọi model, không nổ lúc deploy\n- MCP server của Google sập\nE: Deploy chỉ kiểm container chạy được; quyền gọi aiplatform/bigquery của SA compute mặc định là chuyện lúc runtime. Moi log bằng gcloud logging read severity=ERROR.\n\nQ: Vừa cấp role IAM xong, thử lại sau 40 giây vẫn 500. Kết luận đúng là gì?\n- Fix sai role rồi, đổi role khác\n-* IAM propagate mất 60-120 giây — poll thêm vài lần nữa rồi mới kết luận\n- Phải redeploy service thì role mới ăn\nE: Lần làm thật retry 40s vẫn fail, chờ tổng 60-120s (poll mỗi 20s) thì HTTP 200 — không cần redeploy.\n\nQ: BigQuery MCP server trong bài này dựng ở đâu?\n- Tự dựng container MCP server riêng trên Cloud Run\n- Chạy local trong Cloud Shell\n-* Không dựng gì cả — dùng endpoint MANAGED sẵn của Google: https://bigquery.googleapis.com/mcp\nE: McpToolset trỏ thẳng endpoint managed, auth bằng ADC token; chỉ lọc tool readonly làm chốt an toàn.\n\nQ: Vì sao bài Gemma GPU fail mà không tốn đồng nào?\n-* Quota memory chặn ngay lúc validate — GPU chưa từng khởi động, Cloud Run chỉ tính tiền khi instance thật chạy\n- Google miễn phí GPU cho codelab\n- Đã kịp bấm huỷ trước khi bị tính tiền\nE: \"Quota đi trước tiền\" — project mới mặc định 40GiB/region, bài đòi 80GiB, deploy chết từ cửa kiểm tra.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
+    ]
   }
 ]
