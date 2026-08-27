@@ -40,11 +40,11 @@
     ]
   },
   {
-    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-1-bật-api-và-chuẩn-bị-thư-mục",
-    "href": "01-streamlit-rag-adk-cloud-run.html#bước-1-bật-api-và-chuẩn-bị-thư-mục",
+    "objectID": "01-streamlit-rag-adk-cloud-run.html#bước-1-mở-cloud-shell-bật-api-chuẩn-bị-thư-mục",
+    "href": "01-streamlit-rag-adk-cloud-run.html#bước-1-mở-cloud-shell-bật-api-chuẩn-bị-thư-mục",
     "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
-    "section": "2.3 Bước 1 — Bật API và chuẩn bị thư mục",
-    "text": "2.3 Bước 1 — Bật API và chuẩn bị thư mục\ngcloud services enable run.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com\nexport PROJECT_ID=$(gcloud config get-value project)\nexport REGION=us-central1\nmkdir coffee-barista-agent && cd coffee-barista-agent\n🔴 MÌN: thư mục source không được nằm trong một git repo khác — gcloud run deploy --source . sẽ cuốn theo ngữ cảnh repo đó. Lần làm thật đã phải dời coffee-barista-agent/ ra khỏi repo chính trước khi deploy.",
+    "section": "2.3 Bước 1 — Mở Cloud Shell, bật API, chuẩn bị thư mục",
+    "text": "2.3 Bước 1 — Mở Cloud Shell, bật API, chuẩn bị thư mục\nMọi lệnh trong chương chạy trong Cloud Shell — bấm nút Activate Cloud Shell góc trên phải Console:\n\n\n\nNút Activate Cloud Shell (ảnh: codelab gốc)\n\n\nLần đầu chạy lệnh gcloud sẽ có hộp thoại xin quyền — bấm Authorize:\n\n\n\nHộp thoại Authorize Cloud Shell (ảnh: codelab gốc)\n\n\ngcloud services enable run.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com\nexport PROJECT_ID=$(gcloud config get-value project)\nexport REGION=us-central1\nmkdir coffee-barista-agent && cd coffee-barista-agent\n🔴 MÌN: thư mục source không được nằm trong một git repo khác — gcloud run deploy --source . sẽ cuốn theo ngữ cảnh repo đó. Lần làm thật đã phải dời coffee-barista-agent/ ra khỏi repo chính trước khi deploy.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
     ]
@@ -94,7 +94,7 @@
     "href": "01-streamlit-rag-adk-cloud-run.html#bước-5-test-hành-vi-rag",
     "title": "2  Streamlit RAG Agent với Google ADK trên Cloud Run",
     "section": "2.8 Bước 5 — Test hành vi RAG",
-    "text": "2.8 Bước 5 — Test hành vi RAG\nMở URL service Cloud Run trả về, hỏi 3 câu kiểm:\n\n“Recommend something strong and warm” → phải gợi ý món CÓ trong menu (Espresso Solo)\n“Do you have matcha frappuccino?” → phải từ chối lịch sự (món không có — RAG không bịa)\n“I’m lactose intolerant” → chỉ gợi ý món dairy-free",
+    "text": "2.8 Bước 5 — Test hành vi RAG\nMở URL service Cloud Run trả về — giao diện chat trông thế này:\n\n\n\nApp barista chạy thật trên Cloud Run (ảnh: codelab gốc)\n\n\nHỏi 3 câu kiểm:\n\n“Recommend something strong and warm” → phải gợi ý món CÓ trong menu (Espresso Solo)\n“Do you have matcha frappuccino?” → phải từ chối lịch sự (món không có — RAG không bịa)\n“I’m lactose intolerant” → chỉ gợi ý món dairy-free",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Streamlit RAG Agent với Google ADK trên Cloud Run</span>"
     ]

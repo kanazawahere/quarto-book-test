@@ -77,6 +77,12 @@
 
 <p>Làm thật 2026-08-07 (Hack2Skill GenAI Academy, Track 1 — deploy <code>coffee-barista</code>). Bản gốc: <a href="https://codelabs.developers.google.com/codelabs/cloud-run/build-streamlit-rag-agent-google-adk-cloud-run">codelab của Google</a>. Chương này ghi lại đường đi thật kèm 4 quả mìn IAM mà bản gốc không nhắc — mỗi quả tốn 1 vòng deploy-fail để lộ ra.</p>
 <p><strong>Mục tiêu:</strong> dựng AI barista agent (Google ADK + Gemini + Streamlit), RAG trên menu quán cà phê, chạy trên Cloud Run. Chi phí thật: dưới 1 USD.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/arch.png" class="img-fluid figure-img"></p>
+<figcaption>Kiến trúc: Streamlit UI + ADK agent + Gemini, đóng gói chạy trên Cloud Run (ảnh: codelab gốc của Google)</figcaption>
+</figure>
+</div>
 <section id="tiến-độ-của-bạn" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="tiến-độ-của-bạn"><span class="header-section-number">2.1</span> Tiến độ của bạn</h2>
 <pre class="checklist"><code># Chuẩn bị
@@ -114,8 +120,22 @@
 <pre class="dapan"><code>Mẹo nhận diện nhanh: build fail 20 giây nghĩa là gì?
 Build fail vì thiếu IAM luôn chết RẤT NHANH (20-23 giây) — không phải kiểu compile chậm hay timeout. Thấy fail nhanh bất thường = nghi lỗi quyền trước tiên, đừng ngồi dò code.</code></pre>
 </section>
-<section id="bước-1-bật-api-và-chuẩn-bị-thư-mục" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="bước-1-bật-api-và-chuẩn-bị-thư-mục"><span class="header-section-number">2.3</span> Bước 1 — Bật API và chuẩn bị thư mục</h2>
+<section id="bước-1-mở-cloud-shell-bật-api-chuẩn-bị-thư-mục" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="bước-1-mở-cloud-shell-bật-api-chuẩn-bị-thư-mục"><span class="header-section-number">2.3</span> Bước 1 — Mở Cloud Shell, bật API, chuẩn bị thư mục</h2>
+<p>Mọi lệnh trong chương chạy trong <strong>Cloud Shell</strong> — bấm nút Activate Cloud Shell góc trên phải Console:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/activate-cloud-shell.png" class="img-fluid figure-img"></p>
+<figcaption>Nút Activate Cloud Shell (ảnh: codelab gốc)</figcaption>
+</figure>
+</div>
+<p>Lần đầu chạy lệnh gcloud sẽ có hộp thoại xin quyền — bấm Authorize:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/authorize-cloud-shell.png" class="img-fluid figure-img"></p>
+<figcaption>Hộp thoại Authorize Cloud Shell (ảnh: codelab gốc)</figcaption>
+</figure>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> services enable run.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PROJECT_ID</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">REGION</span><span class="op">=</span>us-central1</span>
@@ -161,7 +181,14 @@ Build fail vì thiếu IAM luôn chết RẤT NHANH (20-23 giây) — không ph�
 </section>
 <section id="bước-5-test-hành-vi-rag" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="bước-5-test-hành-vi-rag"><span class="header-section-number">2.8</span> Bước 5 — Test hành vi RAG</h2>
-<p>Mở URL service Cloud Run trả về, hỏi 3 câu kiểm:</p>
+<p>Mở URL service Cloud Run trả về — giao diện chat trông thế này:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/testing.png" class="img-fluid figure-img"></p>
+<figcaption>App barista chạy thật trên Cloud Run (ảnh: codelab gốc)</figcaption>
+</figure>
+</div>
+<p>Hỏi 3 câu kiểm:</p>
 <ol type="1">
 <li>“Recommend something strong and warm” → phải gợi ý món CÓ trong menu (Espresso Solo)</li>
 <li>“Do you have matcha frappuccino?” → phải từ chối lịch sự (món không có — RAG không bịa)</li>
