@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Thực hành: viết thử một Statement of Applicability (SoA) — Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="15-chuong.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Thực hành: viết thử một Statement of Applicability (SoA)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="soa-nối-rủi-ro-đã-đánh-giá-với-kiểm-soát-đã-chọn" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="soa-nối-rủi-ro-đã-đánh-giá-với-kiểm-soát-đã-chọn"><span class="header-section-number">16.1</span> SoA nối rủi ro đã đánh giá với kiểm soát đã chọn</h2>
+<p>Trong một cuộc đánh giá ISO/IEC 42001, Statement of Applicability (SoA) thường là văn bản được đánh giá viên yêu cầu xem đầu tiên. Nó không phải danh mục đánh dấu cho có: SoA cho thấy tổ chức đã đi từ kết quả đánh giá rủi ro đến từng quyết định chọn hay loại kiểm soát như thế nào. Đọc SoA là biết được hệ thống quản lý đứng trên một quy trình rủi ro thật hay chỉ là các mảnh kỹ thuật ghép lại.</p>
+<p>Bài 6 đã giới thiệu khái niệm SoA qua vài dòng minh hoạ với ca X-Triage (hệ thống AI phân loại mức độ khẩn cấp tại khoa cấp cứu, mua từ nhà cung cấp bên ngoài, quyết định cuối thuộc bác sĩ và điều dưỡng). Bài này dựng bản SoA đó cho tử tế, từng bước, dùng đủ kiến thức Annex A của bài 12-14.</p>
+</section>
+<section id="bước-1-chuẩn-bị-đầu-vào" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="bước-1-chuẩn-bị-đầu-vào"><span class="header-section-number">16.2</span> Bước 1: Chuẩn bị đầu vào</h2>
+<p>Theo 6.1.3, SoA không viết từ hư không. Cần có sẵn bốn thứ:</p>
+<ol type="1">
+<li><strong>Kết quả đánh giá rủi ro AI</strong> (quy trình 6.1.2): với X-Triage là ba rủi ro chính đã phân tích ở bài 6 — bỏ sót ca khẩn cấp do nhiễu dữ liệu cảm biến, thiên kiến dữ liệu huấn luyện với nhóm cao tuổi, nhân viên phụ thuộc quá mức vào gợi ý AI.</li>
+<li><strong>Phương án xử lý rủi ro đã chọn</strong> (6.1.3): giảm thiểu bằng kiểm soát nào, rủi ro nào chấp nhận có phê duyệt.</li>
+<li><strong>Danh mục 38 kiểm soát Annex A</strong> để đối chiếu từng mục.</li>
+<li><strong>Các yêu cầu bên ngoài áp dụng</strong>: luật, quy định ngành y tế, điều khoản hợp đồng với nhà cung cấp.</li>
+</ol>
+<p>Thiếu các đầu vào này thì SoA không truy được về gốc rủi ro, và người đánh giá sẽ nhận ra điều đó rất nhanh khi hỏi “vì sao dòng này ghi áp dụng”.</p>
+</section>
+<section id="bước-2-chọn-cấu-trúc-bảng" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="bước-2-chọn-cấu-trúc-bảng"><span class="header-section-number">16.3</span> Bước 2: Chọn cấu trúc bảng</h2>
+<p>Chuẩn không ép một mẫu cố định, chỉ yêu cầu nội dung theo 6.1.3 f: SoA chứa các kiểm soát cần thiết và lý do cho việc đưa vào lẫn loại ra. Cấu trúc bảng thực hành phổ biến gồm năm cột:</p>
+<ul>
+<li>Mã kiểm soát (theo Annex A)</li>
+<li>Tên kiểm soát</li>
+<li>Trạng thái: áp dụng / loại</li>
+<li>Lý do đưa vào hoặc loại ra</li>
+<li>Tài liệu tham chiếu (quy trình, hồ sơ chứng minh đã triển khai)</li>
+</ul>
+</section>
+<section id="bước-3-điền-các-quyết-định-tiêu-biểu-cho-x-triage" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="bước-3-điền-các-quyết-định-tiêu-biểu-cho-x-triage"><span class="header-section-number">16.4</span> Bước 3: Điền các quyết định tiêu biểu cho X-Triage</h2>
+<p>Bản SoA thật phủ đủ 38 kiểm soát, mỗi kiểm soát một dòng kể cả dòng loại. Dưới đây là bảng rút gọn 10 quyết định tiêu biểu để thấy cách viết cột lý do:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mã</th>
+<th style="text-align: left;">Kiểm soát</th>
+<th style="text-align: left;">Trạng thái</th>
+<th style="text-align: left;">Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A.2.2</td>
+<td style="text-align: left;">AI policy</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Cần chính sách nêu nguyên tắc X-Triage chỉ hỗ trợ, không thay quyết định lâm sàng</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.3.2</td>
+<td style="text-align: left;">AI roles and responsibilities</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Phân vai người phê duyệt phiên bản model và người giám sát vận hành hằng ngày</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.4.3</td>
+<td style="text-align: left;">Data resources</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Kiểm kê dữ liệu sinh hiệu: nguồn, đặc tính, thiên kiến đã biết so với bệnh nhân địa phương</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.5.2, A.5.4</td>
+<td style="text-align: left;">AI system impact assessment</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Hệ thống ảnh hưởng trực tiếp sức khỏe bệnh nhân; nhóm cao tuổi cần đánh giá riêng</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.6.2.3</td>
+<td style="text-align: left;">Documentation of AI system design and development</td>
+<td style="text-align: left;">Loại</td>
+<td style="text-align: left;">Bệnh viện không phát triển model; nghĩa vụ văn bản hoá thiết kế thuộc nhà cung cấp, được ràng buộc qua A.10.2 (phân bổ trách nhiệm) và A.10.3 (hợp đồng nhà cung cấp, gồm nghĩa vụ giao tài liệu kỹ thuật)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.6.2.4</td>
+<td style="text-align: left;">AI system verification and validation</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Dù mua ngoài, bệnh viện vẫn chạy bộ phim/kịch bản kiểm chuẩn nội bộ trước khi cho model mới lên môi trường thật</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.6.2.6</td>
+<td style="text-align: left;">AI system operation and monitoring</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Theo dõi hiệu năng liên tục để bắt hiện tượng model xuống cấp (drift) sau các bản cập nhật</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.8.2</td>
+<td style="text-align: left;">System documentation and information for users</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Điều dưỡng và bác sĩ cần biết giới hạn hệ thống và cách ghi đè khi dấu hiệu lâm sàng mâu thuẫn với gợi ý AI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.9.4</td>
+<td style="text-align: left;">Intended use of the AI system</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">X-Triage chỉ dùng phân loại cấp cứu, không dùng chẩn đoán; log vận hành chứng minh điều đó</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.10.3</td>
+<td style="text-align: left;">Suppliers</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Quy trình kiểm soát bản cập nhật model và cam kết hỗ trợ từ nhà cung cấp</td>
+</tr>
+</tbody>
+</table>
+<p>Dòng A.6.2.3 là dòng đáng học nhất của bảng: loại một kiểm soát không có nghĩa rủi ro biến mất. Rủi ro “thiết kế model không được văn bản hoá” vẫn tồn tại, chỉ là nó được xử lý bằng kiểm soát khác (ràng buộc nhà cung cấp), và chính điều đó phải nằm trong cột lý do. Cũng lưu ý điều kiện kép của 6.1.3 f cho việc loại: kiểm soát chỉ được loại khi đánh giá rủi ro thấy không cần thiết VÀ không có yêu cầu bên ngoài nào (luật, hợp đồng) đòi hỏi nó.</p>
+</section>
+<section id="bước-4-vòng-kiểm-tra-ngược-6.1.3-d" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="bước-4-vòng-kiểm-tra-ngược-6.1.3-d"><span class="header-section-number">16.5</span> Bước 4: Vòng kiểm tra ngược (6.1.3 d)</h2>
+<p>Điền xong, rà ngược toàn bộ 38 kiểm soát Annex A để xác nhận không kiểm soát cần thiết nào bị bỏ sót, đúng yêu cầu 6.1.3 d.&nbsp;Cách kiểm đơn giản: đặt bảng rủi ro cạnh bảng SoA, mỗi rủi ro đã nhận diện phải trỏ được tới ít nhất một kiểm soát đang “áp dụng”, hoặc một quyết định chấp nhận rủi ro có phê duyệt. Rủi ro nào không trỏ đi đâu được là lỗ hổng của chính bản SoA.</p>
+</section>
+<section id="bước-5-phê-duyệt-và-vòng-đời" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="bước-5-phê-duyệt-và-vòng-đời"><span class="header-section-number">16.6</span> Bước 5: Phê duyệt và vòng đời</h2>
+<p>Theo 6.1.3 g và đoạn cuối của 6.1.3: kế hoạch xử lý rủi ro và việc chấp nhận rủi ro còn lại (residual risk) phải được cấp quản lý được chỉ định phê duyệt. SoA cũng là văn bản sống: khi đánh giá rủi ro chạy lại theo chu kỳ hoặc khi có thay đổi đáng kể (8.2), khi hệ thống đổi phạm vi, khi luật mới có hiệu lực, SoA phải được xem lại và cập nhật. Một bản SoA đề ngày ba năm trước trong khi hệ thống đã qua nhiều đời model là tín hiệu xấu với bất kỳ người đánh giá nào.</p>
+</section>
+<section id="các-lỗi-thường-gặp" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="các-lỗi-thường-gặp"><span class="header-section-number">16.7</span> Các lỗi thường gặp</h2>
+<ul>
+<li><strong>Loại kiểm soát mà không ghi lý do.</strong> Vi phạm trực tiếp 6.1.3 f; người đánh giá sẽ coi là loại tuỳ tiện.</li>
+<li><strong>Chép SoA mẫu của tổ chức khác.</strong> Hồ sơ rủi ro mỗi hệ thống mỗi khác; SoA chép lại sẽ lộ ngay ở bước truy ngược về bảng rủi ro.</li>
+<li><strong>Giải trình cả Annex B.</strong> Không cần: theo B.1, SoA chỉ giải trình việc chọn hay loại kiểm soát của Annex A; phần hướng dẫn triển khai Annex B theo hay không là quyền của tổ chức, không phải nội dung công bố.</li>
+<li><strong>Quên yêu cầu bên ngoài.</strong> Một kiểm soát dù đánh giá rủi ro thấy “không cần” vẫn phải áp dụng nếu luật hoặc hợp đồng đòi hỏi — đúng vế thứ hai của điều kiện loại trừ trong 6.1.3 f.</li>
+</ul>
+</section>
+<section id="liên-hệ-luật-ai-việt-nam" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="liên-hệ-luật-ai-việt-nam"><span class="header-section-number">16.8</span> Liên hệ Luật AI Việt Nam</h2>
+<p>Với hệ thống rủi ro cao theo Điều 9.1.a Luật 134/2025/QH15: nếu hệ thống thuộc danh mục bắt buộc chứng nhận, việc đánh giá sự phù hợp qua tổ chức đã đăng ký (Điều 13) sẽ cần đến đúng loại hồ sơ quản lý rủi ro có hệ thống mà SoA là một phần xương sống; nếu ngoài danh mục và tổ chức chọn tự đánh giá, bộ SoA cùng hồ sơ rủi ro đi kèm là nền cho việc tự chứng minh mình đã quản lý nghiêm túc. Cả hai nhánh đều quay về cùng một điểm: giấy tờ dựng vội sau khi bị hỏi không thay được hồ sơ sinh ra từ quy trình thật.</p>
+</section>
+<section id="lưu-ý-cuối-bài" class="level2" data-number="16.9">
+<h2 data-number="16.9" class="anchored" data-anchor-id="lưu-ý-cuối-bài"><span class="header-section-number">16.9</span> Lưu ý cuối bài</h2>
+<p>Bảng trong bài là bản rút gọn để minh hoạ phương pháp. Bản SoA thật phải phủ đủ 38 kiểm soát, mỗi dòng một quyết định có lý do, do đội liên ngành của chính tổ chức lập: người hiểu nghiệp vụ, người hiểu kỹ thuật và người hiểu nghĩa vụ pháp lý cùng ngồi. Từ bài sau, khoá rời Annex A sang hai annex còn lại của chuẩn: Annex C (mục tiêu tổ chức và nguồn rủi ro AI) ở bài 16, rồi Annex D (tích hợp AIMS với các chuẩn quản lý khác) ở bài 17.</p>
+</section>
+<section id="câu-hỏi-ôn-tập" class="level2" data-number="16.10">
+<h2 data-number="16.10" class="anchored" data-anchor-id="câu-hỏi-ôn-tập"><span class="header-section-number">16.10</span> Câu hỏi ôn tập</h2>
+<pre class="quiz"><code>Q: Trong bối cảnh đánh giá ISO/IEC 42001, tại sao Statement of Applicability (SoA) thường là văn bản đầu tiên mà đánh giá viên yêu cầu xem?
+- Vì nó chứa danh sách toàn bộ nhân sự tham gia vào dự án AI của tổ chức.
+-* Vì nó chứng minh mối liên kết giữa kết quả đánh giá rủi ro và các quyết định chọn/loại kiểm soát.
+- Vì SoA là văn bản duy nhất bắt buộc phải nộp cho cơ quan quản lý nhà nước theo Luật AI.
+- Vì nó liệt kê tất cả các lỗi kỹ thuật mà hệ thống AI đã gặp phải trong quá khứ.
+E: Hãy nghĩ về vai trò của SoA trong việc kết nối giữa rủi ro và các biện pháp ứng phó.
+
+Q: Theo yêu cầu của điều khoản 6.1.3, đâu là một trong những đầu vào 'không thể thiếu' khi chuẩn bị viết SoA?
+- Bảng báo giá từ ít nhất ba nhà cung cấp giải pháp AI khác nhau.
+- Danh mục đầy đủ các thuật toán học máy được sử dụng trong hệ thống.
+-* Kết quả đánh giá rủi ro AI và phương án xử lý rủi ro đã chọn.
+- Sơ đồ mặt bằng chi tiết của trung tâm dữ liệu nơi đặt máy chủ AI.
+E: SoA cần dựa trên những gì tổ chức đã tìm ra sau khi phân tích các mối nguy.
+
+Q: Trong ví dụ về X-Triage, tại sao kiểm soát A.6.2.3 (Văn bản hóa thiết kế và phát triển hệ thống AI) lại được ghi trạng thái là 'Loại'?
+-* Vì bệnh viện không tự phát triển model mà mua từ nhà cung cấp bên ngoài.
+- Vì việc văn bản hóa thiết kế AI được coi là bí mật kinh doanh không được phép lưu giữ.
+- Vì hệ thống X-Triage chỉ là hệ thống hỗ trợ, không tham gia vào quyết định lâm sàng.
+- Vì đánh giá rủi ro cho thấy việc thiết kế model không gây ra bất kỳ nguy hiểm nào.
+E: Xem xét nguồn gốc của hệ thống AI trong ca minh họa X-Triage.
+
+Q: Một kiểm soát trong Annex A chỉ được phép loại ra khỏi SoA khi thỏa mãn cùng lúc hai điều kiện nào?
+- Được nhân viên kỹ thuật đồng ý và không làm tăng chi phí vận hành.
+-* Đánh giá rủi ro thấy không cần thiết VÀ không có yêu cầu bên ngoài (luật, hợp đồng) bắt buộc áp dụng.
+- Hệ thống AI đó không thuộc danh mục rủi ro cao của Luật AI Việt Nam.
+- Đã có một phần mềm tự động thay thế hoàn toàn vai trò của kiểm soát đó.
+E: Nhớ lại vế thứ hai của điều kiện loại trừ liên quan đến các cam kết với bên ngoài.
+
+Q: Mục đích của 'Vòng kiểm tra ngược' (theo 6.1.3 d) trong quá trình lập SoA là gì?
+-* Để đảm bảo mỗi rủi ro đã nhận diện đều có ít nhất một kiểm soát tương ứng hoặc một quyết định chấp nhận rủi ro.
+- Để kiểm tra xem các nhà cung cấp có tuân thủ đúng báo giá đã cam kết hay không.
+- Để so sánh bản SoA của mình với các đối thủ cạnh tranh trên thị trường.
+- Để tính toán lại giá trị thiệt hại tài chính nếu rủi ro AI xảy ra.
+E: Hãy tưởng tượng việc nối các điểm từ bảng rủi ro sang bảng SoA.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

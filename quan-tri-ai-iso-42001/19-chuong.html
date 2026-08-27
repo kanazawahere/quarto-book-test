@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Case tổng hợp: dựng AIMS mẫu cho một phòng khám AI — Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="19-chuong.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Case tổng hợp: dựng AIMS mẫu cho một phòng khám AI</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="ca-giả-định-phòng-khám-an-khang" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="ca-giả-định-phòng-khám-an-khang"><span class="header-section-number">20.1</span> Ca giả định: Phòng khám An Khang</h2>
+<p>Sau 17 bài học từng mảnh một, bài này ghép tất cả vào một ca xuyên suốt để thấy các Clause của ISO/IEC 42001 khớp với nhau thành một dòng chảy như thế nào. Ca giả định: Phòng khám An Khang, một phòng khám đa khoa tư nhân quy mô vừa tại Việt Nam, triển khai cùng lúc ba hệ thống AI:</p>
+<ol type="1">
+<li><strong>AI đặt lịch hẹn thông minh:</strong> tự xếp lịch khám theo triệu chứng khai báo và lịch trống của bác sĩ, nhắc lịch, dự đoán khung giờ đông bệnh nhân.</li>
+<li><strong>AI hỗ trợ chẩn đoán sơ bộ:</strong> phân tích triệu chứng bệnh nhân khai và dữ liệu cận lâm sàng để đưa gợi ý ban đầu cho bác sĩ, bác sĩ quyết định cuối.</li>
+<li><strong>AI nhắc thuốc cho bệnh nhân mạn tính:</strong> nhắn tin nhắc lịch uống thuốc và tái khám.</li>
+</ol>
+<p>Điểm đáng học nhất của ca này: ba hệ thống có mức rủi ro khác nhau, nên cùng một AIMS nhưng cường độ kiểm soát không cào bằng. Quản chặt như nhau cả ba là lãng phí; quản lỏng như nhau là nguy hiểm.</p>
+</section>
+<section id="clause-4-bối-cảnh-và-phạm-vi" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="clause-4-bối-cảnh-và-phạm-vi"><span class="header-section-number">20.2</span> Clause 4: Bối cảnh và phạm vi</h2>
+<p>Việc đầu tiên là trả lời “mình đang đứng ở đâu”. Các bên liên quan của An Khang gồm: bệnh nhân (chủ thể dữ liệu, người chịu tác động trực tiếp), đội ngũ y bác sĩ và điều dưỡng (người dùng hằng ngày), cơ quan quản lý y tế, và các nhà cung cấp giải pháp AI.</p>
+<p>Về vị trí pháp lý: theo định nghĩa tại Điều 3.5 của Luật 134/2025/QH15, An Khang là “bên triển khai”, tức tổ chức sử dụng hệ thống AI thuộc phạm vi kiểm soát của mình trong hoạt động nghề nghiệp, không phải bên phát triển ra hệ thống. Xác định đúng vai này quan trọng vì nghĩa vụ pháp lý của bên triển khai khác nghĩa vụ của nhà cung cấp.</p>
+<p>Về phân loại rủi ro: hệ AI hỗ trợ chẩn đoán sơ bộ hoạt động trong y tế, lĩnh vực thiết yếu theo Điều 6 của luật, và có thể ảnh hưởng trực tiếp sức khỏe người bệnh, nên nhiều khả năng rơi vào nhóm rủi ro cao theo Điều 9.1.a. Hai hệ còn lại rủi ro thấp hơn, mối lo chính là dữ liệu cá nhân và gián đoạn vận hành.</p>
+<p>Phạm vi AIMS: cả ba hệ thống đều nằm trong phạm vi, nhưng tài liệu phạm vi ghi rõ mức kiểm soát phân tầng theo rủi ro đã phân loại.</p>
+</section>
+<section id="clause-5-lãnh-đạo" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="clause-5-lãnh-đạo"><span class="header-section-number">20.3</span> Clause 5: Lãnh đạo</h2>
+<p>Giám đốc phòng khám ban hành chính sách AI bằng văn bản: cam kết an toàn bệnh nhân đặt trên hiệu quả vận hành, AI chỉ hỗ trợ chứ không thay quyết định lâm sàng, minh bạch với bệnh nhân về việc dùng AI. Kèm theo là phân vai cụ thể: một bác sĩ phụ trách chuyên môn chịu trách nhiệm hệ chẩn đoán sơ bộ, trưởng bộ phận công nghệ thông tin quản hai hệ còn lại cùng an ninh dữ liệu, một người phụ trách tuân thủ theo dõi nghĩa vụ pháp lý. Không có phân vai này, khi AI gợi ý sai sẽ không ai là người chịu trách nhiệm cuối.</p>
+</section>
+<section id="clause-6-hoạch-định" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="clause-6-hoạch-định"><span class="header-section-number">20.4</span> Clause 6: Hoạch định</h2>
+<p>An Khang đặt tiêu chí rủi ro trước, rồi mới đánh giá: rủi ro ảnh hưởng sức khỏe bệnh nhân mặc định không chấp nhận được, rủi ro vận hành và dữ liệu xét theo hậu quả và khả năng xảy ra. Kết quả đánh giá cho từng hệ:</p>
+<ul>
+<li><strong>AI chẩn đoán sơ bộ:</strong> rủi ro cao nhất. Gợi ý sai có thể dẫn bác sĩ theo hướng chẩn đoán lệch; thiên kiến dữ liệu huấn luyện có thể khiến một nhóm bệnh nhân bị đánh giá sai hệ thống.</li>
+<li><strong>AI nhắc thuốc:</strong> rủi ro dữ liệu cá nhân (thông tin bệnh mạn tính là dữ liệu nhạy cảm) và rủi ro nhắc sai liều do lỗi đồng bộ dữ liệu.</li>
+<li><strong>AI đặt lịch:</strong> rủi ro vận hành, sai lịch gây dồn ứ bệnh nhân, khó chịu nhưng không đe dọa sức khỏe.</li>
+</ul>
+<p>Với hệ chẩn đoán sơ bộ, An Khang chạy quy trình đánh giá tác động theo yêu cầu 6.1.4 của chuẩn, phân tích hệ quả lên quyền lợi và sức khỏe bệnh nhân. Mục tiêu AI được đặt đo được, ví dụ: tỷ lệ tin nhắc thuốc gửi đúng người đúng liều, thời gian chờ đặt lịch trung bình giảm so với trước khi triển khai. Con số cụ thể do phòng khám tự chọn theo bối cảnh, điểm bắt buộc là phải đo được và có mốc thời gian.</p>
+</section>
+<section id="clause-7-hỗ-trợ" class="level2" data-number="20.5">
+<h2 data-number="20.5" class="anchored" data-anchor-id="clause-7-hỗ-trợ"><span class="header-section-number">20.5</span> Clause 7: Hỗ trợ</h2>
+<p>Nguồn lực: ngân sách kiểm định định kỳ hệ chẩn đoán, nhân sự đủ hiểu AI để giám sát. Năng lực và nhận thức: đào tạo bác sĩ về giới hạn của AI, cách nhận ra khi gợi ý của máy mâu thuẫn dấu hiệu lâm sàng trước mắt; nhân viên lễ tân hiểu hệ đặt lịch để xử lý khi bệnh nhân phản ánh sai lịch.</p>
+<p>Về tài liệu hoá, cần tách bạch hai nghĩa vụ theo Luật 134: lập và lưu giữ hồ sơ kỹ thuật cùng nhật ký hoạt động của hệ rủi ro cao là trách nhiệm của nhà cung cấp (Điều 14.1.c), nên hợp đồng mua hệ chẩn đoán phải ràng buộc nhà cung cấp bàn giao tài liệu kỹ thuật và bảo đảm khả năng ghi nhật ký. Còn An Khang, với tư cách bên triển khai, chịu nghĩa vụ riêng theo Điều 14.2, trong đó có bảo đảm an toàn, bảo mật dữ liệu trong quá trình sử dụng. Đáng chú ý thêm: theo Điều 35.1.a, hệ thống AI trong lĩnh vực y tế có thời hạn chuyển tiếp 18 tháng kể từ ngày luật có hiệu lực để hoàn thiện nghĩa vụ tuân thủ, nên phòng khám cần lịch trình tuân thủ chứ không phải “để sau tính”.</p>
+</section>
+<section id="clause-8-vận-hành" class="level2" data-number="20.6">
+<h2 data-number="20.6" class="anchored" data-anchor-id="clause-8-vận-hành"><span class="header-section-number">20.6</span> Clause 8: Vận hành</h2>
+<p>Kiểm soát vận hành phân tầng theo rủi ro. Với hệ chẩn đoán sơ bộ: bác sĩ luôn là người quyết định cuối, và quy trình phải bảo đảm khả năng can thiệp của con người trong quá trình sử dụng, đúng nghĩa vụ của bên triển khai tại Điều 14.2.b của luật; kèm quy trình xử lý khi phát hiện AI gợi ý sai (ghi nhận, báo cáo, tạm ngừng tin cậy gợi ý nếu lỗi lặp lại). Với hệ nhắc thuốc và đặt lịch: kiểm tra định kỳ tính toàn vẹn dữ liệu, quy trình xác nhận số điện thoại trước khi gửi tin.</p>
+</section>
+<section id="clause-9-đánh-giá-hiệu-suất" class="level2" data-number="20.7">
+<h2 data-number="20.7" class="anchored" data-anchor-id="clause-9-đánh-giá-hiệu-suất"><span class="header-section-number">20.7</span> Clause 9: Đánh giá hiệu suất</h2>
+<p>An Khang theo dõi chỉ số từng hệ theo mục tiêu đã đặt ở Clause 6, chạy đánh giá nội bộ định kỳ (ví dụ mỗi 6 tháng) đối chiếu AIMS với yêu cầu chuẩn, và họp xem xét của lãnh đạo để quyết định điều chỉnh nguồn lực hay thu hẹp, mở rộng phạm vi dùng AI.</p>
+</section>
+<section id="clause-10-cải-tiến" class="level2" data-number="20.8">
+<h2 data-number="20.8" class="anchored" data-anchor-id="clause-10-cải-tiến"><span class="header-section-number">20.8</span> Clause 10: Cải tiến</h2>
+<p>Tình huống giả định: AI nhắc thuốc gửi nhầm tin cho người không phải bệnh nhân do lỗi dữ liệu số điện thoại. Xử lý theo Clause 10: khắc phục ngay (dừng gửi, xin lỗi, đính chính), phân tích nguyên nhân gốc (dữ liệu nhập tay không có bước xác thực), rồi quay lại quy trình đánh giá rủi ro ở Clause 6 xem rủi ro này có bị đánh giá thấp hơn thực tế không và cập nhật biện pháp kiểm soát. Vòng lặp từ sự cố quay về hoạch định chính là điểm phân biệt hệ thống quản lý sống với bộ hồ sơ làm một lần để trưng.</p>
+</section>
+<section id="chọn-kiểm-soát-annex-a-cho-an-khang" class="level2" data-number="20.9">
+<h2 data-number="20.9" class="anchored" data-anchor-id="chọn-kiểm-soát-annex-a-cho-an-khang"><span class="header-section-number">20.9</span> Chọn kiểm soát Annex A cho An Khang</h2>
+<p>Từ 38 kiểm soát trong Bảng A.1 của chuẩn, An Khang chọn 8 kiểm soát liên quan trực tiếp nhất:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mã</th>
+<th style="text-align: left;">Tên kiểm soát</th>
+<th style="text-align: left;">Vì sao áp dụng cho An Khang</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A.2.2</td>
+<td style="text-align: left;">AI policy</td>
+<td style="text-align: left;">Văn bản hoá định hướng dùng AI cho toàn phòng khám</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.4.6</td>
+<td style="text-align: left;">Human resources</td>
+<td style="text-align: left;">Ghi nhận năng lực nhân sự cho phát triển, vận hành, giám sát AI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.5.2</td>
+<td style="text-align: left;">AI system impact assessment process</td>
+<td style="text-align: left;">Quy trình đánh giá tác động của hệ chẩn đoán lên bệnh nhân</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.6.2.2</td>
+<td style="text-align: left;">AI system requirements and specification</td>
+<td style="text-align: left;">Đặc tả yêu cầu an toàn ngay từ khi mua từng hệ thống</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.7.4</td>
+<td style="text-align: left;">Quality of data for AI systems</td>
+<td style="text-align: left;">Yêu cầu chất lượng dữ liệu triệu chứng, hồ sơ thuốc, số liên lạc</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.8.2</td>
+<td style="text-align: left;">System documentation and information for users</td>
+<td style="text-align: left;">Bác sĩ và nhân viên có đủ thông tin để hiểu hệ thống mình dùng</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.9.2</td>
+<td style="text-align: left;">Processes for responsible use of AI systems</td>
+<td style="text-align: left;">Quy trình sử dụng có trách nhiệm, chống phụ thuộc quá mức vào gợi ý AI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.10.3</td>
+<td style="text-align: left;">Suppliers</td>
+<td style="text-align: left;">Ràng buộc trách nhiệm nhà cung cấp cả ba hệ thống trong hợp đồng</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="phác-thảo-soa-rút-gọn" class="level2" data-number="20.10">
+<h2 data-number="20.10" class="anchored" data-anchor-id="phác-thảo-soa-rút-gọn"><span class="header-section-number">20.10</span> Phác thảo SoA rút gọn</h2>
+<p>Tuyên bố áp dụng (Statement of Applicability) thu nhỏ cho bốn kiểm soát đầu:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mã</th>
+<th style="text-align: left;">Trạng thái</th>
+<th style="text-align: left;">Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A.2.2</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Nền cho mọi kiểm soát khác, lãnh đạo đã cam kết ở Clause 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.5.2</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Hệ chẩn đoán rủi ro cao, kết quả đánh giá tác động còn là bằng chứng chuẩn bị cho nghĩa vụ đánh giá sự phù hợp theo Điều 13 Luật 134</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.7.4</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Sự cố nhắc thuốc sai bắt nguồn từ dữ liệu xấu, kiểm soát này chặn từ gốc</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.10.3</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Cả ba hệ đều mua ngoài, trách nhiệm nhà cung cấp phải nằm trong hợp đồng</td>
+</tr>
+</tbody>
+</table>
+<p>SoA đầy đủ trong thực tế phải rà toàn bộ 38 kiểm soát của Annex A, ghi rõ từng kiểm soát áp dụng hay loại trừ kèm lý do. Kiểm soát bị loại trừ không có lý do thuyết phục là câu hỏi đầu tiên một đánh giá viên sẽ xoáy vào.</p>
+</section>
+<section id="nhìn-lại-dòng-chảy" class="level2" data-number="20.11">
+<h2 data-number="20.11" class="anchored" data-anchor-id="nhìn-lại-dòng-chảy"><span class="header-section-number">20.11</span> Nhìn lại dòng chảy</h2>
+<p>Đặt cạnh nhau, các Clause không phải danh mục việc rời rạc mà là một vòng: bối cảnh và phân loại rủi ro (Clause 4) quyết định mức kiểm soát; lãnh đạo (5) đặt chính sách và phân vai; hoạch định (6) biến rủi ro thành tiêu chí và mục tiêu; hỗ trợ (7) và vận hành (8) đưa kiểm soát vào việc hằng ngày; đánh giá hiệu suất (9) đo lại; cải tiến (10) đưa bài học quay về bước hoạch định. Khi bối cảnh thay đổi, chẳng hạn phòng khám thêm một hệ AI mới hoặc luật ra danh mục hệ rủi ro cao bắt buộc chứng nhận, vòng này chạy lại từ Clause 4. Đó là lý do gọi nó là hệ thống quản lý, không phải bộ hồ sơ.</p>
+</section>
+<section id="câu-hỏi-ôn-tập" class="level2" data-number="20.12">
+<h2 data-number="20.12" class="anchored" data-anchor-id="câu-hỏi-ôn-tập"><span class="header-section-number">20.12</span> Câu hỏi ôn tập</h2>
+<pre class="quiz"><code>Q: Theo Luật 134/2025/QH15, Phòng khám An Khang được xác định là đối tượng nào khi sử dụng các hệ thống AI mua từ bên ngoài?
+-* Bên triển khai
+- Bên phát triển
+- Bên cung cấp dữ liệu
+- Cơ quan quản lý y tế
+E: Hãy xem xét vai trò của một đơn vị mua giải pháp công nghệ về để phục vụ hoạt động khám chữa bệnh.
+
+Q: Tại sao hệ thống AI hỗ trợ chẩn đoán sơ bộ của An Khang lại được xếp vào nhóm rủi ro cao?
+-* Do hoạt động trong lĩnh vực y tế và ảnh hưởng trực tiếp đến sức khỏe
+- Do chi phí đầu tư cho hệ thống này đắt nhất
+- Do hệ thống này sử dụng lượng dữ liệu khổng lồ
+- Do đây là hệ thống AI phức tạp nhất về mặt thuật toán
+E: Căn cứ vào Điều 6 và Điều 9.1.a của Luật 134/2025/QH15 về các lĩnh vực thiết yếu.
+
+Q: Trong chính sách AI tại Clause 5, Giám đốc phòng khám An Khang cam kết ưu tiên hàng đầu điều gì?
+-* An toàn của bệnh nhân
+- Tốc độ xử lý hồ sơ
+- Thay thế hoàn toàn bác sĩ để giảm chi phí
+- Bảo mật tuyệt đối dữ liệu lịch khám
+E: Hãy tìm giá trị cốt lõi nhất trong hoạt động khám chữa bệnh khi có sự tham gia của công nghệ mới.
+
+Q: Theo quy trình tại Clause 6, An Khang xử lý như thế nào đối với các rủi ro ảnh hưởng đến sức khỏe bệnh nhân?
+-* Mặc định là không thể chấp nhận được
+- Chấp nhận nếu tỉ lệ xảy ra thấp dưới 1%
+- Chỉ xem xét nếu có khiếu nại từ bệnh nhân
+- Chuyển toàn bộ trách nhiệm cho nhà cung cấp AI
+E: Lưu ý về thái độ của tổ chức đối với các rủi ro liên quan đến tính mạng và sức khỏe.
+
+Q: Trách nhiệm lập và lưu giữ hồ sơ kỹ thuật cùng nhật ký hoạt động (logs) của hệ thống AI rủi ro cao thuộc về ai?
+-* Nhà cung cấp giải pháp AI
+- Đội ngũ bác sĩ trực tiếp sử dụng
+- Người phụ trách tuân thủ của phòng khám
+- Bệnh nhân cung cấp dữ liệu
+E: Phân biệt giữa nghĩa vụ của đơn vị tạo ra công nghệ và đơn vị sử dụng công nghệ.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

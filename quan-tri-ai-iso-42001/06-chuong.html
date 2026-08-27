@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Thực hành: đánh giá rủi ro AI y tế theo Clause 6 — Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="06-chuong.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Thực hành: đánh giá rủi ro AI y tế theo Clause 6</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="vì-sao-hoạch-định-là-bước-bản-lề" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="vì-sao-hoạch-định-là-bước-bản-lề"><span class="header-section-number">7.1</span> Vì sao Hoạch định là bước bản lề</h2>
+<p>Clause 6 (Hoạch định) của ISO/IEC 42001 không phải một bước thủ tục cho có. Nếu rủi ro không được hoạch định nghiêm túc ở đây, cả hệ thống quản lý AI phía sau đều xây trên nền lung lay: vận hành (Clause 8) không biết đang kiểm soát cái gì, đánh giá hiệu suất (Clause 9) không có tiêu chí để so sánh. Bài này áp dụng khung Clause 6.1 vào một ca giả định để người học thấy quy trình thực sự trông như thế nào, thay vì chỉ đọc lý thuyết.</p>
+</section>
+<section id="ca-giả-định-hệ-thống-x-triage" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ca-giả-định-hệ-thống-x-triage"><span class="header-section-number">7.2</span> Ca giả định: hệ thống X-Triage</h2>
+<p>Một bệnh viện đa khoa hạng I triển khai hệ thống AI hỗ trợ phân loại bệnh nhân tại khoa cấp cứu, gọi tắt là X-Triage. Hệ thống nhận dữ liệu sinh hiệu (nhịp tim, huyết áp, SpO2) cùng mô tả triệu chứng sơ bộ, rồi đưa ra gợi ý mức độ ưu tiên khám: khẩn cấp, trung bình, hoặc có thể chờ.</p>
+<p>Phạm vi được giới hạn rõ: X-Triage chỉ hỗ trợ điều dưỡng phân loại nhanh trong giờ cao điểm, quyết định lâm sàng cuối cùng luôn thuộc về bác sĩ/điều dưỡng. Giới hạn phạm vi này quan trọng, vì nó là thứ đầu tiên cần ghi vào tài liệu AIMS, vì mọi bước đánh giá rủi ro sau đó đều dựa trên phạm vi đã khoanh.</p>
+</section>
+<section id="bước-1-xác-lập-tiêu-chí-rủi-ro-clause-6.1.1" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="bước-1-xác-lập-tiêu-chí-rủi-ro-clause-6.1.1"><span class="header-section-number">7.3</span> Bước 1: Xác lập tiêu chí rủi ro (Clause 6.1.1)</h2>
+<p>Yêu cầu của 6.1.1 là tổ chức phải thiết lập và duy trì tiêu chí rủi ro AI, dùng để phân biệt rủi ro chấp nhận được với không chấp nhận được, và làm nền cho các bước đánh giá/xử lý/đánh giá tác động phía sau. Với X-Triage, một thang đo đơn giản có thể như sau:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mức độ</th>
+<th style="text-align: left;">Định nghĩa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cao</td>
+<td style="text-align: left;">Ảnh hưởng trực tiếp đến tính mạng hoặc gây thương tật vĩnh viễn, không chấp nhận được</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Trung bình</td>
+<td style="text-align: left;">Gây chậm trễ điều trị hoặc sai lệch quy trình nội bộ, chưa đe dọa tính mạng</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thấp</td>
+<td style="text-align: left;">Lỗi kỹ thuật nhỏ, ảnh hưởng vận hành nhưng không ảnh hưởng lâm sàng</td>
+</tr>
+</tbody>
+</table>
+<p>Quy tắc chấp nhận: mọi rủi ro ảnh hưởng tính mạng bệnh nhân mặc định là không chấp nhận được, chỉ được coi là tạm chấp nhận sau khi đã giảm xuống mức thấp nhất có thể và có phê duyệt bằng văn bản của lãnh đạo bệnh viện.</p>
+</section>
+<section id="bước-2-chạy-đánh-giá-rủi-ro-ai-clause-6.1.2" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="bước-2-chạy-đánh-giá-rủi-ro-ai-clause-6.1.2"><span class="header-section-number">7.4</span> Bước 2: Chạy đánh giá rủi ro AI (Clause 6.1.2)</h2>
+<p>6.1.2 yêu cầu một quy trình phân tích hậu quả, khả năng xảy ra, rồi xếp mức độ rủi ro. Với X-Triage, ba rủi ro đáng chú ý nhất:</p>
+<ol type="1">
+<li><strong>Bỏ sót ca khẩn cấp do nhiễu dữ liệu.</strong> Cảm biến đeo tay mất kết nối hoặc nhiễu tín hiệu khiến AI phân loại sai, bệnh nhân nguy kịch bị xếp vào nhóm “có thể chờ”. Khả năng xảy ra ở mức trung bình, hậu quả ở mức cao.</li>
+<li><strong>Thiên kiến dữ liệu.</strong> Nếu dữ liệu huấn luyện chủ yếu đến từ bệnh nhân trẻ, hệ thống có thể đánh giá sai lệch cho nhóm cao tuổi, khiến nhóm này gặp bất công khi tiếp cận y tế nhanh. Khả năng thấp, hậu quả trung bình.</li>
+<li><strong>Phụ thuộc quá mức vào gợi ý AI.</strong> Điều dưỡng tin tuyệt đối vào kết quả AI mà bỏ qua dấu hiệu lâm sàng thực tế trước mắt (ví dụ bệnh nhân tím tái nhưng máy báo SpO2 bình thường). Đây đúng là kiểu “sử dụng sai có thể lường trước” mà 6.1.4 yêu cầu phải tính đến khi đánh giá tác động. Khả năng trung bình, hậu quả cao.</li>
+</ol>
+</section>
+<section id="bước-3-xử-lý-rủi-ro-và-giới-thiệu-khái-niệm-soa-clause-6.1.3" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="bước-3-xử-lý-rủi-ro-và-giới-thiệu-khái-niệm-soa-clause-6.1.3"><span class="header-section-number">7.5</span> Bước 3: Xử lý rủi ro và giới thiệu khái niệm SoA (Clause 6.1.3)</h2>
+<p>Với rủi ro nghiêm trọng nhất, bỏ sót ca khẩn cấp, biện pháp xử lý có thể là: đặt ngưỡng cảnh báo khi dữ liệu cảm biến bất thường, cộng thêm bước xác nhận thủ công song song thay vì để AI quyết một mình.</p>
+<p>6.1.3 cũng yêu cầu đối chiếu các kiểm soát đã chọn với Annex A và lập một Statement of Applicability (SoA): văn bản liệt kê kiểm soát nào áp dụng, kiểm soát nào không, kèm lý do. Bài 15 của khoá sẽ đi sâu vào cách viết một SoA đầy đủ; ở đây chỉ minh hoạ khái niệm bằng vài dòng:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mã kiểm soát</th>
+<th style="text-align: left;">Tên kiểm soát</th>
+<th style="text-align: left;">Trạng thái</th>
+<th style="text-align: left;">Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A.5.2</td>
+<td style="text-align: left;">AI system impact assessment process</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Cần quy trình đánh giá tác động rõ ràng theo 6.1.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A.7.4</td>
+<td style="text-align: left;">Quality of data for AI systems</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Kiểm soát trực tiếp rủi ro nhiễu dữ liệu cảm biến</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A.9.3</td>
+<td style="text-align: left;">Objectives for responsible use of AI system</td>
+<td style="text-align: left;">Áp dụng</td>
+<td style="text-align: left;">Đặt mục tiêu hạn chế tình trạng phụ thuộc quá mức vào AI</td>
+</tr>
+</tbody>
+</table>
+<p>Rủi ro còn lại sau khi áp dụng kiểm soát (residual risk, ví dụ rủi ro do lỗi con người vẫn còn dù đã có xác nhận kép) phải được lãnh đạo bệnh viện phê duyệt bằng văn bản, đúng yêu cầu về trách nhiệm giải trình của 6.1.3.</p>
+</section>
+<section id="bước-4-đánh-giá-tác-động-hệ-thống-clause-6.1.4" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="bước-4-đánh-giá-tác-động-hệ-thống-clause-6.1.4"><span class="header-section-number">7.6</span> Bước 4: Đánh giá tác động hệ thống (Clause 6.1.4)</h2>
+<p>Đánh giá tác động của X-Triage cần nhìn ở hai lớp: với cá nhân, hệ thống ảnh hưởng trực tiếp đến quyền được chăm sóc và an toàn tính mạng của bệnh nhân; với xã hội, một sai sót nghiêm trọng có thể làm xói mòn lòng tin vào các giải pháp AI trong y tế nói chung, không chỉ riêng bệnh viện này. Toàn bộ kết quả đánh giá phải được lập thành văn bản, vì đây là bằng chứng cần có khi kiểm toán hoặc thanh tra.</p>
+</section>
+<section id="đối-chiếu-với-luật-ai-việt-nam" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="đối-chiếu-với-luật-ai-việt-nam"><span class="header-section-number">7.7</span> Đối chiếu với Luật AI Việt Nam</h2>
+<p>Ghép kết quả đánh giá ở trên với khung pháp lý trong nước: X-Triage tác động trực tiếp đến thời điểm can thiệp cứu sống bệnh nhân, nên rơi vào nhóm rủi ro cao theo Điều 9.1.a Luật 134/2025/QH15 (hệ thống có thể gây thiệt hại đáng kể đến tính mạng, sức khỏe). Điều 6.2.a cũng xếp y tế vào nhóm lĩnh vực thiết yếu cần quản lý chặt.</p>
+<p>Nhưng “rủi ro cao” không tự động có nghĩa là bắt buộc thuê tổ chức đánh giá sự phù hợp bên ngoài. Theo Điều 13, chỉ khi X-Triage thuộc <strong>danh mục hệ thống bắt buộc chứng nhận</strong> (do cơ quan có thẩm quyền công bố) thì mới bắt buộc đánh giá qua bên thứ ba đã đăng ký. Nếu là hệ rủi ro cao nhưng nằm ngoài danh mục đó, bệnh viện/nhà cung cấp được quyền chọn: tự đánh giá, hoặc thuê tổ chức đánh giá sự phù hợp. Đây là điểm hay bị hiểu lầm: mức rủi ro và nghĩa vụ chứng nhận là hai câu hỏi khác nhau, phải tra danh mục cụ thể mới trả lời được câu thứ hai.</p>
+</section>
+<section id="lưu-ý" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="lưu-ý"><span class="header-section-number">7.8</span> Lưu ý</h2>
+<p>Đây là ví dụ minh hoạ cách áp dụng phương pháp, không phải một bộ hồ sơ đánh giá rủi ro hoàn chỉnh cho hệ thống y tế thật. Triển khai thật cần đội ngũ liên ngành: chuyên gia lâm sàng, kỹ sư AI, và người am hiểu pháp lý cùng ngồi lại, không phải việc một mình bộ phận kỹ thuật tự làm.</p>
+</section>
+<section id="câu-hỏi-ôn-tập" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="câu-hỏi-ôn-tập"><span class="header-section-number">7.9</span> Câu hỏi ôn tập</h2>
+<pre class="quiz"><code>Q: Tại sao Clause 6 (Hoạch định) được coi là bước bản lề trong hệ thống quản lý AI (AIMS)?
+-* Vì nó cung cấp các tiêu chí và nền tảng để vận hành và đánh giá hiệu suất ở các bước sau.
+- Vì đây là bước duy nhất yêu cầu sự tham gia của lãnh đạo bệnh viện.
+- Vì nó tập trung hoàn toàn vào việc huấn luyện mô hình AI để đạt độ chính xác cao nhất.
+- Vì đây là bước cuối cùng trước khi đưa hệ thống AI vào sử dụng thực tế.
+E: Hãy xem xét mối liên hệ giữa Hoạch định với Vận hành (Clause 8) và Đánh giá hiệu suất (Clause 9).
+
+Q: Trong ví dụ về hệ thống X-Triage, tại sao việc giới hạn phạm vi (Scope) lại quan trọng?
+- Để đảm bảo AI có thể thay thế hoàn toàn bác sĩ trong việc chẩn đoán.
+-* Vì mọi bước đánh giá rủi ro sau đó đều dựa trên phạm vi đã khoanh vùng này.
+- Để tránh việc phải tuân thủ các quy định của Luật AI Việt Nam.
+- Để giảm bớt số lượng dữ liệu cần thiết cho việc huấn luyện mô hình.
+E: Phạm vi là thứ đầu tiên cần ghi vào tài liệu AIMS để làm cơ sở cho các bước tiếp theo.
+
+Q: Theo tiêu chí rủi ro trong ví dụ X-Triage, một rủi ro được coi là 'Cao' khi nào?
+- Khi nó gây ra lỗi kỹ thuật nhỏ làm chậm tiến độ vận hành.
+- Khi nó gây ra sự chậm trễ trong điều trị nhưng chưa đe dọa tính mạng.
+-* Khi nó ảnh hưởng trực tiếp đến tính mạng hoặc gây thương tật vĩnh viễn cho bệnh nhân.
+- Khi hệ thống AI không thể kết nối được với cảm biến đeo tay.
+E: Hãy chú ý đến mức độ nghiêm trọng nhất của hậu quả đối với con người.
+
+Q: Hiện tượng điều dưỡng tin tuyệt đối vào AI mà bỏ qua các dấu hiệu lâm sàng thực tế được gọi là gì trong Clause 6.1.4?
+- Lỗi dữ liệu đầu vào (Data noise).
+-* Sử dụng sai có thể lường trước (Foreseeable misuse).
+- Thiên kiến dữ liệu (Data bias).
+- Phê duyệt rủi ro còn lại (Residual risk approval).
+E: Khái niệm này liên quan đến cách con người tương tác sai lệch với hệ thống AI.
+
+Q: Văn bản Statement of Applicability (SoA) theo Clause 6.1.3 có mục đích gì?
+-* Liệt kê các kiểm soát nào được áp dụng và không áp dụng kèm lý do cụ thể.
+- Thay thế cho toàn bộ hồ sơ đánh giá rủi ro của bệnh viện.
+- Dùng để quảng bá tính năng kỹ thuật của hệ thống AI cho bệnh nhân.
+- Liệt kê danh sách tất cả các bệnh nhân đã từng sử dụng hệ thống X-Triage.
+E: Hãy nhớ đến việc đối chiếu các biện pháp kiểm soát với Annex A.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

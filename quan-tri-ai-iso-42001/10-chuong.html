@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Clause 9: Đánh giá hiệu suất — Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="10-chuong.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clause 9: Đánh giá hiệu suất</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="từ-dữ-liệu-vận-hành-đến-câu-hỏi-có-đang-tốt-thật-không" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="từ-dữ-liệu-vận-hành-đến-câu-hỏi-có-đang-tốt-thật-không"><span class="header-section-number">11.1</span> Từ dữ liệu vận hành đến câu hỏi “có đang tốt thật không?”</h2>
+<p>Sau khi Clause 8 chạy, hệ thống quản lý AI (AIMS) bắt đầu sinh ra dữ liệu vận hành: hồ sơ đánh giá rủi ro, kết quả kiểm chuẩn, log hệ thống. Nhưng dữ liệu thô tự nó không trả lời được câu hỏi quan trọng nhất: hệ thống có đang thật sự hoạt động tốt không, và làm sao biết? Đó là việc của Clause 9 (Đánh giá hiệu suất). Không đo lường thì không phân biệt được một AIMS đang sống với một AIMS hình thức chỉ tồn tại trong tủ hồ sơ.</p>
+<p>Clause 9 tổ chức việc “soi lại hệ thống” thành ba tầng, mỗi tầng một độ sâu và một người chịu trách nhiệm khác nhau:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tầng</th>
+<th style="text-align: left;">Mục</th>
+<th style="text-align: left;">Nhịp</th>
+<th style="text-align: left;">Ai làm</th>
+<th style="text-align: left;">Trả lời câu hỏi gì</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Theo dõi và đo lường</td>
+<td style="text-align: left;">9.1</td>
+<td style="text-align: left;">Liên tục/thường xuyên</td>
+<td style="text-align: left;">Bộ phận vận hành, kỹ thuật</td>
+<td style="text-align: left;">Các con số có đạt không, xu hướng đi lên hay xuống</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Đánh giá nội bộ</td>
+<td style="text-align: left;">9.2</td>
+<td style="text-align: left;">Chu kỳ đã hoạch định</td>
+<td style="text-align: left;">Đánh giá viên nội bộ khách quan</td>
+<td style="text-align: left;">Hệ thống có phù hợp yêu cầu và được duy trì thật không</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Xem xét của lãnh đạo</td>
+<td style="text-align: left;">9.3</td>
+<td style="text-align: left;">Chu kỳ đã hoạch định</td>
+<td style="text-align: left;">Lãnh đạo cao nhất</td>
+<td style="text-align: left;">Toàn hệ thống còn phù hợp, thỏa đáng, hiệu lực không; cần quyết gì</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="theo-dõi-đo-lường-phân-tích-và-đánh-giá" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="theo-dõi-đo-lường-phân-tích-và-đánh-giá"><span class="header-section-number">11.2</span> 9.1: Theo dõi, đo lường, phân tích và đánh giá</h2>
+<p>Theo 9.1, tổ chức phải xác định rõ bốn thứ:</p>
+<ol type="1">
+<li>Cái gì cần được theo dõi và đo lường.</li>
+<li>Phương pháp theo dõi, đo lường, phân tích, đánh giá (khi áp dụng) để bảo đảm kết quả hợp lệ.</li>
+<li>Khi nào thực hiện theo dõi và đo lường.</li>
+<li>Khi nào kết quả được phân tích và đánh giá.</li>
+</ol>
+<p>Thông tin dạng văn bản phải sẵn có làm bằng chứng cho kết quả. Và tổ chức phải đánh giá cả hai thứ: hiệu suất (performance) và tính hiệu lực (effectiveness) của AIMS. Hai khái niệm này khác nhau: hiệu suất nói về việc quy trình và model đang chạy tốt đến đâu (tốc độ xử lý, độ chính xác); tính hiệu lực nói về việc các mục tiêu AI đặt ra ở Clause 6 có đạt được không. Một model có độ chính xác kỹ thuật cao nhưng không giúp giảm rủi ro về quyền riêng tư như mục tiêu đã cam kết thì hệ thống vẫn thiếu hiệu lực.</p>
+<p>Hai điểm dễ làm thiếu ở 9.1:</p>
+<ul>
+<li><strong>Chỉ đo model, quên đo các biện pháp kiểm soát.</strong> Các kiểm soát đã chọn theo Annex A cũng cần được theo dõi xem có được tuân thủ không, ví dụ mức độ tuân thủ quy trình quản lý chất lượng dữ liệu, tần suất rà soát quyền truy cập hệ thống AI.</li>
+<li><strong>Chỉ nhìn con số tại một thời điểm, không nhìn xu hướng.</strong> Một con số rời rạc nói được rất ít; một chuỗi số theo thời gian cho thấy hệ thống đang tốt lên hay xấu đi mới là thứ giúp hành động kịp.</li>
+</ul>
+<p>Ví dụ: một bệnh viện dùng AI hỗ trợ chẩn đoán hình ảnh theo dõi độ chính xác hằng tháng, đồng thời đo tỉ lệ bác sĩ thực sự rà soát lại kết quả AI trước khi ký. Nếu xu hướng cho thấy tỉ lệ rà soát giảm dần, đó là tín hiệu của rủi ro phụ thuộc quá mức đã nhận diện từ khâu hoạch định, dù độ chính xác model vẫn đạt.</p>
+</section>
+<section id="đánh-giá-nội-bộ" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="đánh-giá-nội-bộ"><span class="header-section-number">11.3</span> 9.2: Đánh giá nội bộ</h2>
+<p><strong>9.2.1:</strong> tổ chức phải tiến hành đánh giá nội bộ theo chu kỳ đã hoạch định, để có thông tin về việc AIMS (a) có phù hợp với các yêu cầu của chính tổ chức đối với AIMS của mình VÀ các yêu cầu của tiêu chuẩn không, (b) có được triển khai và duy trì một cách hiệu lực không.</p>
+<p>Chữ “VÀ” ở đây hay bị đọc lướt: cuộc đánh giá nội bộ kiểm tra theo hai bộ tiêu chí cùng lúc. Một tổ chức đáp ứng đủ các điều khoản của chuẩn nhưng vi phạm đúng quy định nội bộ mà mình tự đặt ra (ví dụ quy trình phê duyệt model chặt hơn mức chuẩn đòi) thì vẫn là không phù hợp.</p>
+<p><strong>9.2.2:</strong> tổ chức phải hoạch định, thiết lập, triển khai và duy trì chương trình đánh giá nội bộ, gồm tần suất, phương pháp, trách nhiệm, yêu cầu hoạch định và báo cáo. Khi lập chương trình phải cân nhắc tầm quan trọng của các quy trình liên quan và kết quả các cuộc đánh giá trước: chỗ nào quan trọng hơn, chỗ nào từng có vấn đề thì soi kỹ hơn và thường xuyên hơn. Với từng cuộc đánh giá, tổ chức phải:</p>
+<ul>
+<li>Xác định mục tiêu, tiêu chí và phạm vi.</li>
+<li>Chọn đánh giá viên và tiến hành đánh giá sao cho bảo đảm tính khách quan và vô tư. Nguyên tắc thực hành rút ra từ yêu cầu này: không ai tự đánh giá công việc của chính mình. Trưởng nhóm AI tự chấm quy trình của nhóm AI là vô giá trị về mặt kiểm soát. Tổ chức nhỏ không đủ người thường xử lý bằng cách đánh giá chéo giữa các bộ phận, hoặc thuê người ngoài thực hiện cuộc đánh giá nội bộ, miễn giữ được tính khách quan.</li>
+<li>Bảo đảm kết quả đánh giá được báo cáo tới cấp quản lý liên quan.</li>
+</ul>
+<p>Thông tin dạng văn bản phải sẵn có làm bằng chứng của cả chương trình lẫn kết quả đánh giá.</p>
+<p>Ví dụ: một công ty bảo hiểm đánh giá nội bộ mỗi 6 tháng. Kỳ trước phát hiện điểm yếu ở khâu minh bạch của thuật toán định phí, nên chương trình kỳ này dành thời lượng lớn hơn cho đúng khu vực đó, thay vì rải đều máy móc.</p>
+<p>Đây cũng là lần đầu trong chuẩn xuất hiện vai trò “đánh giá viên” đúng nghĩa. Cách một cuộc đánh giá được chuẩn bị, tiến hành, ghi nhận phát hiện ra sao là cả một phương pháp luận riêng; bài 20 của khoá sẽ dành riêng cho chủ đề đó.</p>
+</section>
+<section id="xem-xét-của-lãnh-đạo" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="xem-xét-của-lãnh-đạo"><span class="header-section-number">11.4</span> 9.3: Xem xét của lãnh đạo</h2>
+<p><strong>9.3.1:</strong> lãnh đạo cao nhất phải xem xét AIMS theo chu kỳ đã hoạch định, để bảo đảm nó tiếp tục phù hợp, thỏa đáng và hiệu lực.</p>
+<p><strong>9.3.2:</strong> đây không phải cuộc họp báo cáo thành tích. Chuẩn liệt kê cụ thể các đầu vào bắt buộc của cuộc xem xét:</p>
+<ul>
+<li>Tình trạng các hành động từ các lần xem xét trước.</li>
+<li>Thay đổi trong các vấn đề bên ngoài và nội bộ liên quan tới AIMS (ví dụ luật AI mới có hiệu lực).</li>
+<li>Thay đổi trong nhu cầu và kỳ vọng của các bên quan tâm.</li>
+<li>Thông tin về hiệu suất của AIMS, bao gồm xu hướng về: sự không phù hợp và hành động khắc phục; kết quả theo dõi và đo lường; kết quả đánh giá nội bộ.</li>
+<li>Cơ hội cải tiến liên tục.</li>
+</ul>
+<p>Chữ “xu hướng” lặp lại đúng tinh thần của 9.1: lãnh đạo cần thấy đường đi của hệ thống, không phải một lát cắt đẹp.</p>
+<p><strong>9.3.3:</strong> kết quả xem xét phải bao gồm các quyết định về cơ hội cải tiến liên tục và mọi nhu cầu thay đổi AIMS, có văn bản làm bằng chứng. Nghĩa là thước đo của một cuộc xem xét không phải chữ ký dưới biên bản, mà là quyết định đi kèm. Biên bản ghi “hệ thống hoạt động tốt” trong khi số liệu cho thấy rủi ro đang tăng, và không có quyết định nào về nguồn lực, đào tạo hay điều chỉnh hệ thống, là dấu hiệu cuộc xem xét chỉ mang tính hình thức.</p>
+<p>Ví dụ: ban giám đốc một công ty công nghệ họp xem xét AIMS nửa năm một lần. Sau khi xem báo cáo xu hướng model lệch dần theo thời gian (drift), cuộc họp ra quyết định cấp ngân sách gắn nhãn lại dữ liệu và bổ sung công cụ theo dõi công bằng của model, kèm thời hạn và người chịu trách nhiệm. Đó là một cuộc xem xét đúng nghĩa 9.3.</p>
+</section>
+<section id="sang-bài-sau" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sang-bài-sau"><span class="header-section-number">11.5</span> Sang bài sau</h2>
+<p>Clause 9 giúp tổ chức nhìn thấy chỗ lệch: chỉ số không đạt ở 9.1, phát hiện không phù hợp ở 9.2, quyết định thay đổi ở 9.3. Nhưng thấy lỗi rồi xử lý thế nào cho đúng bài bản, từ khắc phục tại chỗ đến truy nguyên nhân gốc để lỗi không quay lại, là nội dung của Clause 10 (Cải tiến liên tục) ở bài tiếp theo.</p>
+</section>
+<section id="câu-hỏi-ôn-tập" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="câu-hỏi-ôn-tập"><span class="header-section-number">11.6</span> Câu hỏi ôn tập</h2>
+<pre class="quiz"><code>Q: Mục tiêu chính của Điều khoản 9 (Đánh giá hiệu suất) trong hệ thống quản lý AI (AIMS) là gì?
+-* Xác định xem hệ thống có thực sự hoạt động tốt và đạt được mục tiêu đề ra hay không.
+- Chỉ tập trung vào việc đo lường độ chính xác kỹ thuật của các mô hình AI.
+- Thiết lập các biện pháp kiểm soát rủi ro mới cho hệ thống AI.
+- Lưu trữ hồ sơ vận hành để phục vụ mục đích thanh tra thuế.
+E: Hãy nghĩ về sự khác biệt giữa việc chỉ có dữ liệu và việc hiểu ý nghĩa của dữ liệu đó đối với mục tiêu tổ chức.
+
+Q: Sự khác biệt cơ bản giữa 'hiệu suất' (performance) và 'tính hiệu lực' (effectiveness) theo mục 9.1 là gì?
+-* Hiệu suất đo lường khả năng vận hành kỹ thuật; tính hiệu lực đo lường mức độ đạt được mục tiêu.
+- Hiệu suất dành cho con người; tính hiệu lực dành cho máy móc.
+- Hiệu suất đo lường bằng định tính; tính hiệu lực đo lường bằng định lượng.
+- Hiệu suất là kết quả của quá khứ; tính hiệu lực là dự báo tương lai.
+E: Một bên tập trung vào cách thức hoạt động của quy trình, một bên tập trung vào việc hoàn thành mục tiêu.
+
+Q: Tại sao việc chỉ đo lường các con số tại một thời điểm duy nhất bị coi là một thiếu sót trong mục 9.1?
+-* Vì con số rời rạc không thể hiện được hệ thống đang tốt lên hay xấu đi theo thời gian.
+- Vì tiêu chuẩn ISO bắt buộc phải sử dụng biểu đồ đường cho mọi báo cáo.
+- Vì các con số tại một thời điểm luôn luôn không chính xác.
+- Vì việc đo lường liên tục tốn ít chi phí hơn đo lường một lần.
+E: Hãy xem xét giá trị của việc so sánh dữ liệu hiện tại với dữ liệu trong quá khứ.
+
+Q: Theo yêu cầu của mục 9.2.1, cuộc đánh giá nội bộ phải kiểm tra sự phù hợp với những bộ tiêu chí nào?
+-* Cả các yêu cầu của tiêu chuẩn ISO và các quy định nội bộ do chính tổ chức đặt ra.
+- Chỉ cần đáp ứng các điều khoản ghi trong tiêu chuẩn ISO/IEC 42001.
+- Chỉ cần đáp ứng các quy trình vận hành nội bộ của công ty.
+- Chỉ tập trung vào các yêu cầu pháp lý của quốc gia sở tại.
+E: Lưu ý đến cụm từ nhấn mạnh sự kết hợp giữa quy định bên ngoài và cam kết bên trong.
+
+Q: Nguyên tắc quan trọng nhất khi chọn đánh giá viên nội bộ theo mục 9.2.2 là gì?
+-* Phải đảm bảo tính khách quan và vô tư, không ai tự đánh giá công việc của chính mình.
+- Đánh giá viên phải là người có thâm niên cao nhất trong bộ phận AI.
+- Đánh giá viên phải là người trực tiếp viết ra các thuật toán AI.
+- Chỉ những người bên ngoài tổ chức mới được phép thực hiện đánh giá nội bộ.
+E: Hãy nghĩ về cách ngăn chặn việc 'vừa đá bóng vừa thổi còi' trong kiểm soát hệ thống.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

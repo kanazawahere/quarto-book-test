@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Thực hành: kiểm soát vận hành AI chẩn đoán hình ảnh — Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Quản Trị AI Theo Luật Việt Nam &amp; ISO/IEC 42001</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="09-chuong.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thực hành: kiểm soát vận hành AI chẩn đoán hình ảnh</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="mục-tiêu-bài-thực-hành" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="mục-tiêu-bài-thực-hành"><span class="header-section-number">10.1</span> Mục tiêu bài thực hành</h2>
+<p>Bài trước đã học Clause 8 (Vận hành) trên lý thuyết. Bài này đi một vòng đời vận hành thật của một hệ thống AI y tế giả định, để thấy từng yêu cầu 8.1 đến 8.4 rơi vào đâu trong công việc hằng ngày của một bệnh viện: ai làm gì, khi nào phải chạy lại quy trình nào, và hồ sơ nào phải nằm lại sau mỗi bước.</p>
+</section>
+<section id="hệ-thống-giả-định-r-scan" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="hệ-thống-giả-định-r-scan"><span class="header-section-number">10.2</span> Hệ thống giả định: R-Scan</h2>
+<ul>
+<li><strong>Hệ thống:</strong> R-Scan, AI hỗ trợ đọc phim X-quang ngực, triển khai tại một bệnh viện tuyến tỉnh.</li>
+<li><strong>Chức năng:</strong> khoanh vùng nghi ngờ bất thường trên phim (nốt mờ, tràn dịch) và xếp mức ưu tiên đọc, ca nghi ngờ nặng được đẩy lên đầu danh sách chờ.</li>
+<li><strong>Vai trò con người:</strong> AI chỉ hỗ trợ. Bác sĩ chẩn đoán hình ảnh vẫn là người đọc phim, chỉnh sửa nếu cần và ký kết quả cuối cùng.</li>
+<li><strong>Nguồn cung:</strong> thuê từ nhà cung cấp bên ngoài, nhà cung cấp cập nhật model định kỳ.</li>
+</ul>
+<p>Chi tiết cuối cùng quan trọng hơn vẻ ngoài của nó: vì R-Scan là hàng thuê ngoài, đoạn cuối của 8.1 (kiểm soát quy trình, sản phẩm, dịch vụ do bên ngoài cung cấp) áp dụng trực tiếp, và phần lớn rắc rối trong bài này xoay quanh chính điểm đó.</p>
+</section>
+<section id="tình-huống-1-dựng-kiểm-soát-vận-hành-8.1" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="tình-huống-1-dựng-kiểm-soát-vận-hành-8.1"><span class="header-section-number">10.3</span> Tình huống 1: Dựng kiểm soát vận hành (8.1)</h2>
+<p>Việc đầu tiên theo 8.1 là thiết lập tiêu chí cho các quy trình, để vận hành có thước đo thay vì cảm tính. Một bộ tiêu chí minh hoạ cho R-Scan có thể như sau (con số là ví dụ, mỗi bệnh viện phải tự xác định cùng hội đồng chuyên môn của mình):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tiêu chí</th>
+<th style="text-align: left;">Ngưỡng ví dụ</th>
+<th style="text-align: left;">Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Độ nhạy trên bộ phim kiểm chuẩn nội bộ</td>
+<td style="text-align: left;">không dưới 90%</td>
+<td style="text-align: left;">Bỏ sót tổn thương là rủi ro nặng nhất</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tỉ lệ cảnh báo giả</td>
+<td style="text-align: left;">có trần rõ ràng</td>
+<td style="text-align: left;">Cảnh báo giả tràn lan làm bác sĩ mệt mỏi và mất tin vào hệ thống</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thời gian xử lý mỗi phim</td>
+<td style="text-align: left;">có trần rõ ràng</td>
+<td style="text-align: left;">Quá chậm thì mất luôn tác dụng xếp ưu tiên</td>
+</tr>
+</tbody>
+</table>
+<p>Vì R-Scan do bên ngoài cung cấp, bệnh viện cần một quy trình kiểm soát nhà cung cấp gắn với các tiêu chí trên. Ví dụ: trước mỗi lần nhà cung cấp đẩy model mới, một nhóm phụ trách (trưởng khoa chẩn đoán hình ảnh, phụ trách công nghệ thông tin, phụ trách quản lý chất lượng) chạy model mới trên bộ phim kiểm chuẩn, so kết quả với ngưỡng, lập biên bản phê duyệt hoặc từ chối, rồi mới cho lên môi trường thật. Sau khi lên, theo dõi sát một thời gian đầu để bắt các thay đổi ngoài ý muốn, đúng yêu cầu của 8.1 về rà soát hậu quả của thay đổi và hành động giảm thiểu tác động bất lợi.</p>
+<p>Kết thúc tình huống 1, thứ nằm lại là hồ sơ: bộ tiêu chí đã phê duyệt, kết quả chạy kiểm chuẩn từng phiên bản model, biên bản phê duyệt. 8.1 nói rõ thông tin dạng văn bản phải sẵn có ở mức cần thiết để tin rằng quy trình được thực hiện đúng kế hoạch.</p>
+</section>
+<section id="tình-huống-2-thay-đổi-đáng-kể-kích-hoạt-đánh-giá-rủi-ro-8.2" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="tình-huống-2-thay-đổi-đáng-kể-kích-hoạt-đánh-giá-rủi-ro-8.2"><span class="header-section-number">10.4</span> Tình huống 2: Thay đổi đáng kể kích hoạt đánh giá rủi ro (8.2)</h2>
+<p>Bệnh viện đầu tư hai máy X-quang kỹ thuật số đời mới. Cảm biến thế hệ khác, đặc tính hình ảnh khác đáng kể so với máy cũ mà R-Scan được huấn luyện trên đó.</p>
+<p>Đây là một thay đổi đáng kể theo nghĩa của 8.2. Bệnh viện không được mặc định model sẽ chạy tốt trên ảnh từ máy mới, mà phải chạy lại đánh giá rủi ro AI theo đúng quy trình 6.1.2 đã định nghĩa từ khâu hoạch định. Rủi ro mới cần phân tích: model giảm độ chính xác trên ảnh có đặc tính khác với dữ liệu huấn luyện.</p>
+<p>Ngoài các lần đột xuất do thay đổi, 8.2 còn yêu cầu đánh giá rủi ro theo chu kỳ đã hoạch định. Chu kỳ cụ thể do tổ chức tự chọn (ví dụ mỗi 6 tháng), miễn là có kế hoạch và giữ đúng. Kết quả của mọi lần đánh giá, định kỳ hay đột xuất, đều phải lưu thành văn bản.</p>
+</section>
+<section id="tình-huống-3-phương-án-xử-lý-không-hiệu-quả-8.3" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="tình-huống-3-phương-án-xử-lý-không-hiệu-quả-8.3"><span class="header-section-number">10.5</span> Tình huống 3: Phương án xử lý không hiệu quả (8.3)</h2>
+<p>Giả sử sau khi lắp máy mới, biện pháp xử lý đầu tiên là hiệu chỉnh tham số tiền xử lý ảnh. Chạy lại bộ kiểm chuẩn: độ nhạy trên ảnh máy mới chỉ đạt 75%, thấp hơn hẳn ngưỡng 90% đã cam kết.</p>
+<p>8.3 nói rõ cách hành xử trong tình huống này: khi phương án xử lý rủi ro không hiệu quả, không được bỏ mặc để vận hành tiếp. Tổ chức phải rà soát và xác nhận lại phương án theo quy trình 6.1.3, rồi cập nhật kế hoạch xử lý rủi ro. Với R-Scan, phương án cập nhật có thể gồm hai việc song song:</p>
+<ol type="1">
+<li>Yêu cầu nhà cung cấp fine-tune model trên dữ liệu ảnh từ máy mới, có thời hạn và tiêu chí nghiệm thu rõ.</li>
+<li>Trong lúc chờ: tạm dừng dùng R-Scan cho phim chụp từ máy mới, thông báo bằng văn bản cho toàn khoa. Phim từ máy cũ vẫn dùng bình thường vì vẫn đạt ngưỡng.</li>
+</ol>
+<p>Chỉ mở lại R-Scan cho máy mới khi kết quả kiểm chuẩn sau fine-tune đạt ngưỡng. Toàn bộ chuỗi này, từ phát hiện không đạt, quyết định tạm dừng, đến kết quả nghiệm thu, đều vào hồ sơ xử lý rủi ro, vì 8.3 yêu cầu lưu kết quả của tất cả các lần xử lý.</p>
+</section>
+<section id="tình-huống-4-đánh-giá-tác-động-định-kỳ-8.4" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="tình-huống-4-đánh-giá-tác-động-định-kỳ-8.4"><span class="header-section-number">10.6</span> Tình huống 4: Đánh giá tác động định kỳ (8.4)</h2>
+<p>Theo 8.4, đánh giá tác động hệ thống AI (quy trình 6.1.4) cũng chạy theo chu kỳ đã hoạch định, ví dụ hằng năm, và khi có thay đổi đáng kể. Với R-Scan, nội dung đánh giá nhìn vào hậu quả tiềm tàng cho cá nhân, nhóm người và xã hội:</p>
+<ul>
+<li><strong>An toàn bệnh nhân:</strong> thống kê các ca hệ thống bỏ sót tổn thương và ảnh hưởng tới thời điểm bắt đầu điều trị.</li>
+<li><strong>Công bằng giữa các nhóm bệnh nhân:</strong> kiểm tra xem R-Scan có kém chính xác hơn trên nhóm đặc thù không, ví dụ trẻ em hoặc người cao tuổi có cấu trúc xương khác biệt.</li>
+<li><strong>Tác động lên quy trình làm việc:</strong> mức độ phụ thuộc của bác sĩ, nhất là bác sĩ trẻ, vào gợi ý của hệ thống.</li>
+</ul>
+<p>Kết quả đánh giá lập thành văn bản và lưu lại, như mọi tình huống trước.</p>
+</section>
+<section id="đối-chiếu-luật-ai-việt-nam" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="đối-chiếu-luật-ai-việt-nam"><span class="header-section-number">10.7</span> Đối chiếu Luật AI Việt Nam</h2>
+<p>R-Scan ảnh hưởng trực tiếp tới kết quả chẩn đoán bệnh, nhiều khả năng rơi vào nhóm rủi ro cao theo Điều 9.1.a Luật 134/2025/QH15 (hệ thống có thể gây thiệt hại đáng kể đến tính mạng, sức khỏe), và y tế thuộc nhóm lĩnh vực thiết yếu theo Điều 6.2.a.</p>
+<p>Như đã học ở bài 6, rủi ro cao không tự động kéo theo nghĩa vụ thuê bên thứ ba đánh giá: theo Điều 13, chỉ hệ thống thuộc danh mục bắt buộc chứng nhận mới phải qua tổ chức đánh giá sự phù hợp đã đăng ký; ngoài danh mục, nhà cung cấp được chọn tự đánh giá hoặc thuê tổ chức đánh giá. Nhưng dù rơi vào nhánh nào, bộ hồ sơ vận hành sinh ra từ bốn tình huống trên (biên bản phê duyệt model, kết quả kiểm chuẩn, hồ sơ đánh giá rủi ro và tác động, kế hoạch xử lý đã cập nhật) chính là thứ bệnh viện cần có sẵn khi được yêu cầu giải trình, thay vì dựng hồ sơ vội sau khi bị hỏi.</p>
+</section>
+<section id="lưu-ý-khi-áp-dụng" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="lưu-ý-khi-áp-dụng"><span class="header-section-number">10.8</span> Lưu ý khi áp dụng</h2>
+<p>Ba điểm mang theo từ bài này:</p>
+<ol type="1">
+<li><strong>Vận hành AI y tế là việc liên ngành.</strong> Chuyên môn lâm sàng, kỹ thuật hệ thống và quản lý chất lượng phải cùng ngồi trong quy trình phê duyệt, không phải việc riêng của bộ phận công nghệ.</li>
+<li><strong>Không có hồ sơ thì khó chứng minh việc kiểm soát đã diễn ra.</strong> Mỗi tình huống ở trên đều kết thúc bằng một văn bản nằm lại trong hệ thống, đó không phải thủ tục thừa.</li>
+<li><strong>Đây là ví dụ minh hoạ phương pháp</strong>, không phải bộ hồ sơ vận hành hoàn chỉnh. Con số ngưỡng, chu kỳ, thành phần hội đồng trong bài là ví dụ; triển khai thật phải do đội lâm sàng, kỹ thuật và pháp lý của chính tổ chức xác định. Với hệ thống AI can thiệp sâu hơn (ví dụ hỗ trợ phẫu thuật), mức độ kiểm soát cần khắt khe hơn tương ứng.</li>
+</ol>
+</section>
+<section id="câu-hỏi-ôn-tập" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="câu-hỏi-ôn-tập"><span class="header-section-number">10.9</span> Câu hỏi ôn tập</h2>
+<pre class="quiz"><code>Q: Theo Clause 8.1, bước đầu tiên cần thực hiện để thiết lập kiểm soát vận hành cho hệ thống AI như R-Scan là gì?
+-* Thiết lập các tiêu chí cụ thể cho các quy trình để có thước đo vận hành.
+- Yêu cầu nhà cung cấp cam kết bảo hành hệ thống vĩnh viễn.
+- Chỉ định duy nhất bộ phận IT chịu trách nhiệm phê duyệt mọi thay đổi.
+- Tự động cập nhật mọi phiên bản model mới ngay khi nhà cung cấp phát hành.
+E: Hãy nghĩ về việc làm thế nào để biết một hệ thống đang chạy 'tốt' hay 'không tốt' một cách khách quan.
+
+Q: Trong ví dụ về R-Scan, tại sao 'Tỉ lệ cảnh báo giả' cần phải có một ngưỡng trần rõ ràng?
+-* Để tránh gây mệt mỏi cho bác sĩ và làm suy giảm niềm tin vào hệ thống.
+- Để tiết kiệm dung lượng lưu trữ của máy chủ bệnh viện.
+- Vì Luật AI Việt Nam quy định mức cảnh báo giả tối đa là 5%.
+- Để đảm bảo model không bị quá nhiệt khi xử lý dữ liệu.
+E: Hãy xem xét tác động tâm lý và hiệu suất làm việc của bác sĩ khi phải đối mặt với quá nhiều thông tin sai lệch.
+
+Q: Khi bệnh viện thay thế máy X-quang cũ bằng dòng máy mới có cảm biến hiện đại hơn, hành động nào sau đây là bắt buộc theo Clause 8.2?
+-* Chạy lại quy trình đánh giá rủi ro AI do đây là một thay đổi đáng kể.
+- Tiếp tục sử dụng hệ thống bình thường vì máy mới luôn cho ảnh tốt hơn.
+- Xóa toàn bộ hồ sơ đánh giá rủi ro cũ để tránh nhầm lẫn.
+- Chỉ cần thông báo bằng miệng cho các bác sĩ trực ca.
+E: Thay đổi thiết bị đầu vào ảnh hưởng trực tiếp đến chất lượng dữ liệu mà AI xử lý.
+
+Q: Trong tình huống phương án xử lý rủi ro không đạt hiệu quả (ví dụ độ nhạy chỉ đạt 75% thay vì 90%), Clause 8.3 yêu cầu tổ chức làm gì?
+-* Rà soát, xác nhận lại phương án và cập nhật kế hoạch xử lý rủi ro.
+- Điều chỉnh ngưỡng tiêu chí xuống 75% để phù hợp với thực tế.
+- Yêu cầu bác sĩ tự bù đắp sai số của AI mà không cần văn bản hướng dẫn.
+- Ngừng sử dụng AI vĩnh viễn trên toàn bộ bệnh viện.
+E: Tổ chức cần phải phản ứng một cách có hệ thống khi các biện pháp ngăn ngừa rủi ro ban đầu thất bại.
+
+Q: Nội dung nào sau đây là một phần của đánh giá tác động định kỳ theo Clause 8.4 cho hệ thống R-Scan?
+-* Kiểm tra xem AI có kém chính xác hơn trên các nhóm bệnh nhân đặc thù như trẻ em hay không.
+- Tính toán hóa đơn tiền điện hàng tháng của máy chủ AI.
+- Kiểm tra thời hạn hợp đồng thuê phần mềm với nhà cung cấp.
+- Thống kê số lượng phim X-quang đã chụp được trong năm.
+E: Hãy chú ý đến các yếu tố về an toàn, công bằng và sự thay đổi hành vi con người khi sử dụng công nghệ.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>
