@@ -385,7 +385,15 @@
       input.value = "";
       add("kbw-chat-user", q);
       history.push({ role: "user", content: q });
-      var wait = add("kbw-chat-bot", "Đang suy nghĩ…");
+      // NIM free-tier latency dao động 20-95s (đo thật 2026-08-27) — nói thật + đếm giây
+      // để người dùng không tưởng treo (Batin tưởng treo ở giây thứ ~5).
+      var wait = add("kbw-chat-bot", "Đang suy nghĩ… (máy chủ miễn phí, có thể mất 20–60 giây)");
+      var secs = 0;
+      var tick = setInterval(function () {
+        secs += 5;
+        if (wait.textContent.indexOf("Đang suy nghĩ") === 0)
+          wait.textContent = "Đang suy nghĩ… " + secs + "s (máy chủ miễn phí, ráng chờ chút)";
+      }, 5000);
       fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -396,10 +404,11 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (d) {
+          clearInterval(tick);
           wait.textContent = d.reply || d.error || "(lỗi không rõ)";
           if (d.reply) history.push({ role: "assistant", content: d.reply });
         })
-        .catch(function () { wait.textContent = "Mất kết nối — thử lại sau."; });
+        .catch(function () { clearInterval(tick); wait.textContent = "Mất kết nối — thử lại sau."; });
     });
   });
 })();
