@@ -98,3 +98,29 @@ article[data-kb-leaf-href] p {
 .kbw-chat-form { border-top: 1px solid var(--color-subtle); display: flex; gap: 0.5rem; padding: 0.6rem; }
 .kbw-chat-form input { background: var(--color-bg); border: 1px solid var(--color-subtle-dark); border-radius: 1.2em; color: var(--color-ink); flex: 1; padding: 0.5em 0.9em; }
 .kbw-chat-form button { background: var(--color-ink); border: 0; border-radius: 1.2em; color: var(--color-bg); cursor: pointer; padding: 0.5em 1.1em; }
+
+/* ═══ TÊN CHƯƠNG DÀI: xuống dòng thay vì cắt "…" (Batin chốt 2026-08-27) ═══
+   Writebook gốc ellipsis 1 dòng — tên chương tiếng Việt dài bị cụt mất nghĩa.
+   Grid view: cho wrap tối đa 3 dòng. Không đụng vendor toc.css. */
+.toc__container:has(#toc-grid:checked) .toc__title .overflow-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: unset;
+  white-space: normal;
+}
+/* List view: bỏ nowrap để tên dài wrap, dấu chấm dẫn vẫn bám dòng cuối */
+.toc__container:has(#toc-list:checked) .toc__title {
+  white-space: normal;
+}
+.toc__container:has(#toc-list:checked) .toc__title .overflow-ellipsis {
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+/* Bookmark phải màu CAM (--color-marker) như bản gốc — bookmark.svg trong images/
+   fill đen mặc định, còn Writebook thật hardcode <svg fill="var(--color-marker)">
+   trong _leaf.html.erb. Override tại đây thay vì sửa file vendor. */
+.toc__bookmark svg, .toc__bookmark svg path { fill: var(--color-marker); }
