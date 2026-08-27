@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Data Analyst Agent với ADK và BigQuery — Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="04-adk-data-analyst-agent.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analyst Agent với ADK và BigQuery</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Làm thật <strong>2026-08-27</strong> — và lần này làm trên <strong>máy Linux headless</strong> (SSH, không Cloud Shell), nên chương này có nguyên một mỏ mìn mà bản gốc không bao giờ gặp: xác thực ADC không có browser. Bản gốc: <a href="https://codelabs.developers.google.com/devsite/codelabs/build-agents-with-adk-data-analyst-agent">codelab của Google</a>. Phiên bản lúc làm: <strong>google-adk 2.8.0</strong> (mới hơn hẳn bản codelab viết — vài import đã đổi tên).</p>
+<p><strong>Mục tiêu:</strong> dựng agent phân tích dữ liệu (ADK + Gemini) qua 4 nấc: chat cơ bản → đọc PDF → tìm web (<code>google_search</code>) → tự truy vấn BigQuery trên dataset public <code>cms_medicare</code> (dữ liệu Medicare Mỹ). Chi phí thật: ~0 đồng (query public dataset trong 1TB free tier, vài chục call Gemini Flash).</p>
+<section id="tiến-độ-của-bạn" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="tiến-độ-của-bạn"><span class="header-section-number">5.1</span> Tiến độ của bạn</h2>
+<pre class="checklist"><code># Môi trường
+- venv Python 3.12 + uv pip install google-adk
+- ADC sống (máy thật headless: xem MÌN #1)
+# 4 nấc agent
+- adk create bằng flags (khỏi trả lời TUI)
+- Chat cơ bản trả lời được
+- Nạp PDF, agent tóm tắt đúng
+- google_search trả kết quả web tươi
+# BigQuery
+- Cài đúng extra google-adk[bigquery-analytics]
+- Agent tự khám dataset + chạy SQL đúng project
+- Cleanup (đừng rm -rf ~/.cache! — xem MÌN #0)</code></pre>
+</section>
+<section id="mìn-0-đừng-chép-mù-lệnh-dọn-dẹp-của-cloud-shell" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="mìn-0-đừng-chép-mù-lệnh-dọn-dẹp-của-cloud-shell"><span class="header-section-number">5.2</span> 🔴 MÌN #0 — đừng chép mù lệnh dọn dẹp của Cloud Shell</h2>
+<p>Codelab mở đầu bằng <code>rm -rf ~/.cache</code> — đó là lệnh dọn <strong>quota đĩa Cloud Shell</strong>. Chạy nguyên xi trên máy thật là phá cache của cả hệ thống (pip, browser, font…). Đọc lệnh trước khi chép, nhất là lệnh <code>rm</code>.</p>
+</section>
+<section id="bước-1-môi-trường" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="bước-1-môi-trường"><span class="header-section-number">5.3</span> Bước 1 — Môi trường</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/ai-agents-adk <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> ~/ai-agents-adk</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span> 3.12 <span class="kw">&amp;&amp;</span> <span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install google-adk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="mìn-1-máy-headless-không-có-adc-và-đường-vòng-sa-key-cũng-bị-khoá" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="mìn-1-máy-headless-không-có-adc-và-đường-vòng-sa-key-cũng-bị-khoá"><span class="header-section-number">5.4</span> 🔴 MÌN #1 — máy headless không có ADC, và đường vòng SA-key cũng bị khoá</h2>
+<p><code>adk</code> gọi Vertex AI qua <strong>Application Default Credentials</strong>. Trên máy không có browser, <code>gcloud auth application-default login</code> chết ngay (đòi mở trình duyệt). Đường vòng kinh điển — tạo service account key — cũng chết nốt, lỗi nguyên văn:</p>
+<pre><code>FAILED_PRECONDITION: Key creation is not allowed on this service account.
+type: constraints/iam.disableServiceAccountKeyCreation</code></pre>
+<p>Org policy mặc định của project mới (2024+) <strong>cấm tạo SA key</strong>. Cách vượt đã chạy thật: <code>gcloud</code> CLI vốn đã đăng nhập rồi — móc refresh token của chính nó ra làm ADC:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-</span> <span class="op">&lt;&lt;'EOF'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">import sqlite3, json, os</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">db = os.path.expanduser("~/.config/gcloud/credentials.db")</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">row = sqlite3.connect(db).execute("select value from credentials").fetchone()</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">cred = json.loads(row[0])</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">adc = {</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">  "type": "authorized_user",</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">  "client_id": cred["client_id"],</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">  "client_secret": cred["client_secret"],</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">  "refresh_token": cred["refresh_token"],</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">  "quota_project_id": os.popen("gcloud config get-value project").read().strip(),</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">out = os.path.expanduser("~/.config/gcloud/application_default_credentials.json")</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">json.dump(adc, open(out, "w"), indent=2)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">print("ADC OK:", out)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> auth application-default print-access-token <span class="op">&gt;</span> /dev/null <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">"ADC sống"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Nhớ <code>quota_project_id</code> — thiếu là BigQuery client kêu thiếu quota project.</p>
+</section>
+<section id="bước-2-tạo-agent-không-cần-trả-lời-tui" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="bước-2-tạo-agent-không-cần-trả-lời-tui"><span class="header-section-number">5.5</span> Bước 2 — Tạo agent (không cần trả lời TUI)</h2>
+<p>Mẹo bản gốc không nói: <code>adk create</code> có flags, automation dùng thẳng:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adk</span> create data_analyst_agent <span class="at">--model</span> gemini-2.5-flash <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--project</span> <span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span> <span class="at">--region</span> us-central1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Lưu ý version: adk 2.8.0 ghi <code>.env</code> bằng biến mới <code>GOOGLE_GENAI_USE_ENTERPRISE=1</code> (tài liệu cũ là <code>GOOGLE_GENAI_USE_VERTEXAI=1</code> — cả hai đều được hiểu, đừng hoảng khi diff).</p>
+<p>Chat thử: có UI (<code>adk web</code>) hoặc headless ~15 dòng Python với <code>InMemoryRunner</code>. “Upload” PDF khi headless = <code>types.Part.from_bytes(data=..., mime_type='application/pdf')</code> đặt TRƯỚC phần text trong cùng message — kết quả thật: agent tóm tắt đúng file PDF báo cáo healthcare 2.4MB.</p>
+</section>
+<section id="bước-3-thêm-google_search" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="bước-3-thêm-google_search"><span class="header-section-number">5.6</span> Bước 3 — Thêm google_search</h2>
+<p><code>google_search</code> là tool built-in cắm thẳng vào Agent. Nhưng chú ý cho bước sau: <strong>built-in tool của Gemini không đứng chung với function tool khác trong 1 agent</strong> — nên khi trộn với BigQuery toolset, codelab phải bọc nó trong agent con qua <code>AgentTool</code>. Đó là kiến trúc bắt buộc, không phải kiểu cách.</p>
+</section>
+<section id="mìn-2-bigquery-toolset-cài-đúng-tên-extra-và-py_compile-không-cứu-được-bạn" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="mìn-2-bigquery-toolset-cài-đúng-tên-extra-và-py_compile-không-cứu-được-bạn"><span class="header-section-number">5.7</span> 🔴 MÌN #2 — BigQuery toolset: cài đúng TÊN extra, và py_compile không cứu được bạn</h2>
+<p>Chép nguyên code BigQuery của codelab chạy là chết:</p>
+<pre><code>ModuleNotFoundError: No module named 'google.cloud'</code></pre>
+<p>Cài <code>google-cloud-bigquery</code> xong chết tiếp: <code>ImportError: cannot import name 'dataplex_v1'</code>. Gốc: adk 2.8.0 <strong>không bundle BigQuery client</strong>, và tên extra đúng là:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="st">"google-adk[bigquery-analytics]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>(KHÔNG phải <code>[bigquery]</code>. Cài tay thì đủ bộ 3: <code>google-cloud-bigquery db-dtypes google-cloud-dataplex</code>.)</p>
+<p>Mìn trong mìn: ADK import <strong>lazy</strong> — <code>py_compile</code> PASS mà runtime mới nổ. Bài “py_compile trước khi chạy” của chương 3 vẫn đúng cho lỗi cú pháp, nhưng với toolset ADK phải chạy thật 1 câu mới tin được.</p>
+</section>
+<section id="mìn-3-agent-tự-bill-query-vào-project-của-người-khác" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="mìn-3-agent-tự-bill-query-vào-project-của-người-khác"><span class="header-section-number">5.8</span> 🔴 MÌN #3 — agent tự bill query vào… project của người khác</h2>
+<p>Mìn tinh vi nhất bài: hỏi agent query <code>bigquery-public-data.cms_medicare</code> → tool trả permission error, agent xin lỗi vòng vo (thậm chí tự bịa thử <code>project_id: 'gcp-data-ai'</code>). Gốc: tham số <code>project_id</code> của <code>execute_sql</code> là <strong>project TRẢ TIỀN cho query</strong> — LLM đoán nhầm nó là project chứa data, nên cố bill vào <code>bigquery-public-data</code> (dĩ nhiên không có quyền).</p>
+<p><strong>Fix 1 câu:</strong> nói rõ trong prompt hoặc instruction của agent: <em>“Run all SQL queries in my project <code>&lt;PROJECT_ID&gt;</code>”</em> → chạy ngọt ngay. Kết quả thật: agent tự chuỗi <code>get_dataset_info → list_table_ids → execute_sql</code>, trả đúng top-5 DRG theo lượt xuất viện (SEPTICEMIA 521.358 lượt…) và chi phí trung bình thay khớp ở California = $21.389,14.</p>
+</section>
+<section id="dọn-dẹp" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="dọn-dẹp"><span class="header-section-number">5.9</span> Dọn dẹp</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/ai-agents-adk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Mẹo ít ai biết: nếu lỡ xoá service account trước khi gỡ IAM binding, member trong policy biến thành <code>deleted:serviceAccount:…?uid=…</code> — phải <code>remove-iam-policy-binding</code> bằng <strong>đúng chuỗi deleted đó</strong> (lấy từ <code>get-iam-policy --flatten="bindings[].members"</code>), gõ tên cũ là không ăn.</p>
+</section>
+<section id="ôn-nhanh" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="ôn-nhanh"><span class="header-section-number">5.10</span> Ôn nhanh</h2>
+<pre class="quiz"><code>Q: Máy headless (không browser), cần ADC cho ADK/Vertex. gcloud auth application-default login chết, tạo SA key bị org policy chặn. Còn đường nào?
+- Chịu thua, phải qua Cloud Shell
+-* Móc refresh token từ credentials.db của gcloud (đã đăng nhập sẵn) tự ghi thành application_default_credentials.json kiểu authorized_user
+- Tắt org policy đi
+E: gcloud CLI đã có refresh token hợp lệ trong SQLite — dựng ADC từ nó, nhớ kèm quota_project_id.
+
+Q: Code BigQuery toolset của codelab chạy ra ModuleNotFoundError google.cloud dù py_compile PASS. Vì sao py_compile không bắt được?
+- py_compile bị lỗi
+-* ADK import lazy (__getattr__) — lỗi thiếu module chỉ nổ lúc runtime thật sự chạm tool, compile không đụng tới
+- Python version sai
+E: Với toolset ADK phải chạy thật 1 câu mới tin; và extra đúng tên là google-adk[bigquery-analytics].
+
+Q: Agent query dataset public bị permission error dù dataset ai cũng đọc được. Gốc ở đâu?
+- Dataset public cũng cần xin quyền
+-* Tham số project_id của execute_sql là project TRẢ TIỀN — LLM đoán nhầm thành project chứa data nên bill vào bigquery-public-data
+- BigQuery đang bảo trì
+E: Nói rõ "Run all SQL queries in my project X" trong instruction là hết — public data đọc free nhưng compute phải bill vào project của mình.
+
+Q: Lệnh đầu tiên của codelab là rm -rf ~/.cache. Chạy trên máy thật được không?
+- Được, lệnh chuẩn của Google mà
+-* KHÔNG — đó là lệnh dọn quota đĩa của Cloud Shell; máy thật sẽ mất cache pip/browser/font của cả hệ thống
+- Chỉ cần sudo là an toàn
+E: Codelab viết cho môi trường Cloud Shell dùng-xong-vứt. Đọc lệnh rm trước khi chép, luôn luôn.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>

@@ -298,5 +298,115 @@
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
     ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html",
+    "href": "04-adk-data-analyst-agent.html",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "",
+    "text": "5.1 Tiến độ của bạn\nLàm thật 2026-08-27 — và lần này làm trên máy Linux headless (SSH, không Cloud Shell), nên chương này có nguyên một mỏ mìn mà bản gốc không bao giờ gặp: xác thực ADC không có browser. Bản gốc: codelab của Google. Phiên bản lúc làm: google-adk 2.8.0 (mới hơn hẳn bản codelab viết — vài import đã đổi tên).\nMục tiêu: dựng agent phân tích dữ liệu (ADK + Gemini) qua 4 nấc: chat cơ bản → đọc PDF → tìm web (google_search) → tự truy vấn BigQuery trên dataset public cms_medicare (dữ liệu Medicare Mỹ). Chi phí thật: ~0 đồng (query public dataset trong 1TB free tier, vài chục call Gemini Flash).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#tiến-độ-của-bạn",
+    "href": "04-adk-data-analyst-agent.html#tiến-độ-của-bạn",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "",
+    "text": "# Môi trường\n- venv Python 3.12 + uv pip install google-adk\n- ADC sống (máy thật headless: xem MÌN #1)\n# 4 nấc agent\n- adk create bằng flags (khỏi trả lời TUI)\n- Chat cơ bản trả lời được\n- Nạp PDF, agent tóm tắt đúng\n- google_search trả kết quả web tươi\n# BigQuery\n- Cài đúng extra google-adk[bigquery-analytics]\n- Agent tự khám dataset + chạy SQL đúng project\n- Cleanup (đừng rm -rf ~/.cache! — xem MÌN #0)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#mìn-0-đừng-chép-mù-lệnh-dọn-dẹp-của-cloud-shell",
+    "href": "04-adk-data-analyst-agent.html#mìn-0-đừng-chép-mù-lệnh-dọn-dẹp-của-cloud-shell",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.2 🔴 MÌN #0 — đừng chép mù lệnh dọn dẹp của Cloud Shell",
+    "text": "5.2 🔴 MÌN #0 — đừng chép mù lệnh dọn dẹp của Cloud Shell\nCodelab mở đầu bằng rm -rf ~/.cache — đó là lệnh dọn quota đĩa Cloud Shell. Chạy nguyên xi trên máy thật là phá cache của cả hệ thống (pip, browser, font…). Đọc lệnh trước khi chép, nhất là lệnh rm.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#bước-1-môi-trường",
+    "href": "04-adk-data-analyst-agent.html#bước-1-môi-trường",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.3 Bước 1 — Môi trường",
+    "text": "5.3 Bước 1 — Môi trường\nmkdir -p ~/ai-agents-adk && cd ~/ai-agents-adk\nuv venv --python 3.12 && source .venv/bin/activate\nuv pip install google-adk",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#mìn-1-máy-headless-không-có-adc-và-đường-vòng-sa-key-cũng-bị-khoá",
+    "href": "04-adk-data-analyst-agent.html#mìn-1-máy-headless-không-có-adc-và-đường-vòng-sa-key-cũng-bị-khoá",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.4 🔴 MÌN #1 — máy headless không có ADC, và đường vòng SA-key cũng bị khoá",
+    "text": "5.4 🔴 MÌN #1 — máy headless không có ADC, và đường vòng SA-key cũng bị khoá\nadk gọi Vertex AI qua Application Default Credentials. Trên máy không có browser, gcloud auth application-default login chết ngay (đòi mở trình duyệt). Đường vòng kinh điển — tạo service account key — cũng chết nốt, lỗi nguyên văn:\nFAILED_PRECONDITION: Key creation is not allowed on this service account.\ntype: constraints/iam.disableServiceAccountKeyCreation\nOrg policy mặc định của project mới (2024+) cấm tạo SA key. Cách vượt đã chạy thật: gcloud CLI vốn đã đăng nhập rồi — móc refresh token của chính nó ra làm ADC:\npython3 - &lt;&lt;'EOF'\nimport sqlite3, json, os\ndb = os.path.expanduser(\"~/.config/gcloud/credentials.db\")\nrow = sqlite3.connect(db).execute(\"select value from credentials\").fetchone()\ncred = json.loads(row[0])\nadc = {\n  \"type\": \"authorized_user\",\n  \"client_id\": cred[\"client_id\"],\n  \"client_secret\": cred[\"client_secret\"],\n  \"refresh_token\": cred[\"refresh_token\"],\n  \"quota_project_id\": os.popen(\"gcloud config get-value project\").read().strip(),\n}\nout = os.path.expanduser(\"~/.config/gcloud/application_default_credentials.json\")\njson.dump(adc, open(out, \"w\"), indent=2)\nprint(\"ADC OK:\", out)\nEOF\ngcloud auth application-default print-access-token &gt; /dev/null && echo \"ADC sống\"\nNhớ quota_project_id — thiếu là BigQuery client kêu thiếu quota project.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#bước-2-tạo-agent-không-cần-trả-lời-tui",
+    "href": "04-adk-data-analyst-agent.html#bước-2-tạo-agent-không-cần-trả-lời-tui",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.5 Bước 2 — Tạo agent (không cần trả lời TUI)",
+    "text": "5.5 Bước 2 — Tạo agent (không cần trả lời TUI)\nMẹo bản gốc không nói: adk create có flags, automation dùng thẳng:\nadk create data_analyst_agent --model gemini-2.5-flash \\\n  --project $(gcloud config get-value project) --region us-central1\nLưu ý version: adk 2.8.0 ghi .env bằng biến mới GOOGLE_GENAI_USE_ENTERPRISE=1 (tài liệu cũ là GOOGLE_GENAI_USE_VERTEXAI=1 — cả hai đều được hiểu, đừng hoảng khi diff).\nChat thử: có UI (adk web) hoặc headless ~15 dòng Python với InMemoryRunner. “Upload” PDF khi headless = types.Part.from_bytes(data=..., mime_type='application/pdf') đặt TRƯỚC phần text trong cùng message — kết quả thật: agent tóm tắt đúng file PDF báo cáo healthcare 2.4MB.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#bước-3-thêm-google_search",
+    "href": "04-adk-data-analyst-agent.html#bước-3-thêm-google_search",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.6 Bước 3 — Thêm google_search",
+    "text": "5.6 Bước 3 — Thêm google_search\ngoogle_search là tool built-in cắm thẳng vào Agent. Nhưng chú ý cho bước sau: built-in tool của Gemini không đứng chung với function tool khác trong 1 agent — nên khi trộn với BigQuery toolset, codelab phải bọc nó trong agent con qua AgentTool. Đó là kiến trúc bắt buộc, không phải kiểu cách.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#mìn-2-bigquery-toolset-cài-đúng-tên-extra-và-py_compile-không-cứu-được-bạn",
+    "href": "04-adk-data-analyst-agent.html#mìn-2-bigquery-toolset-cài-đúng-tên-extra-và-py_compile-không-cứu-được-bạn",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.7 🔴 MÌN #2 — BigQuery toolset: cài đúng TÊN extra, và py_compile không cứu được bạn",
+    "text": "5.7 🔴 MÌN #2 — BigQuery toolset: cài đúng TÊN extra, và py_compile không cứu được bạn\nChép nguyên code BigQuery của codelab chạy là chết:\nModuleNotFoundError: No module named 'google.cloud'\nCài google-cloud-bigquery xong chết tiếp: ImportError: cannot import name 'dataplex_v1'. Gốc: adk 2.8.0 không bundle BigQuery client, và tên extra đúng là:\nuv pip install \"google-adk[bigquery-analytics]\"\n(KHÔNG phải [bigquery]. Cài tay thì đủ bộ 3: google-cloud-bigquery db-dtypes google-cloud-dataplex.)\nMìn trong mìn: ADK import lazy — py_compile PASS mà runtime mới nổ. Bài “py_compile trước khi chạy” của chương 3 vẫn đúng cho lỗi cú pháp, nhưng với toolset ADK phải chạy thật 1 câu mới tin được.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#mìn-3-agent-tự-bill-query-vào-project-của-người-khác",
+    "href": "04-adk-data-analyst-agent.html#mìn-3-agent-tự-bill-query-vào-project-của-người-khác",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.8 🔴 MÌN #3 — agent tự bill query vào… project của người khác",
+    "text": "5.8 🔴 MÌN #3 — agent tự bill query vào… project của người khác\nMìn tinh vi nhất bài: hỏi agent query bigquery-public-data.cms_medicare → tool trả permission error, agent xin lỗi vòng vo (thậm chí tự bịa thử project_id: 'gcp-data-ai'). Gốc: tham số project_id của execute_sql là project TRẢ TIỀN cho query — LLM đoán nhầm nó là project chứa data, nên cố bill vào bigquery-public-data (dĩ nhiên không có quyền).\nFix 1 câu: nói rõ trong prompt hoặc instruction của agent: “Run all SQL queries in my project &lt;PROJECT_ID&gt;” → chạy ngọt ngay. Kết quả thật: agent tự chuỗi get_dataset_info → list_table_ids → execute_sql, trả đúng top-5 DRG theo lượt xuất viện (SEPTICEMIA 521.358 lượt…) và chi phí trung bình thay khớp ở California = $21.389,14.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#dọn-dẹp",
+    "href": "04-adk-data-analyst-agent.html#dọn-dẹp",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.9 Dọn dẹp",
+    "text": "5.9 Dọn dẹp\nrm -rf ~/ai-agents-adk\nMẹo ít ai biết: nếu lỡ xoá service account trước khi gỡ IAM binding, member trong policy biến thành deleted:serviceAccount:…?uid=… — phải remove-iam-policy-binding bằng đúng chuỗi deleted đó (lấy từ get-iam-policy --flatten=\"bindings[].members\"), gõ tên cũ là không ăn.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
+  },
+  {
+    "objectID": "04-adk-data-analyst-agent.html#ôn-nhanh",
+    "href": "04-adk-data-analyst-agent.html#ôn-nhanh",
+    "title": "5  Data Analyst Agent với ADK và BigQuery",
+    "section": "5.10 Ôn nhanh",
+    "text": "5.10 Ôn nhanh\nQ: Máy headless (không browser), cần ADC cho ADK/Vertex. gcloud auth application-default login chết, tạo SA key bị org policy chặn. Còn đường nào?\n- Chịu thua, phải qua Cloud Shell\n-* Móc refresh token từ credentials.db của gcloud (đã đăng nhập sẵn) tự ghi thành application_default_credentials.json kiểu authorized_user\n- Tắt org policy đi\nE: gcloud CLI đã có refresh token hợp lệ trong SQLite — dựng ADC từ nó, nhớ kèm quota_project_id.\n\nQ: Code BigQuery toolset của codelab chạy ra ModuleNotFoundError google.cloud dù py_compile PASS. Vì sao py_compile không bắt được?\n- py_compile bị lỗi\n-* ADK import lazy (__getattr__) — lỗi thiếu module chỉ nổ lúc runtime thật sự chạm tool, compile không đụng tới\n- Python version sai\nE: Với toolset ADK phải chạy thật 1 câu mới tin; và extra đúng tên là google-adk[bigquery-analytics].\n\nQ: Agent query dataset public bị permission error dù dataset ai cũng đọc được. Gốc ở đâu?\n- Dataset public cũng cần xin quyền\n-* Tham số project_id của execute_sql là project TRẢ TIỀN — LLM đoán nhầm thành project chứa data nên bill vào bigquery-public-data\n- BigQuery đang bảo trì\nE: Nói rõ \"Run all SQL queries in my project X\" trong instruction là hết — public data đọc free nhưng compute phải bill vào project của mình.\n\nQ: Lệnh đầu tiên của codelab là rm -rf ~/.cache. Chạy trên máy thật được không?\n- Được, lệnh chuẩn của Google mà\n-* KHÔNG — đó là lệnh dọn quota đĩa của Cloud Shell; máy thật sẽ mất cache pip/browser/font của cả hệ thống\n- Chỉ cần sudo là an toàn\nE: Codelab viết cho môi trường Cloud Shell dùng-xong-vứt. Đọc lệnh rm trước khi chép, luôn luôn.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Data Analyst Agent với ADK và BigQuery</span>"
+    ]
   }
 ]
