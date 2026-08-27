@@ -208,5 +208,95 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>AI Agent với Gemini và BigQuery MCP server trên Cloud Run</span>"
     ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html",
+    "href": "03-personal-agent-coffee-shop.html",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "",
+    "text": "4.1 Tiến độ của bạn\nLàm thật 2026-08-21 (Hack2Skill Track 3, đã nộp và được duyệt). Bản gốc: codelab của Google. Bài này KHÁC hẳn 2 chương trước: agent chạy code trong sandbox ngay bên trong service Cloud Run (--sandbox-launcher), chat qua WebSocket UI, và đọc/ghi Google Sheets — kéo theo một loạt mìn không dính gì tới GCP mà dính tới… copy-paste và Google Drive.\nKết quả thật: service sống, chat với agent phân tích dữ liệu bán hàng POS-2025 trong Sheet rồi tự ghi việc cần làm vào tab TODO-2026 — xác nhận bằng mắt trên spreadsheet.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#tiến-độ-của-bạn",
+    "href": "03-personal-agent-coffee-shop.html#tiến-độ-của-bạn",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "",
+    "text": "# Chuẩn bị\n- Bật 5 API (thêm sheets.googleapis.com so với 2 bài trước)\n- Cấp 3 role IAM build (bài chương 1) nếu project mới\n# Service account + Sheet\n- Tạo SA riêng coffee-shop-agent-sa + cấp aiplatform.user\n- Tạo Google Sheet, đặt tab dữ liệu POS-2025\n- SHARE sheet cho email của service account (bước hay quên nhất)\n# Code + Deploy\n- Chép code từ codelab — QUÉT U+00A0 + py_compile trước khi build\n- gcloud beta run deploy --sandbox-launcher thành công\n- Chat thử, xác nhận agent ghi được vào tab TODO",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#bước-1-api-và-service-account-riêng",
+    "href": "03-personal-agent-coffee-shop.html#bước-1-api-và-service-account-riêng",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.2 Bước 1 — API và service account riêng",
+    "text": "4.2 Bước 1 — API và service account riêng\nBài này thêm Sheets API so với 2 chương trước:\ngcloud services enable run.googleapis.com cloudbuild.googleapis.com \\\n  artifactregistry.googleapis.com sheets.googleapis.com aiplatform.googleapis.com\nTạo SA riêng làm runtime (least-privilege — không xài SA compute mặc định):\nexport SA_NAME=coffee-shop-agent-sa\nexport GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)\nexport SERVICE_ACCOUNT_ADDRESS=$SA_NAME@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com\ngcloud iam service-accounts create $SA_NAME \\\n  --description=\"Service account for the Coffee Shop Agent Codelab\" \\\n  --display-name=\"Coffee Shop Agent SA\"\ngcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\\n  --member=\"serviceAccount:$SERVICE_ACCOUNT_ADDRESS\" --role=\"roles/aiplatform.user\"\nLần làm thật cấp sẵn 3 role build của chương 1 → cả phiên không dính một lỗi GCP nào, deploy pass ngay lần đầu — lần thứ 3 liên tiếp chứng minh bài “cấp đủ 1 lượt”.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#bước-2-tạo-sheet-và-share-cho-service-account",
+    "href": "03-personal-agent-coffee-shop.html#bước-2-tạo-sheet-và-share-cho-service-account",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.3 Bước 2 — Tạo Sheet và SHARE cho service account",
+    "text": "4.3 Bước 2 — Tạo Sheet và SHARE cho service account\nTạo sheet mới (sheets.new), dán dữ liệu POS mẫu từ codelab, đổi tên tab thành POS-2025, lấy SPREADSHEET_ID từ URL.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#mìn-sa-không-thấy-sheet-nếu-không-được-share",
+    "href": "03-personal-agent-coffee-shop.html#mìn-sa-không-thấy-sheet-nếu-không-được-share",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.4 🔴 MÌN — SA không thấy sheet nếu không được share",
+    "text": "4.4 🔴 MÌN — SA không thấy sheet nếu không được share\nQuyền đọc/ghi Sheet không đi theo IAM role nào cả — nó đi theo nút Share như share cho một người thường. Phải share sheet cho đúng địa chỉ coffee-shop-agent-sa@&lt;project&gt;.iam.gserviceaccount.com, không thì agent gọi Sheets API sẽ không thấy file dù có bao nhiêu role đi nữa.\nMìn phụ (cho ai share sheet bằng script/automation): dialog Share nằm ở đâu?\nDialog Share của Google Sheets nằm trong IFRAME riêng (URL chứa \"driveshare\") — mọi selector ở page chính sẽ timeout. Lần làm thật tốn ~6 lần thử mới tìm ra: phải liệt kê frames, tìm frame driveshare, thao tác bên trong frame đó. Share tay bằng chuột thì không sao.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#mìn-copy-code-từ-trang-codelab-dính-ký-tự-tàng-hình-u00a0",
+    "href": "03-personal-agent-coffee-shop.html#mìn-copy-code-từ-trang-codelab-dính-ký-tự-tàng-hình-u00a0",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.5 🔴 MÌN — copy code từ trang codelab dính ký tự tàng hình U+00A0",
+    "text": "4.5 🔴 MÌN — copy code từ trang codelab dính ký tự tàng hình U+00A0\nLỗi thật nguyên văn khi chạy code vừa chép từ trang codelab:\nSyntaxError: invalid non-printable character U+00A0   (main.py line 25)\nTrang codelab render space thành non-breaking space (U+00A0) — mắt nhìn y hệt space thường, Python thì chết. Quét và kiểm TRƯỚC khi build (đỡ tốn nguyên một vòng Cloud Build chỉ để phát hiện SyntaxError):\npython3 -c \"content=open('main.py').read(); open('main.py','w').write(content.replace(' ',' '))\"\npython3 -m py_compile main.py && echo \"SYNTAX OK\"",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#bước-3-deploy-với-sandbox",
+    "href": "03-personal-agent-coffee-shop.html#bước-3-deploy-với-sandbox",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.6 Bước 3 — Deploy với sandbox",
+    "text": "4.6 Bước 3 — Deploy với sandbox\nexport REGION=us-central1\nexport SPREADSHEET_ID=&lt;id-sheet-của-bạn&gt;\ngcloud beta run deploy coffee-mgr-agent \\\n    --source=. \\\n    --region=$REGION \\\n    --sandbox-launcher \\\n    --max-instances=1 \\\n    --session-affinity \\\n    --allow-unauthenticated \\\n    --no-cpu-throttling \\\n    --labels dev-tutorial=codelab-cloud-run-personal-agent-coffee-shop \\\n    --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT,GOOGLE_CLOUD_LOCATION=global,SPREADSHEET_ID=$SPREADSHEET_ID \\\n    --service-account $SERVICE_ACCOUNT_ADDRESS --quiet\nVì sao các flag này (thứ bản gốc lướt qua):\n\n--sandbox-launcher: trong container có binary /usr/local/gcp/bin/sandbox — agent chạy Python/shell cách ly bên trong service; code codelab tự phát hiện chạy local (IS_LOCAL_MODE) thì bỏ sandbox.\n--session-affinity + --max-instances=1: chat WebSocket giữ state in-memory — nhiều instance là mất session giữa chừng.\nCó Dockerfile trong source → Cloud Build dùng Dockerfile (“Building using Dockerfile”), không phải buildpack như 2 bài trước.\n\nMẹo: URL service đoán được trước cả khi deploy xong — https://&lt;service&gt;-&lt;projectNumber&gt;.&lt;region&gt;.run.app.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#bước-4-chat-thử",
+    "href": "03-personal-agent-coffee-shop.html#bước-4-chat-thử",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.7 Bước 4 — Chat thử",
+    "text": "4.7 Bước 4 — Chat thử\nMở URL service → UI chat. Kịch bản thật đã chạy: nhờ agent phân tích dữ liệu bán hàng POS-2025 để chuẩn bị cho mùa tốt nghiệp 2026 → agent đọc sheet, phân tích, hỏi xác nhận → trả lời “Yes” → agent tự tạo tab TODO-2026 và ghi danh sách việc vào đó. Mở spreadsheet xác nhận bằng mắt.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
+  },
+  {
+    "objectID": "03-personal-agent-coffee-shop.html#ôn-nhanh",
+    "href": "03-personal-agent-coffee-shop.html#ôn-nhanh",
+    "title": "4  Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê",
+    "section": "4.8 Ôn nhanh",
+    "text": "4.8 Ôn nhanh\nQ: Agent gọi Sheets API nhưng không thấy spreadsheet. Đã cấp roles/aiplatform.user rồi. Thiếu gì?\n- Thiếu roles/sheets.editor ở tầng project\n-* Chưa SHARE sheet cho email của service account — quyền sheet đi theo nút Share, không theo IAM role\n- Chưa bật Drive API\nE: Service account như một \"người dùng\" — phải được share file y như share cho đồng nghiệp.\n\nQ: Code chép từ trang codelab chạy ra \"SyntaxError: invalid non-printable character U+00A0\". Chuyện gì?\n- File bị hỏng khi tải\n-* Trang codelab render space thành non-breaking space — mắt không phân biệt được, phải replace U+00A0 rồi py_compile trước khi build\n- Python version quá cũ\nE: Mìn kinh điển khi copy code từ trang web. Luôn py_compile trước khi deploy, đỡ tốn 1 vòng Cloud Build.\n\nQ: Vì sao bài này bắt buộc --session-affinity và --max-instances=1?\n-* Chat WebSocket giữ session in-memory — request rơi vào instance khác là mất sạch hội thoại\n- Để tiết kiệm tiền\n- Sandbox chỉ chạy được 1 instance\nE: InMemorySessionService sống trong RAM của đúng 1 instance; affinity ghim client vào instance đó.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span>"
+    ]
   }
 ]

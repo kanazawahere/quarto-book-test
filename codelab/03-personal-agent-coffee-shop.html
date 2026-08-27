@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê — Codelab</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Quay lại</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Tủ sách</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>Codelab</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Tìm trong sách…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="03-personal-agent-coffee-shop.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Personal Agent với sandbox trên Cloud Run — trợ lý quản lý quán cà phê</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Làm thật <strong>2026-08-21</strong> (Hack2Skill Track 3, đã nộp và được duyệt). Bản gốc: <a href="https://codelabs.developers.google.com/codelabs/cloud-run/cloud-run-personal-agent-coffee-shop">codelab của Google</a>. Bài này KHÁC hẳn 2 chương trước: agent <strong>chạy code trong sandbox ngay bên trong service Cloud Run</strong> (<code>--sandbox-launcher</code>), chat qua <strong>WebSocket UI</strong>, và đọc/ghi <strong>Google Sheets</strong> — kéo theo một loạt mìn không dính gì tới GCP mà dính tới… copy-paste và Google Drive.</p>
+<p><strong>Kết quả thật:</strong> service sống, chat với agent phân tích dữ liệu bán hàng POS-2025 trong Sheet rồi tự ghi việc cần làm vào tab TODO-2026 — xác nhận bằng mắt trên spreadsheet.</p>
+<section id="tiến-độ-của-bạn" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="tiến-độ-của-bạn"><span class="header-section-number">4.1</span> Tiến độ của bạn</h2>
+<pre class="checklist"><code># Chuẩn bị
+- Bật 5 API (thêm sheets.googleapis.com so với 2 bài trước)
+- Cấp 3 role IAM build (bài chương 1) nếu project mới
+# Service account + Sheet
+- Tạo SA riêng coffee-shop-agent-sa + cấp aiplatform.user
+- Tạo Google Sheet, đặt tab dữ liệu POS-2025
+- SHARE sheet cho email của service account (bước hay quên nhất)
+# Code + Deploy
+- Chép code từ codelab — QUÉT U+00A0 + py_compile trước khi build
+- gcloud beta run deploy --sandbox-launcher thành công
+- Chat thử, xác nhận agent ghi được vào tab TODO</code></pre>
+</section>
+<section id="bước-1-api-và-service-account-riêng" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="bước-1-api-và-service-account-riêng"><span class="header-section-number">4.2</span> Bước 1 — API và service account riêng</h2>
+<p>Bài này thêm Sheets API so với 2 chương trước:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> services enable run.googleapis.com cloudbuild.googleapis.com <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  artifactregistry.googleapis.com sheets.googleapis.com aiplatform.googleapis.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tạo SA <strong>riêng</strong> làm runtime (least-privilege — không xài SA compute mặc định):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SA_NAME</span><span class="op">=</span>coffee-shop-agent-sa</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOOGLE_CLOUD_PROJECT</span><span class="op">=</span><span class="va">$(</span><span class="ex">gcloud</span> config get-value project<span class="va">)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SERVICE_ACCOUNT_ADDRESS</span><span class="op">=</span><span class="va">$SA_NAME</span>@<span class="va">$GOOGLE_CLOUD_PROJECT</span>.iam.gserviceaccount.com</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> iam service-accounts create <span class="va">$SA_NAME</span> <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--description</span><span class="op">=</span><span class="st">"Service account for the Coffee Shop Agent Codelab"</span> <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--display-name</span><span class="op">=</span><span class="st">"Coffee Shop Agent SA"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> projects add-iam-policy-binding <span class="va">$GOOGLE_CLOUD_PROJECT</span> <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--member</span><span class="op">=</span><span class="st">"serviceAccount:</span><span class="va">$SERVICE_ACCOUNT_ADDRESS</span><span class="st">"</span> <span class="at">--role</span><span class="op">=</span><span class="st">"roles/aiplatform.user"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Lần làm thật cấp sẵn 3 role build của chương 1 → <strong>cả phiên không dính một lỗi GCP nào, deploy pass ngay lần đầu</strong> — lần thứ 3 liên tiếp chứng minh bài “cấp đủ 1 lượt”.</p>
+</section>
+<section id="bước-2-tạo-sheet-và-share-cho-service-account" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="bước-2-tạo-sheet-và-share-cho-service-account"><span class="header-section-number">4.3</span> Bước 2 — Tạo Sheet và SHARE cho service account</h2>
+<p>Tạo sheet mới (sheets.new), dán dữ liệu POS mẫu từ codelab, đổi tên tab thành <code>POS-2025</code>, lấy <code>SPREADSHEET_ID</code> từ URL.</p>
+</section>
+<section id="mìn-sa-không-thấy-sheet-nếu-không-được-share" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="mìn-sa-không-thấy-sheet-nếu-không-được-share"><span class="header-section-number">4.4</span> 🔴 MÌN — SA không thấy sheet nếu không được share</h2>
+<p>Quyền đọc/ghi Sheet <strong>không đi theo IAM role nào cả</strong> — nó đi theo nút <strong>Share</strong> như share cho một người thường. Phải share sheet cho đúng địa chỉ <code>coffee-shop-agent-sa@&lt;project&gt;.iam.gserviceaccount.com</code>, không thì agent gọi Sheets API sẽ không thấy file dù có bao nhiêu role đi nữa.</p>
+<pre class="dapan"><code>Mìn phụ (cho ai share sheet bằng script/automation): dialog Share nằm ở đâu?
+Dialog Share của Google Sheets nằm trong IFRAME riêng (URL chứa "driveshare") — mọi selector ở page chính sẽ timeout. Lần làm thật tốn ~6 lần thử mới tìm ra: phải liệt kê frames, tìm frame driveshare, thao tác bên trong frame đó. Share tay bằng chuột thì không sao.</code></pre>
+</section>
+<section id="mìn-copy-code-từ-trang-codelab-dính-ký-tự-tàng-hình-u00a0" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="mìn-copy-code-từ-trang-codelab-dính-ký-tự-tàng-hình-u00a0"><span class="header-section-number">4.5</span> 🔴 MÌN — copy code từ trang codelab dính ký tự tàng hình U+00A0</h2>
+<p>Lỗi thật nguyên văn khi chạy code vừa chép từ trang codelab:</p>
+<pre><code>SyntaxError: invalid non-printable character U+00A0   (main.py line 25)</code></pre>
+<p>Trang codelab render space thành <strong>non-breaking space (U+00A0)</strong> — mắt nhìn y hệt space thường, Python thì chết. Quét và kiểm TRƯỚC khi build (đỡ tốn nguyên một vòng Cloud Build chỉ để phát hiện SyntaxError):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">"content=open('main.py').read(); open('main.py','w').write(content.replace('&nbsp;',' '))"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> py_compile main.py <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">"SYNTAX OK"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="bước-3-deploy-với-sandbox" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="bước-3-deploy-với-sandbox"><span class="header-section-number">4.6</span> Bước 3 — Deploy với sandbox</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">REGION</span><span class="op">=</span>us-central1</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SPREADSHEET_ID</span><span class="op">=&lt;</span>id-sheet-của-bạn<span class="op">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> beta run deploy coffee-mgr-agent <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--source</span><span class="op">=</span>. <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--region</span><span class="op">=</span><span class="va">$REGION</span> <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--sandbox-launcher</span> <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">--max-instances</span><span class="op">=</span>1 <span class="dt">\</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--session-affinity</span> <span class="dt">\</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">--allow-unauthenticated</span> <span class="dt">\</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--no-cpu-throttling</span> <span class="dt">\</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--labels</span> dev-tutorial=codelab-cloud-run-personal-agent-coffee-shop <span class="dt">\</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--set-env-vars</span> GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=<span class="va">$GOOGLE_CLOUD_PROJECT</span>,GOOGLE_CLOUD_LOCATION=global,SPREADSHEET_ID=<span class="va">$SPREADSHEET_ID</span> <span class="dt">\</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--service-account</span> <span class="va">$SERVICE_ACCOUNT_ADDRESS</span> <span class="at">--quiet</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Vì sao các flag này (thứ bản gốc lướt qua):</p>
+<ul>
+<li><code>--sandbox-launcher</code>: trong container có binary <code>/usr/local/gcp/bin/sandbox</code> — agent chạy Python/shell <strong>cách ly bên trong service</strong>; code codelab tự phát hiện chạy local (<code>IS_LOCAL_MODE</code>) thì bỏ sandbox.</li>
+<li><code>--session-affinity</code> + <code>--max-instances=1</code>: chat WebSocket giữ state in-memory — nhiều instance là mất session giữa chừng.</li>
+<li>Có <code>Dockerfile</code> trong source → Cloud Build dùng Dockerfile (“Building using Dockerfile”), <strong>không phải buildpack</strong> như 2 bài trước.</li>
+</ul>
+<p>Mẹo: URL service đoán được trước cả khi deploy xong — <code>https://&lt;service&gt;-&lt;projectNumber&gt;.&lt;region&gt;.run.app</code>.</p>
+</section>
+<section id="bước-4-chat-thử" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="bước-4-chat-thử"><span class="header-section-number">4.7</span> Bước 4 — Chat thử</h2>
+<p>Mở URL service → UI chat. Kịch bản thật đã chạy: nhờ agent phân tích dữ liệu bán hàng POS-2025 để chuẩn bị cho mùa tốt nghiệp 2026 → agent đọc sheet, phân tích, hỏi xác nhận → trả lời “Yes” → agent <strong>tự tạo tab TODO-2026 và ghi danh sách việc vào đó</strong>. Mở spreadsheet xác nhận bằng mắt.</p>
+</section>
+<section id="ôn-nhanh" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="ôn-nhanh"><span class="header-section-number">4.8</span> Ôn nhanh</h2>
+<pre class="quiz"><code>Q: Agent gọi Sheets API nhưng không thấy spreadsheet. Đã cấp roles/aiplatform.user rồi. Thiếu gì?
+- Thiếu roles/sheets.editor ở tầng project
+-* Chưa SHARE sheet cho email của service account — quyền sheet đi theo nút Share, không theo IAM role
+- Chưa bật Drive API
+E: Service account như một "người dùng" — phải được share file y như share cho đồng nghiệp.
+
+Q: Code chép từ trang codelab chạy ra "SyntaxError: invalid non-printable character U+00A0". Chuyện gì?
+- File bị hỏng khi tải
+-* Trang codelab render space thành non-breaking space — mắt không phân biệt được, phải replace U+00A0 rồi py_compile trước khi build
+- Python version quá cũ
+E: Mìn kinh điển khi copy code từ trang web. Luôn py_compile trước khi deploy, đỡ tốn 1 vòng Cloud Build.
+
+Q: Vì sao bài này bắt buộc --session-affinity và --max-instances=1?
+-* Chat WebSocket giữ session in-memory — request rơi vào instance khác là mất sạch hội thoại
+- Để tiết kiệm tiền
+- Sandbox chỉ chạy được 1 instance
+E: InMemorySessionService sống trong RAM của đúng 1 instance; affinity ghim client vào instance đó.</code></pre>
+
+
+</section>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>
