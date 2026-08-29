@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<title>What Could Go Wrong — THE TRACE</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../assets/img/writebook-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/_reset.css">
+<link rel="stylesheet" href="../assets/css/colors.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/text.css">
+<link rel="stylesheet" href="../assets/css/buttons.css">
+<link rel="stylesheet" href="../assets/css/utilities.css">
+<link rel="stylesheet" href="../assets/css/animation.css">
+<link rel="stylesheet" href="../assets/css/breadcrumbs.css">
+<link rel="stylesheet" href="../assets/css/inputs.css">
+<link rel="stylesheet" href="../assets/css/books.css">
+<link rel="stylesheet" href="../assets/css/library.css">
+<link rel="stylesheet" href="../assets/css/toc.css">
+<link rel="stylesheet" href="../assets/css/pages.css">
+<link rel="stylesheet" href="../assets/css/search.css">
+<link rel="stylesheet" href="../assets/css/lightbox.css">
+<link rel="stylesheet" href="../assets/css/panels.css">
+<link rel="stylesheet" href="../assets/css/popover.css">
+<link rel="stylesheet" href="../assets/css/product.css">
+<link rel="stylesheet" href="../assets/css/syntax.css">
+<link rel="stylesheet" href="../assets/css/dialog.css">
+<link rel="stylesheet" href="../assets/css/sidebar.css">
+<link rel="stylesheet" href="../assets/css/arrangement.css">
+<link rel="stylesheet" href="../assets/css/translations.css">
+<link rel="stylesheet" href="../assets/kb-fallback.css">
+
+</head>
+<body>
+<header id="header"><nav class="book__navbar">
+  <a href="index.html" class="btn"><span class="for-screen-reader">Back</span><img src="../assets/img/arrow-left.svg" alt="" aria-hidden="true"></a>
+  <span class="btn btn--placeholder placeholder-start" aria-hidden="true"></span>
+  <div class="breadcrumbs">
+    <a href="../index.html" class="btn"><span class="for-screen-reader">Library</span><img src="../assets/img/books.svg" alt="" aria-hidden="true"></a>
+    <span class="flex-item-no-shrink">▸</span>
+    <strong>THE TRACE</strong>
+  </div>
+  <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
+  <div class="search" data-kb-search>
+    <input type="search" class="input" placeholder="Search this book…" data-index-base="">
+    <ul class="search__results"></ul>
+  </div>
+</nav></header>
+<div id="toolbar"></div>
+<main id="main" class="page">
+<article class="txt-align-start" data-kb-leaf-href="ch6.html">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">What Could Go Wrong</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The air in the office is thick with the smell of wet concrete and ozone from the air conditioner. It is four o’clock on a humid Tuesday afternoon, and three of us are gathered around a wooden desk in our provincial CDC laboratory in Vietnam. We are reviewing the latest round of proficiency testing results before we submit them to the national quality center. On the desk lies a printed sheet with rows of figures representing the biochemical analytes from our molecular and analyzer runs. Under the national proficiency testing model, our results will be compared against the peer consensus of fifty-nine other laboratories across the country.</p>
+<p>I look down at the tenth column on the paper. Our machine measured a value of one hundred and forty-two. But the preliminary reports from the other provincial units are already circulating on our phones, and everyone else has reported between one hundred and thirty-five and one hundred and thirty-seven. Our figure sits quietly outside that range. It is a clear outlier.</p>
+<p>There is a long, heavy pause in the room. Nobody speaks. My supervisor taps his pen against his palm, a rhythmic, dry click that seems to grow louder with every second. He looks at me, then looks back at the sheet. The silence carries a weight that every laboratory technician understands. Under a system where quality is audited through peer consensus, being different is dangerous. If we submit this number, our laboratory will be flagged. We will be subjected to administrative reviews, corrective action plans, and quiet blame.</p>
+<p>The safest thing to do is very simple. We do not need to accuse anyone. We do not need to make a scene. We just need to look at the sample again. My supervisor gently suggests that we should check the calibration log once more, or perhaps rerun the assay, until our number finally agrees with the crowd. We all know what that means. If we keep looking, we will find a reason to adjust the number. We will align our column with the others so that our laboratory remains safe within the consensus.</p>
+<p>This is the silent pressure of the peer consensus trap. We are reviewing nine common analytes across twelve samples, much like the published proficiency testing data compiled by Van and colleagues in 2023. In their study of fifty-nine Vietnamese laboratories, they documented how the overall participant consensus can drift, even diverging from expert reference values. We should be honest that no published data on individual-level proficiency testing exists for provincial laboratories in Vietnam, and its effect on reporting accuracy remains untested by randomized trials. But in this room, on this rainy afternoon, we do not discuss the literature. We simply stare at the tenth column. I pick up the pipettor. We prepare to look at the sample again, waiting for the number to agree, while the pressure in the room slowly settles over us like the humid air outside. <span class="citation" data-cites="vanht2023 miyazaki2013">(<a href="#ref-vanht2023" role="doc-biblioref">1</a>,<a href="#ref-miyazaki2013" role="doc-biblioref">2</a>)</span></p>
+<p>During those long shifts of processing diagnostic samples, I learned that security is never just a matter of code. In this proposal, I must address the most significant technical vulnerability of our entire system. It is a threat that cryptography cannot touch. We are proposing a secure, immutable ledger to record our daily laboratory service history, but we must admit a hard truth. An unalterable registry only guarantees that data has not been changed after it was written. It does not guarantee that the data was true in the first place. A tamper-proof log of fabricated entries is nothing more than a tamper-proof lie. Immutability defends against alteration. It does not defend against false input.</p>
+<p>If we ignore this boundary, our advanced cryptographic architecture becomes nothing but expensive theatre. If a technician wants to inflate their work history, they can easily log fictitious assays or claim to have run samples that never existed. The database will happily secure these entries, chain them together with mathematical fingerprints, and anchor them to a trusted timestamp. The resulting credential will be mathematically flawless, yet completely fraudulent. We have to not build a high-tech facade that secures empty, fabricated claims.</p>
+<p>To prevent this exploitation, we must design verification layers that operate at the physical entry point. The answer does not lie in more cryptography. Instead, we must rely on three practical administrative gates that ground our digital entries in physical reality. First, we must implement randomized spot audits. Under this mechanism, independent inspectors physically verify paper laboratory logs against the digital database. Second, every log entry must require a supervisor co-signature. This supervisor co-signature ensures that a second pair of eyes actively verifies the daily work, providing the external verification that any credible ledger requires. We can look at global precedents like the British surgical e-logbook or the FAA pilot flight logs. These successful models only function because they require external verification by a supervisor or a governing authority. Third, we can use simple, automated checks to flag impossible travel. For example, if our system receives a GPS log from a provincial outbreak site and a physical laboratory check-in from the same technician within the same hour, it must automatically reject both entries <span class="citation" data-cites="iscp_logbook faa1500 nbpts">(<a href="#ref-iscp_logbook" role="doc-biblioref">3</a>–<a href="#ref-nbpts" role="doc-biblioref">5</a>)</span>.</p>
+<p>While these administrative measures are logical and necessary, we must remain completely honest about their limits. There is currently no published trial evidence proving that combining supervisor co-signatures, spot audits, and GPS travel checks will completely eradicate data entry fraud in provincial laboratory settings. We are proposing a practical, low-cost defense system to protect our database’s integrity, but we must evaluate its effectiveness under real-world clinical audits. Without these physical validation layers, our secure database remains completely vulnerable to the threat of fabricated entries. Our cryptography must be backed by real-world verification, or the entire system is just theater.</p>
+<p>What we measure defines how we behave. . When we design a system to track and reward performance, we face a well-documented risk. If we make the rewards too high or the indicators too rigid, workers will naturally find ways to manipulate the numbers. The indicators cease to represent quality, and instead become the target itself.</p>
+<p>We have clear global evidence of this breakdown. Under performance-based financing schemes in Burkina Faso, healthcare providers falsified registers at scale. Their intense fixation on meeting specific indicators completely displaced the actual clinical objectives those indicators were meant to represent. The paper records became immaculate, but the actual patient care did not improve. We saw the exact same pathology in the English National Health Service under their strict target regimes. To meet administrative deadlines, providers engaged in documented clock stopping and selective referral. They manipulated the timing of admissions and chose patients who were easier to treat just to satisfy the official metrics. This is what happens when we turn a professional mission into a numbers game.</p>
+<p>To prevent this systemic failure, we must follow three consensus design rules established by literature. First, we must keep the indicator set small. When we introduce too many measures, we do not get better data; instead, we simply create more unintended consequences and administrative overhead. Second, we must mix process measures with outcome measures. Tracking only outcomes encourages providers to select easier cases, while tracking only process metrics leads to empty compliance. Third, we must carefully size any incentive. The reward must be large enough to motivate our provincial technicians, but it must never be large enough to make systematic gaming rational. We want to encourage honest logging, not creative accounting.</p>
+<p>One honest caveat belongs with these design rules. There is currently no published trial evidence proving that keeping the indicator set small or mixing process with outcome will completely prevent data manipulation in provincial laboratories in Vietnam. We do not have randomized controlled trials showing the exact threshold where an incentive becomes too large and triggers fraud. Furthermore, we must acknowledge that when we link verified performance logs to career opportunities like scholarships, we are introducing a powerful motivator. Even with the best design rules, some level of metric displacement remains a constant risk in any system that measures human labor. We must accept this limitation, run regular audits, and keep our expectations realistic. By keeping our technical indicators minimal and rewarding the act of participation rather than speed, we can protect the integrity of our frontline workers.</p>
+<p>There is a failure mode here that looks exactly like success. Administrators love to offer training. It is cheap, visible, and easy to document. However, the World Health Organization’s 2018 guideline for community health workers and evidence from programs in Ethiopia, Kenya, Malawi, and Mozambique show a clear pattern. Upgrading professional training while keeping a worker’s actual responsibilities and salary completely unchanged is actively demotivating. It creates deep frustration. When a professional recognition pathway ends in a beautiful paper certificate and nothing else, it is actually worse than doing nothing at all. Still, we must remain completely honest about the strength of this evidence. The World Health Organization openly acknowledges that its global guidelines on health worker career progression are based on research of low or very low quality, meaning we lack robust clinical trials in this space <span class="citation" data-cites="ethiopia_pbi2025 wagner2009 nunes2006">(<a href="#ref-ethiopia_pbi2025" role="doc-biblioref">6</a>–<a href="#ref-nunes2006" role="doc-biblioref">8</a>)</span>.</p>
+<p>We face a parallel warning from the field of quality assurance and patient safety. In clinical laboratories, we rely on External Quality Assessment, or EQA, to verify our accuracy. But if we use this performance data punitively to rank or punish individuals, we trigger a dangerous behavioral response. The literature on just culture, such as Boysen’s 2013 research and patient safety studies in 2025, shows that a culture of blame drives professionals to hide errors rather than report and correct them. We have hard legal precedents of this purpose drift. Under the United States CLIA regulations, laboratories are legally required to treat proficiency testing samples exactly like patient samples. This law was written because laboratories began treating these test samples with extreme favoritism to secure high scores. High-stakes grading corrupts the metrics we trust <span class="citation" data-cites="clia493801 ukas2017 boysen2013">(<a href="#ref-clia493801" role="doc-biblioref">9</a>–<a href="#ref-boysen2013" role="doc-biblioref">11</a>)</span>.</p>
+<p>To prevent this corruption, our database does not record a personal pass or fail score for individual technicians. That would make the record a tool for surveillance and blame. Furthermore, we must admit that there is currently no published data on EQA systems at the individual technician level in Vietnam, so any application of personal EQA grading is highly speculative. Instead, we follow a supportive design. The record simply shows that the technician successfully participated in a specific number of external quality assessment rounds under a rotating schedule. If a discrepancy occurred, it documents the formal corrective action they took to resolve it. Documenting honest participation and structured corrective action demonstrates true professional discipline. It encourages transparency instead of fear. By avoiding the dual traps of empty certification and punitive grading, we can build a registry that truly supports our frontline workers. Our technical design must respect these human realities, or the entire system will fail.</p>
+<p>In this proposal, we must look closely at how we design the rules for recognizing our technicians’ work. Gamifying work is popular, but consumer research warns us of two major design traps that we must actively reject.</p>
+<p>The first trap is status tier demotion, which was documented in marketing research by Wagner, Hennig-Thurau, and Rudolph in 2009, as well as by Drèze and Nunes. Their studies show that demoting someone from an established status level is incredibly dangerous. It leaves the demoted individual with lower loyalty and motivation than someone who never held any status at all. In our CDC, if we strip a technician of their hard-earned professional tier because of a slow month or a temporary drop in sample volume, we will actively destroy their remaining dedication. To avoid this severe behavioral backlash, our system must ensure that once a technician earns a tier, there is either no demotion at all or a clearly signposted recovery window where they can easily restore their standing <span class="citation" data-cites="wagner2009 nunes2006">(<a href="#ref-wagner2009" role="doc-biblioref">7</a>,<a href="#ref-nunes2006" role="doc-biblioref">8</a>)</span>.</p>
+<p>The second trap is point expiry pressure, which was explored in retail research by Taylor and Neslin in 2005. Forcing accumulated points to expire is coercion-adjacent. It does not motivate genuine, high-quality work; instead, it reliably drives data falsification. When our laboratory staff face a ticking clock that threatens to erase their accumulated record of service, their immediate survival instinct is to game the system to protect their past efforts. This pressure shifts their focus from quality diagnostics to empty compliance. To prevent this systemic failure, we propose that once a technician earns a point for a verified lab action, those points do not expire. They remain a permanent, unalterable part of their professional identity <span class="citation" data-cites="turcotte2022 bevanhood2006 wagner2009">(<a href="#ref-wagner2009" role="doc-biblioref">7</a>,<a href="#ref-turcotte2022" role="doc-biblioref">12</a>,<a href="#ref-bevanhood2006" role="doc-biblioref">13</a>)</span>.</p>
+<p>These design choices rest on less than I would like. The studies we rely on were conducted on commercial consumers in developed countries, not healthcare workers in low-resource settings, so we face a real translation risk. There is currently no randomized controlled trial showing how point-accumulation or status systems affect the retention of clinical laboratory technicians in developing countries like Vietnam. Furthermore, a major systematic review of gamification by Sailer and Homner in 2020 shows that while cognitive effects can be moderate, the actual behavioral effects are much weaker, with a hedge of only zero point two five. We also have no independent evidence that digital badges or points translate into official salary increases or career promotion under our current civil service rules. We are borrowing these concepts from commercial marketing to help technicians see their own progress, but we must not overpromise. By rejecting demotion and point expiration, we protect our staff from administrative traps while respecting their dignity <span class="citation" data-cites="sailer2020 openbadges3 who_gdhcn">(<a href="#ref-sailer2020" role="doc-biblioref">14</a>–<a href="#ref-who_gdhcn" role="doc-biblioref">16</a>)</span>.</p>
+<p>A fundamental rule about data. Immutability is not correctness [1-3]. When you design a system that cannot be altered, you must design for this reality from the very first day. Genuine human errors will always happen in a busy lab. A technician will inevitably mistype a sample number or log the wrong reagent batch. On an immutable digital ledger, that error can never be edited away. We cannot simply erase our mistakes because doing so would destroy the mathematical audit trail.</p>
+<p>Instead, we must solve this using the same logic that accountants have used for centuries. When an accountant makes an error in a ledger, they do not white-out the mistake. They post a reversing entry. Our proposed system uses an append-only architecture where corrections are simply appended as new entries. The new entry contains the correction and supersedes the earlier one, but both remain fully visible in the permanent log. This ensures that the history remains transparent and unbroken, while the current active view shows the corrected state.</p>
+<p>However, this absolute permanence creates a direct collision with privacy laws, specifically the right to erasure. Under international frameworks like the European Data Protection Board’s guidelines on blockchain and durable ledgers, finalized in July 2026, technical impossibility is no excuse for failing to erase personal data. If a technician leaves the profession and demands that their history be deleted, an unalterable database would normally violate this law. Putting encrypted or hashed personal details directly on an immutable chain is a compliance violation because those hashes can never be removed from the public ledger <span class="citation" data-cites="edpb2026 rfc3161">(<a href="#ref-edpb2026" role="doc-biblioref">17</a>,<a href="#ref-rfc3161" role="doc-biblioref">18</a>)</span>.</p>
+<p>We resolve this collision by keeping personal data completely separate from the durable layer. We do not write names, employee IDs, or location coordinates directly into our immutable ledger. Instead, we store all personal identifying details in a traditional, deletable database. On the durable, immutable chain, we only write salted commitments. These are secure cryptographic hashes containing a random salt that looks like noise. If a worker requests the deletion of their records, we simply delete their profile from the external, deletable store. This action immediately renders the salted commitment on the immutable chain completely unlinkable, a process known as cryptographic shredding.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="diagrams/fig07-two-databases.png" class="img-fluid figure-img"></p>
+<figcaption>How a permanent record can still be forgotten. The chain keeps its shape. What it points to can be taken away.</figcaption>
+</figure>
+</div>
+<p>The honest position on the status of this design is this. While it is theoretically compliant and legally sound, there is currently no published trial evidence proving its feasibility in a provincial CDC in Vietnam. This privacy-by-design approach is highly logical, but it has not been tested under a real-world clinical or legal audit in our setting. By separating personal data from the unalterable log, we can build a system that respects both data integrity and the law.</p>
+<p>I watched our staff work through long nights under intense pressure. When you design a system that records daily laboratory actions to help these frontline workers progress, you must establish an unyielding ethical boundary. In our proposal, we define this boundary as a bright line test that anyone can easily apply. If a technician fully understood how the system gathers, processes, and verifies their data, and would still choose to join, and could leave at any time carrying their data and losing absolutely nothing, then the system is scaffolding. It is a genuine ladder for professional growth. However, if the system only functions because the staff do not understand how it works behind the scenes, or because leaving the platform costs them their accumulated history, then it is a dark pattern. It is an administrative trap designed to exploit them.</p>
+<p>To ensure our ledger remains a true scaffold rather than a dark pattern, we must establish five non-negotiable operating rules. First, any professional score or record must be completely legible and contestable. Every worker has the right to see the exact formulas and inspect the raw data that shaped their file. Second, the system must never touch pay, rosters, or disciplinary actions. If the ledger dictates a worker’s basic salary, shifts, or schedule, participation is no longer voluntary, and the system becomes a tool of coercion. Third, nobody is ever ranked against anybody else. Public leaderboards or competitive rankings do not motivate public health professionals in a laboratory setting; instead, they cause anxiety, destroy collaboration, and encourage people to game the numbers. Technicians should only be compared to their own past performance. Fourth, exit from the system must be a single action. If a technician decides to leave, they must be able to export their entire verified service record and completely delete their personal profile with one click. Fifth, a qualified human being must sit in every consequential decision. No automated algorithm can be allowed to make final judgments on a worker’s career pathway, and every manual administrative override must be logged and audited.</p>
+<p>We need to state a necessary honesty caveat about these ethical rules. There is currently absolutely no trial evidence or randomized controlled study showing how these specific design rules affect staff retention or data integrity in low-resource settings. We are proposing a logical, ethical framework based on consumer behavior research and patient safety literature, but its real-world effectiveness has not been proven in Vietnamese provincial laboratories. By committing to this bright line, we ensure that we are building a supportive system that respects the autonomy of our frontline workers, rather than another layer of top-down surveillance. This ethical commitment must be established on day one.</p>
+<p>When we propose a digital registry to record the field contributions of our technicians, we must establish strict ethical rules written as hard regulations rather than soft sentiment. Each of these rules must be directly traceable to a documented failure in modern workplace technology. We are not designing a game to manipulate our staff; we are building a protective scaffold to respect their dignity.</p>
+<p>The first rule is that every score or metric must be completely legible and contestable. Algorithmic management research shows that the core harm of digital tracking is a metric the worker cannot see, audit, or dispute. If our technicians cannot trace how their points are calculated, the system becomes a tool of quiet oppression. The second rule is that these points must never touch base pay, rosters, promotion, or formal discipline. The moment points influence a person’s livelihood, the system stops being voluntary, and it begins to function as coercive surveillance.</p>
+<p>The third rule guarantees data ownership. The worker owns and can export their complete data history, while the provincial organization sees only the high-level aggregates that the worker explicitly chooses to share. The fourth rule is that nobody is ever ranked against anybody else. Systematic reviews among community health workers show that public leaderboards destroy team collaboration and cause deep anxiety among those at the bottom. It is necessary to ban public comparisons entirely. The fifth rule is that exiting the system must be a single, frictionless action that costs nothing already earned. The sixth rule explicitly bans, by name, digital nagging, guilt tactics on a broken streak, confirmshaming, and obstructed exit paths. If a technician misses a week of entries due to an exhausting night shift, the system must not punish or shame them.</p>
+<p>The seventh rule is that rewards must attach strictly to documentation and participation, and never to clinical outcomes or processing speed. Rewarding clinical outcomes or speed invites both data gaming and dangerous patient selection, as seen in historical gaming failures within the British NHS. The eighth rule is that we must never escalate reward sizes to buy artificial uptake. A classic workplace wellness trial published in the Quarterly Journal of Economics in 2019 found that larger incentives mostly ended up paying those who were already highly engaged, which skewed the sample and failed to change behavior. Finally, the ninth rule requires that a qualified human sits in every consequential decision, with all system overrides transparently logged. <span class="citation" data-cites="bevanhood2006 kerfoot2014">(<a href="#ref-bevanhood2006" role="doc-biblioref">13</a>,<a href="#ref-kerfoot2014" role="doc-biblioref">19</a>)</span></p>
+<p>I must be completely honest about these design conditions. While these ethical principles are well-documented in international labor and behavioral literature, there is currently absolutely no trial evidence or randomized studies evaluating how they apply to preventive health workers in low-resource Vietnamese settings. We are proposing a logical, evidence-informed framework. By writing these ethical laws into our software, we ensure our registry remains a ladder of opportunity rather than a tool of exploitation.</p>
+<p>A single error is rarely what breaks a system. When we analyze how public health monitoring fails, we must look at the framework that holds our entire design together. This is the Swiss cheese model of accidents. In this model, every layer of defense has holes in it, much like a stack of sliced cheese. A single error usually passes through one hole without causing any harm. Disaster happens only when the holes in successive layers happen to line up perfectly, allowing a hazard to strike. The most important thing this model tells us is not that somebody made a mistake. Instead, it shows how everyone involved can believe they are doing the right thing, while the system still carries them toward a fatal outcome. This is exactly the trap we see when an entire peer group drifts together, and the only accurate laboratory becomes the one that looks wrong because it sits outside the consensus.</p>
+<p>The corresponding discipline from industrial safety is to isolate a hazard and then verify that isolation rather than merely assuming it. This is the exact same instinct as sending a blind, unannounced sample to a laboratory to test its accuracy, rather than simply asking the operators how they are doing. External quality assessment and proficiency testing must act as this blind, independent check.</p>
+<p>What follows for this proposal is clear. No single layer of defense is being offered as sufficient on its own. Instead, we propose a series of independent layers. Recording data at the exact moment of work is the first layer, preventing the common practice of retrospective logging. Immutability, secured through cryptographic append-only ledgers, is the second layer. Recorded history cannot then be altered after the fact. External verification through blind proficiency testing is the third layer, preventing the fabrication of inputs. A supervisor countersignature is the fourth layer, establishing clear local accountability. The value of this design lies in these layers being completely independent of one another, rather than in any single layer being exceptionally strong. An unalterable record of something that never happened is still a lie, and now a permanent one. Cryptography is theatre if we cannot verify input integrity.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="diagrams/fig08-swiss-cheese.png" class="img-fluid figure-img"></p>
+<figcaption>Four independent layers, four different failures. Cryptography alone stops exactly one of the four. That is the argument for layers, and also the argument against trusting any single one of them.</figcaption>
+</figure>
+</div>
+<p>It is worth being plain about our limits. There is currently absolutely no trial evidence or randomized studies evaluating how this multi-layered, worker-owned registry affects reporting accuracy or staff retention in low-resource public health laboratories. Furthermore, no system in the world has ever successfully converted individual-level proficiency testing into a portable, personal professional credential. We are proposing a logical, evidence-informed twelve-month pilot to test these behavioral and technical designs. By piling these independent, imperfect layers on top of one another, we can build a secure pathway that keeps our frontline workers safe and our health security intact.</p>
+
+
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-vanht2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Van HT, Tran VT, Ha MT, Vu QH. Model of implementing proficiency testing in vietnam, a developing country. Practical Laboratory Medicine. 2023.</div>
+</div>
+<div id="ref-miyazaki2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline"><span class="nocase">Miyazaki M et al.</span> Motivations of rural health workers in lao PDR: A discrete choice experiment. Human Resources for Health. 2013;11:22.</div>
+</div>
+<div id="ref-iscp_logbook" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Intercollegiate Surgical Curriculum Programme. ISCP eLogbook and portfolio: Evidence requirements at national selection. <a href="https://www.iscp.ac.uk/" class="uri">https://www.iscp.ac.uk/</a>.</div>
+</div>
+<div id="ref-faa1500" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">US Federal Aviation Administration. 14 CFR 121.436: Pilot qualification – airline transport pilot certificate requirements. 2013.</div>
+</div>
+<div id="ref-nbpts" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">National Board for Professional Teaching Standards. National board certification: Portfolio requirements and state incentives. 2024.</div>
+</div>
+<div id="ref-ethiopia_pbi2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Ethiopia Ministry of Health and JSI. The feasibility and effectiveness of digital-enabled performance-based incentives in ethiopia’s community health program. 2025.</div>
+</div>
+<div id="ref-wagner2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Wagner T, Hennig-Thurau T, Rudolph T. Does customer demotion jeopardize loyalty? Journal of Marketing. 2009;73(3):69–85.</div>
+</div>
+<div id="ref-nunes2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Nunes JC, Drèze X. The endowed progress effect: How artificial advancement increases effort. Journal of Consumer Research. 2006;32(4):504–12.</div>
+</div>
+<div id="ref-clia493801" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">US Centers for Medicare and Medicaid Services. 42 CFR §493.801: Condition – enrollment and testing of samples (proficiency testing). 2024.</div>
+</div>
+<div id="ref-ukas2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">United Kingdom Accreditation Service. Assessment of a medical laboratory’s approach to the assurance of clinical staff competence and use of EQA. UKAS Technical Bulletin; 2017.</div>
+</div>
+<div id="ref-boysen2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Boysen PG. Just culture: A foundation for balanced accountability and patient safety. Ochsner Journal. 2013;13(3):400–6.</div>
+</div>
+<div id="ref-turcotte2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Turcotte-Tremblay AM, Gali-Gali IA, Ridde V. An exploration of the unintended consequences of performance-based financing in 6 primary healthcare facilities in burkina faso. International Journal of Health Policy and Management. 2022.</div>
+</div>
+<div id="ref-bevanhood2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Bevan G, Hood C. What’s measured is what matters: Targets and gaming in the english public health care system. Public Administration. 2006;84(3):517–38.</div>
+</div>
+<div id="ref-sailer2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Sailer M, Homner L. The gamification of learning: A meta-analysis. Educational Psychology Review. 2020;32:77–112.</div>
+</div>
+<div id="ref-openbadges3" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">1EdTech Consortium. Open badges specification version 3.0. 2024.</div>
+</div>
+<div id="ref-who_gdhcn" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">World Health Organization. Global digital health certification network (GDHCN) and SMART trust. 2024.</div>
+</div>
+<div id="ref-edpb2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">European Data Protection Board. Guidelines 02/2025 on processing of personal data through blockchain technologies. 2026.</div>
+</div>
+<div id="ref-rfc3161" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Adams C, Cain P, Pinkas D, Zuccherato R. Internet x.509 public key infrastructure time-stamp protocol (TSP). 2001.</div>
+</div>
+<div id="ref-kerfoot2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline"><span class="nocase">Kerfoot BP, Baker H, et al.</span> An online spaced-education game among clinicians improves their patients’ time to blood pressure control: A randomized controlled trial. Circulation: Cardiovascular Quality and Outcomes. 2014.</div>
+</div>
+</div>
+
+</article>
+</main>
+<aside id="sidebar" aria-label="Table of Contents"></aside>
+<footer id="footer"></footer>
+<dialog id="lightbox" class="lightbox" closedby="any"><img class="lightbox__image" alt=""></dialog>
+<script src="../assets/kb.js"></script>
+</body>
+</html>
