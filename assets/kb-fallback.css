@@ -124,3 +124,10 @@ article[data-kb-leaf-href] p {
    fill đen mặc định, còn Writebook thật hardcode <svg fill="var(--color-marker)">
    trong _leaf.html.erb. Override tại đây thay vì sửa file vendor. */
 .toc__bookmark svg, .toc__bookmark svg path { fill: var(--color-marker); }
+
+/* URL dài trong thư mục tài liệu tham khảo (Quarto sinh <a class="uri">) không có chỗ ngắt,
+   nên trên điện thoại nó đẩy CẢ TRANG rộng ra và người đọc phải cuộn ngang từng đoạn văn.
+   Đo thật 2026-08-29 trên khổ 390px: 3/7 chương của THE TRACE tràn đúng 35px, thủ phạm duy
+   nhất là A.uri. Luật Bản Dọc của Batin cấm bắt người đọc cuộn ngang.
+   Sửa ở ĐÂY (engine tủ sách) chứ không ở một cuốn — mọi sách đều dính. */
+a.uri, .csl-entry a, .references a { overflow-wrap: anywhere; word-break: break-word; }
