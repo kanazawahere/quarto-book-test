@@ -341,6 +341,12 @@
   var API = "https://chat-kb.agentdo.agency/";
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Tắt theo TỪNG CUỐN: khai "chat": false trong shelf.json -> build_kb.py gắn
+    // data-kb-chat="off" lên <body>. Lý do có cửa này (Batin bắt 2026-08-29): trợ lý
+    // trả lời SAI cuốn — hỏi "sách này nói về gì" ở THE TRACE (chuyên khảo tiếng Anh
+    // về y tế công cộng) thì nó trả lời nội dung mấy cuốn dạy AI tiếng Việt. Người
+    // duyệt US CDC bấm vào là hiểu sai ngay. Batin: "thà không có tốt hơn".
+    if (document.body.dataset.kbChat === "off") return;
     var art = document.querySelector("article[data-kb-leaf-href]");
     var isBookPage = !!document.querySelector(".toc__container");
     if (!art && !isBookPage) return;
