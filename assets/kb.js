@@ -338,6 +338,23 @@
    Nút chat nổi góc dưới-phải MỌI trang chương; gửi kèm tiêu đề trang làm bối cảnh. */
 (function () {
   "use strict";
+
+  // ┌───────────────────────────────────────────────────────────────────────┐
+  // │ CÔNG TẮC TỔNG — Batin chốt 2026-08-29: TẮT HẾT, khi nào rảnh nghiên   │
+  // │ cứu thì mở lại. Đổi false -> true là bật lại TOÀN BỘ, không cần gì    │
+  // │ khác. (Cờ theo từng cuốn `data-kb-chat="off"` bên dưới vẫn còn nguyên │
+  // │ và vẫn có tác dụng khi công tắc này bật lại.)                          │
+  // │                                                                       │
+  // │ VÌ SAO TẮT: trợ lý trả lời SAI CUỐN. Hỏi "sách này nói về gì" ở       │
+  // │ THE TRACE (chuyên khảo tiếng Anh về y tế công cộng) thì đáp "cách     │
+  // │ dùng AI trong kinh doanh, nghề, dạy học" — nội dung mấy cuốn khoá     │
+  // │ học tiếng Việt. Backend chat-kb.agentdo.agency KHÔNG phân biệt cuốn   │
+  // │ đang đọc, nên MỌI cuốn đều có thể đang bị như vậy.                    │
+  // │ TRƯỚC KHI BẬT LẠI: sửa worker cho nhận slug + tra đúng kho của cuốn   │
+  // │ đó, rồi bấm thử ít nhất 2 cuốn khác nhau xem có trả lời đúng cuốn.    │
+  // └───────────────────────────────────────────────────────────────────────┘
+  var CHAT_ENABLED = false;
+
   var API = "https://chat-kb.agentdo.agency/";
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -346,7 +363,8 @@
     // trả lời SAI cuốn — hỏi "sách này nói về gì" ở THE TRACE (chuyên khảo tiếng Anh
     // về y tế công cộng) thì nó trả lời nội dung mấy cuốn dạy AI tiếng Việt. Người
     // duyệt US CDC bấm vào là hiểu sai ngay. Batin: "thà không có tốt hơn".
-    if (document.body.dataset.kbChat === "off") return;
+    if (!CHAT_ENABLED) return;                    // công tắc tổng ở đầu khối này
+    if (document.body.dataset.kbChat === "off") return;   // cờ theo từng cuốn
     var art = document.querySelector("article[data-kb-leaf-href]");
     var isBookPage = !!document.querySelector(".toc__container");
     if (!art && !isBookPage) return;
